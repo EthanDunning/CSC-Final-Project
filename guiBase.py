@@ -23,14 +23,18 @@ class MainGUI(Frame):
 
         
     def setupGUI(self):
-        
-            
+        self.mins= 5
+        self.secs=0
+        self.hp = 3
+        self.maxhp = 3
+        self.loc = "Home"
+
         self.countdown(self.mins, self.secs)
         self.after(1000, self.update_timer)
         self.health()
         self.location()
 
-        for row in range(3):
+        for row in range(1,3):
             Grid.rowconfigure(self, row, weight=1)
         for col in range(3):
             Grid.columnconfigure(self, col, weight=1)
@@ -54,7 +58,7 @@ class MainGUI(Frame):
             secs = str(secs)
         
         timer = Label(self, text=f"{mins}:{secs}", bg="white", font=("TexGyreAdventor", 45))
-        timer.grid(row=0, column=0, sticky=N+S+E+W, padx = 5, pady=5)
+        timer.grid(row=0, column=0, sticky=N+S+E+W)
 
     def update_timer(self):
         self.after(1000, self.update_timer)
