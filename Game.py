@@ -41,6 +41,12 @@ class Game:
 	@input.setter
 	def input(self, value):
 		self._input = value;
+	@property
+	def output(self):				# output list
+		return self._output;
+	@output.setter
+	def output(self, value):
+		self._input = value;
 		
 	
 
