@@ -52,3 +52,43 @@ class Game:
     @output.setter
     def output(self, value):
         self._input = value
+
+
+# pins
+leds = []
+switches = []
+wires = []
+sonic_sensor = []
+test_led = []
+speaker = []
+
+# setting up the GPIO
+GPIO.setmode(GPIO.BCM)
+# I/O
+GPIO.setup(leds, GPIO.OUT)
+GPIO.setup(test_led, GPIO.OUT)
+GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(wires, GPIO.IN)
+
+try:
+	# testing the leds
+	def all_on():
+		for i in leds:
+			GPIO.output(leds, True)
+
+	def all_off():
+		for i in leds:
+			GPIO.output(leds, False)
+
+	def switch_test():
+		for i in switches:
+			if i == True:
+				GPIO.output(test_led, True)
+
+except KeyboardInterrupt:
+	GPIO.cleanup()
+
+all_on()
+sleep(0.5)
+all_off()
+sleep(0.5)
