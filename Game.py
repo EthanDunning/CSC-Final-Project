@@ -1,5 +1,8 @@
+from tkinter import *
 import RPi.GPIO as GPIO
-import time
+from time import *
+from datetime import *
+from random import *
 
 # the game class contains the basic components necessary for each module
 # as well as the components necessary for the non-module parts of the game like
