@@ -58,7 +58,7 @@ class MainGUI(Frame):
         for col in range(self.cols):
             Grid.columnconfigure(self, col, weight=3)
 
-        self.pack(fill=BOTH, expand=True)
+        self.pack(fill=BOTH, expand=1)
 
     def clearFrame(self):
         if self.counter is not None:
@@ -68,15 +68,21 @@ class MainGUI(Frame):
         for widget in self.winfo_children():
             widget.destroy()
 
+        self.pack_forget()
+
 
     def pause(self):
         self.clearFrame()
+        for row in range(self.rows):
+            Grid.rowconfigure(self, row, weight=0)
+            for col in range(self.cols):
+                Grid.columnconfigure(self, col, weight=0)
         self.rows = 2
         self.cols = 1
         resume = Button(self, bg="red", text="Resume", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: self.setupGUI())
         resume.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
-        quit = Button(self, bg="red", text="Quit", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: self.exit[0])
+        quit = Button(self, bg="red", text="Quit", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: self.destoy())
         quit.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
         for row in range(self.rows):
