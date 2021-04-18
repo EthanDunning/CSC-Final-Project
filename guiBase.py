@@ -12,8 +12,8 @@ class MainGUI(Frame):
         Frame.__init__(self, parent, bg="white")
         parent.attributes("-fullscreen", False)
         self.maxstrikes = 3
-        self.startmins = 0
-        self.startsecs = 40
+        self.startmins = 5
+        self.startsecs = 0
 
         self.mins = self.startmins
         self.secs = self.startsecs

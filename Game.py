@@ -12,7 +12,7 @@ from random import *
 class Game:
 
     # constructor initializes with the time (in seconds) and mistakes allotted; inputs and outputs are false/low by default
-    def __init__(self, time=360, mistakes=2):
+    def __init__(self, time=360, mistakes=3):
         # game difficulty settings
         self.time = time
         self.mistakes = mistakes
