@@ -54,6 +54,13 @@ class MainGUI(Frame):
         
 
         self.pack(fill=BOTH, expand=1)
+        for i in range(3):
+            for j in range(3):
+                img = PhotoImage(file="sub.gif")
+                button = Button(self, bg="white", image=img, borderwidth=0, highlightthickness=0,
+                    activebackground="white", command=lambda: self.process("test{}".format(i+j)))
+                button.image = img
+                button.grid(row=i, column=j, sticky=N+S+E+W)
 
 
     def countdown(self, mins, secs):
@@ -128,5 +135,10 @@ window.title("Continue Speaking And Everyone Lives")
 
 ## # generate the GUI
 p = MainGUI(window)
+<<<<<<< HEAD
 ## # display the GUI and wait for user interaction
 p.mainloop()
+=======
+# display the GUI and wait for user interaction
+window.mainloop()
+>>>>>>> origin/Ethan
