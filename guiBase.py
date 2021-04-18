@@ -14,6 +14,7 @@ class MainGUI(Frame):
         self.maxstrikes = 2
         self.startmins = 5
         self.startsecs = 0
+        self.timer_pause = False
 
         self.mins = self.startmins
         self.secs = self.startsecs
@@ -23,12 +24,20 @@ class MainGUI(Frame):
         self.rows = 1
         self.cols = 1
 
+
+         @property
+        def timer_pause(self):
+            return self._timer_pause
+        @timer_pause.setter
+        def timer_pause(self, value):
+            self._timer_pause = value
+
         @property
         def maxstrikes(self):
             return self._maxstrikes
         @maxstrikes.setter
         def maxstrikes(self, value):
-            self._max_strikes = value
+            self._maxstrikes = value
 
         @property
         def startmins(self):
@@ -199,22 +208,23 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=1)
 
     def update_timer(self):
-        if self.strikes == 0:
-            self.counter = self.after(1000, self.update_timer)
-        elif self.strikes == 1:
-            self.counter = self.after(750, self.update_timer)
-        elif self.strikes == 2:
-            self.counter = self.after(500, self.update_timer)
+        while self.pause==False:
+            if self.strikes == 0:
+                self.counter = self.after(1000, self.update_timer)
+            elif self.strikes == 1:
+                self.counter = self.after(750, self.update_timer)
+            elif self.strikes == 2:
+                self.counter = self.after(500, self.update_timer)
 
-        self.secs -= 1
-        if self.secs == -1:
-            self.secs = 59
-            self.mins -= 1
-            if self.mins == -1:
-                self.secs = 0
-                self.mins = 0
-        self.countdown(self.mins, self.secs, 1, 0, 1)
-        self.update()
+            self.secs -= 1
+            if self.secs == -1:
+                self.secs = 59
+                self.mins -= 1
+                if self.mins == -1:
+                    self.secs = 0
+                    self.mins = 0
+            self.countdown(self.mins, self.secs, 1, 0, 1)
+            self.update()
 
     def strike(self):
         self.strikes += 1
@@ -338,7 +348,7 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=1)
 
     def Game_Over(self):
-#        GPIO.cleanup()
+#       GPIO.cleanup()
         pass
 
 
