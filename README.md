@@ -1,7 +1,6 @@
 # CSC-Final-Project
 
 This is our final project. There are many like it but this one is ours.
-Our project is to create a theremin using two sonic sensors that will 
-measure the distance between the sensor and a users hand in order to 
-play at different pitches and volumes.
+Using the GPIO board and a GUI on the raspberry pi, we are going to make "Continue Speaking and Everyone Lives", a sppof on the game 
+"Keep Talking and Nobody Explodes"
 
