@@ -1,8 +1,3 @@
-#################################################################
-# Name:
-# Date:
-# Description:
-#################################################################
 from tkinter import *
 #import RPi.GPIO as GPIO
 from time import *
