@@ -11,9 +11,9 @@ class MainGUI(Frame):
     def __init__(self, parent):
         Frame.__init__(self, parent, bg="white")
         parent.attributes("-fullscreen", False)
-        self.maxstrikes = 2
-        self.startmins = 5
-        self.startsecs = 0
+        self.maxstrikes = 3
+        self.startmins = 0
+        self.startsecs = 40
 
         self.mins = self.startmins
         self.secs = self.startsecs
@@ -133,7 +133,7 @@ class MainGUI(Frame):
 
         self.rows = 4
         self.cols = 3
-
+        self.loc = "Home"
         self.pause_button(0, 0, 3)
 
         self.countdown(self.mins, self.secs, 1, 0, 1)
@@ -155,7 +155,7 @@ class MainGUI(Frame):
         for row in range(2, self.rows):
             Grid.rowconfigure(self, row, weight=3)
         for col in range(self.cols):
-            Grid.columnconfigure(self, col, weight=3)
+            Grid.columnconfigure(self, col, weight=1)
 
         self.pack(fill=BOTH, expand=1)
 
@@ -216,10 +216,19 @@ class MainGUI(Frame):
         self.countdown(self.mins, self.secs, 1, 0, 1)
         self.update()
 
-    def strike(self):
+    def add_strike(self):
         self.strikes += 1
+        if self.strikes >= self.maxstrikes:
+            self.strikes = self.maxstrikes
+            self.Game_Over()
         self.health(1, 2, 1)
-        if self.strikes == 3:
+
+    def remove_strike(self):
+        self.strikes -= 1
+        self.health(1, 2, 1)
+        if self.strikes <= 0:
+            self.strikes = 0
+            self.health(1, 2, 1)
             self.Game_Over()
 
     def pause_button(self, x, y, span):
@@ -244,22 +253,26 @@ class MainGUI(Frame):
         else:
             secs = str(secs)
 
-        timer = Label(self, text=f"{mins}:{secs}",
-                      bg="white", font=("TexGyreAdventor", 45))
+        if (self.mins < 1) and (self.secs <= 30):
+            timer = Label(self, text=f"{mins}:{secs}",
+                    bg="white", fg="red", font=("TexGyreAdventor", 45), relief="groove", borderwidth=10)
+        else:
+            timer = Label(self, text=f"{mins}:{secs}",
+                      bg="white", font=("TexGyreAdventor", 45), relief="groove", borderwidth=10)
         timer.grid(row=x, column=y, sticky=N+S+E+W,
-                   ipadx=30, pady=5, columnspan=span)
+                   padx=5, pady=5, columnspan=span)
 
     def health(self, x, y, span):
         health = Label(self, text="[{}{}]".format(
-            X*self.strikes, " "*(self.maxstrikes-self.strikes)), bg="white", font=("TexGyreAdventor", 60))
-        health.grid(row=x, column=y, sticky=N+S+E+W,
-                    ipadx=30, pady=5, columnspan=span)
+            X*self.strikes, " "*(self.maxstrikes-self.strikes)), bg="white", font=("TexGyreAdventor", 60), relief="groove", borderwidth=10)
+        health.grid(row=x, column=y, sticky=N+S+E+W, padx=5,
+                    pady=5, columnspan=span)
 
     def location(self, x, y, span):
         location = Label(self, text=f"{self.loc}",
-                         bg="white", font=("TexGyreAdventor", 45))
+                         bg="white", font=("TexGyreAdventor", 45), relief="groove", borderwidth=10)
         location.grid(row=x, column=y, sticky=N+S+E+W,
-                      ipadx=30, pady=5, columnspan=span)
+                      padx=5, pady=5, columnspan=span)
 
     def Button1(self, x, y, span):
         button = Button(self, bg="red", text="The Button", font=("TexGyreAdventor", 25),
@@ -268,14 +281,14 @@ class MainGUI(Frame):
                     padx=5, pady=5, columnspan=span)
 
     def Button2(self, x, y, span):
-        button = Button(self, bg="red", text="Strike", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground="blue", command=lambda: self.strike())
+        button = Button(self, bg="red", text="Add Strike", font=("TexGyreAdventor", 25),
+                        borderwidth=10, activebackground="blue", command=lambda: self.add_strike())
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
     def Button3(self, x, y, span):
-        button = Button(self, bg="red", text="Module 3", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground="blue", command=lambda: print("pushed 3"))
+        button = Button(self, bg="red", text="Del Strike", font=("TexGyreAdventor", 25),
+                        borderwidth=10, activebackground="blue", command=lambda: self.remove_strike())
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -305,8 +318,7 @@ class MainGUI(Frame):
         self.loc = "The Button"
 
         self.pause_button(0, 0, self.cols)
-        self.countdown(self.mins, self.secs, 1, 0, 1)
-        self.counter = self.after(1000, self.update_timer)
+        self.update_timer()
 
         self.location(1, 1, 1)
         self.health(1, 2, 1)
@@ -345,7 +357,7 @@ class MainGUI(Frame):
 window = Tk()
 # set the window title
 window.title("Continue Speaking And Everyone Lives")
-window.geometry("800x400")
+window.geometry("1000x400")
 # generate the GUI
 p = MainGUI(window)
 # display the GUI and wait for user interaction
