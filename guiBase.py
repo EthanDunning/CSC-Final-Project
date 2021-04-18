@@ -337,7 +337,7 @@ class MainGUI(Frame):
 
         self.pack(fill=BOTH, expand=1)
 
-    self.Game_Over(self):
+    def Game_Over(self):
         pass
 
 
