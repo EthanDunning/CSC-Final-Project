@@ -2,6 +2,7 @@ from tkinter import *
 #import RPi.GPIO as GPIO
 from time import *
 from datetime import *
+from random import *
 
 # the main GUI
 class MainGUI(Frame):
@@ -42,7 +43,7 @@ class MainGUI(Frame):
         self.health()
         self.location()
         self.pause_button()
-            
+        
         self.Button1()
         self.Button2()
         self.Button3()
@@ -70,13 +71,14 @@ class MainGUI(Frame):
 
         self.pack_forget()
 
-
-    def pause(self):
-        self.clearFrame()
         for row in range(self.rows):
             Grid.rowconfigure(self, row, weight=0)
             for col in range(self.cols):
                 Grid.columnconfigure(self, col, weight=0)
+
+    def pause(self):
+        self.clearFrame()
+        
         self.rows = 2
         self.cols = 1
         resume = Button(self, bg="red", text="Resume", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: self.setupGUI())
@@ -104,7 +106,6 @@ class MainGUI(Frame):
         self.countdown(self.mins, self.secs)
         self.update()
 
-
     def pause_button(self):
         button = Button(self, bg="gray", text="Pause", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="light grey", command=lambda: self.pause())
         button.grid(row=0, column=0, sticky=N+S+E+W, pady=5, columnspan=3)
@@ -128,7 +129,7 @@ class MainGUI(Frame):
         location.grid(row=1, column=2, sticky=N+S+E+W, ipadx=30, pady=5)
 
     def Button1(self):
-        button = Button(self, bg="red", text="Module 1", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: print("pushed 1"))
+        button = Button(self, bg="red", text="The Button", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: self.Module_Button())
         button.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5)
     
     def Button2(self):
@@ -151,10 +152,31 @@ class MainGUI(Frame):
         button = Button(self, bg="red", text="Module 6", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: print("pushed 6"))
         button.grid(row=3, column=2, sticky=N+S+E+W, padx=5, pady=5)
     
+    def Module_Button(self):
+        self.clearFrame()
 
-##############################
-# the main part of the program
-##############################
+        self.rows = 1
+        self.cols = 2
+        button_colors = ["red", "blue", "yellow", "white", "dim gray"]
+        button_labels = ["Abort", "Detonate", "Hold", "Press"]
+        strip_color = choice(button_colors)
+        button_color = choice(button_colors)
+        button_label = choice(button_labels)
+
+        button = Button(self, bg=button_color, text=button_label, font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground=button_color)
+
+        button.grid(row=0, column=0, sticky=N+S+E+W, padx=15, pady=15)
+
+        strip = Label(self, text="", bg=strip_color, borderwidth=10, relief="ridge")
+        strip.grid(row=0, column=1, sticky=N+S+E+W, padx=15, pady=15)
+
+        Grid.rowconfigure(self, 0, weight=1)
+        Grid.columnconfigure(self, 0, weight=10)
+        Grid.columnconfigure(self, 1, weight=1)
+
+        self.pack(fill=BOTH, expand=1)
+
+
 
 
 # create the window
