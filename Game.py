@@ -1,6 +1,3 @@
-print("This is the start to the new project.");
-
-
 import RPi.GPIO as GPIO;
 import time;
 

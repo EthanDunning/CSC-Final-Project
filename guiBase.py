@@ -20,6 +20,79 @@ class MainGUI(Frame):
         self.counter = None
         self.rows = 1
         self.cols = 1
+
+        @property
+        def maxstrikes(self):
+            return self._maxstrikes
+        @maxstrikes.setter
+        def maxstrikes(self, value):
+            self._max_strikes = value
+
+        @property
+        def startmins(self):
+            return self._startmins
+        @startmins.setter
+        def startmins(self, value):
+            self._startmins = value
+        
+        @property
+        def startsecs(self):
+            return self._startsecs
+        @startsecs.setter
+        def startsecs(self, value):
+            self._startsecs = value
+        
+        @property
+        def mins(self):
+            return self._mins
+        @mins.setter
+        def mins(self, value):
+            self._mins = value
+        
+        @property
+        def secs(self):
+            return self._secs
+        @secs.setter
+        def secs(self, value):
+            self._secs = value
+        
+        @property
+        def strikes(self):
+            return self._strikes
+        @strikes.setter
+        def strikes(self, value):
+            self._strikes = value
+        
+        @property
+        def loc(self):
+            return self._loc
+        @loc.setter
+        def loc(self, value):
+            self._locs = value
+        
+        @property
+        def counter(self):
+            return self._counter
+        @counter.setter
+        def counter(self, value):
+            self._counter = value
+        
+        @property
+        def rows(self):
+            return self._rows
+        @rows.setter
+        def rows(self, value):
+            self._rows = value
+        
+        @property
+        def cols(self):
+            return self._cols
+        @cols.setter
+        def cols(self, value):
+            self._cols = value
+
+
+
         self.start_screen()
 
     def reset(self):
@@ -109,17 +182,12 @@ class MainGUI(Frame):
         resume = Button(self, bg="red", text="Resume", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="blue", command=lambda: self.setupGUI())
         resume.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
-<<<<<<< HEAD
         reset = Button(self, bg="green", text="Reset", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="forest green", command=lambda: self.reset())
         reset.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
         quit = Button(self, bg="dim gray", text="Quit", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="light grey", command=lambda: self.quit())
         quit.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
-=======
-        quit = Button(self, bg="red", text="Quit", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: self.quit())
-        quit.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5)
->>>>>>> 6774453a900909d7c324b62136dd4788915c5ad1
 
         for row in range(self.rows):
             Grid.rowconfigure(self, row, weight=1)
