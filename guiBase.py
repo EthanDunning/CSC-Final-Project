@@ -82,7 +82,7 @@ class MainGUI(Frame):
         resume = Button(self, bg="red", text="Resume", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: self.setupGUI())
         resume.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
-        quit = Button(self, bg="red", text="Quit", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: self.destoy())
+        quit = Button(self, bg="red", text="Quit", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: self.quit())
         quit.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
         for row in range(self.rows):
@@ -151,8 +151,6 @@ class MainGUI(Frame):
         button = Button(self, bg="red", text="Module 6", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: print("pushed 6"))
         button.grid(row=3, column=2, sticky=N+S+E+W, padx=5, pady=5)
     
-    
-
 
 ##############################
 # the main part of the program
@@ -163,9 +161,8 @@ class MainGUI(Frame):
 window = Tk()
 # set the window title
 window.title("Continue Speaking And Everyone Lives")
-window.geometry("400x200")
+window.geometry("800x400")
 ## # generate the GUI
 p = MainGUI(window)
 ## # display the GUI and wait for user interaction
 p.mainloop()
-print("closed")
