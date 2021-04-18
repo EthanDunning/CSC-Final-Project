@@ -13,37 +13,35 @@ class MainGUI(Frame):
         self.hp=3
         self.maxhp=3
         self.loc = "Home"
+        self.rows = None
+        self.cols = None
+        self.counter = None
         self.start_screen()
 
     def start_screen(self):
-
+        self.rows = 1
+        self.cols = 1
         button = Button(self, bg="red", text="Push to Start", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: self.setupGUI())
         button.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
-        for row in range(1):
+        for row in range(self.rows):
             Grid.rowconfigure(self, row, weight=1)
-            for col in range(1):
+            for col in range(self.cols):
                 Grid.columnconfigure(self, col, weight=1)
 
         self.pack(fill=BOTH, expand=1)
         
 
     def setupGUI(self):
-        self.mins= 5
-        self.secs=0
-        self.hp = 3
-        self.maxhp = 3
-        self.loc = "Home"
+        self.clearFrame()
+        self.rows = 4
+        self.cols = 3
 
         self.countdown(self.mins, self.secs)
-        self.after(1000, self.update_timer)
+        self.counter = self.after(1000, self.update_timer)
         self.health()
         self.location()
-
-        for row in range(1,3):
-            Grid.rowconfigure(self, row, weight=1)
-        for col in range(3):
-            Grid.columnconfigure(self, col, weight=1)
+        self.pause_button()
             
         self.Button1()
         self.Button2()
@@ -51,30 +49,45 @@ class MainGUI(Frame):
         self.Button4()
         self.Button5()
         self.Button6()
-        
+
+        for row in range(2):
+            Grid.rowconfigure(self, row, weight=2)
+
+        for row in range(2,self.rows):
+            Grid.rowconfigure(self, row, weight=3)
+        for col in range(self.cols):
+            Grid.columnconfigure(self, col, weight=3)
+
+        self.pack(fill=BOTH, expand=True)
+
+    def clearFrame(self):
+        if self.counter is not None:
+            self.after_cancel(self.counter)
+            self.counter = None
+        # destroy all widgets from frame
+        for widget in self.winfo_children():
+            widget.destroy()
+
+
+    def pause(self):
+        self.clearFrame()
+        self.rows = 2
+        self.cols = 1
+        resume = Button(self, bg="red", text="Resume", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: self.setupGUI())
+        resume.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5)
+
+        quit = Button(self, bg="red", text="Quit", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: self.exit[0])
+        quit.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5)
+
+        for row in range(self.rows):
+            Grid.rowconfigure(self, row, weight=1)
+            for col in range(self.cols):
+                Grid.columnconfigure(self, col, weight=1)
 
         self.pack(fill=BOTH, expand=1)
-        for i in range(3):
-            for j in range(3):
-                img = PhotoImage(file="sub.gif")
-                button = Button(self, bg="white", image=img, borderwidth=0, highlightthickness=0,
-                    activebackground="white", command=lambda: self.process("test{}".format(i+j)))
-                button.image = img
-                button.grid(row=i, column=j, sticky=N+S+E+W)
-
-
-    def countdown(self, mins, secs):
-        mins = str(mins)
-        if secs <10:
-            secs = f"0{secs}"
-        else:
-            secs = str(secs)
-        
-        timer = Label(self, text=f"{mins}:{secs}", bg="white", font=("TexGyreAdventor", 45))
-        timer.grid(row=0, column=0, sticky=N+S+E+W)
 
     def update_timer(self):
-        self.after(1000, self.update_timer)
+        self.counter = self.after(1000, self.update_timer)
         self.secs -= 1
         if self.secs == -1:
             self.secs = 59
@@ -84,41 +97,53 @@ class MainGUI(Frame):
                 self.mins = 0
         self.countdown(self.mins, self.secs)
         self.update()
+
+
+    def pause_button(self):
+        button = Button(self, bg="gray", text="Pause", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="light grey", command=lambda: self.pause())
+        button.grid(row=0, column=0, sticky=N+S+E+W, pady=5, columnspan=3)
+
+    def countdown(self, mins, secs):
+        mins = str(mins)
+        if secs <10:
+            secs = f"0{secs}"
+        else:
+            secs = str(secs)
         
+        timer = Label(self, text=f"{mins}:{secs}", bg="white", font=("TexGyreAdventor",45))
+        timer.grid(row=1, column=0, sticky=N+S+E+W, ipadx=30, pady=5)    
 
     def health(self):
-        
         health = Label(self, text=f"{self.hp}/{self.maxhp}", bg="white", font=("TexGyreAdventor", 45))
-        health.grid(row=0, column=1, sticky=N+S+E+W, padx=5, pady=5)
+        health.grid(row=1, column=1, sticky=N+S+E+W, ipadx=30, pady=5)
         
     def location(self):
-
         location = Label(self, text=f"{self.loc}", bg="white", font=("TexGyreAdventor", 45))
-        location.grid(row=0, column=2, sticky=N+S+E+W, padx=5, pady=5)
+        location.grid(row=1, column=2, sticky=N+S+E+W, ipadx=30, pady=5)
 
     def Button1(self):
-        button = Button(self, bg="red", text="Module 1", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: print("pushed"))
-        button.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5)
-    
-    def Button2(self):
-        button = Button(self, bg="red", text="Module 2", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: print("pushed"))
-        button.grid(row=1, column=1, sticky=N+S+E+W, padx=5, pady=5)
-    
-    def Button3(self):
-        button = Button(self, bg="red", text="Module 3", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: print("pushed"))
-        button.grid(row=1, column=2, sticky=N+S+E+W, padx=5, pady=5)
-    
-    def Button4(self):
-        button = Button(self, bg="red", text="Module 4", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: print("pushed"))
+        button = Button(self, bg="red", text="Module 1", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: print("pushed 1"))
         button.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5)
     
-    def Button5(self):
-        button = Button(self, bg="red", text="Module 5", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: print("pushed"))
+    def Button2(self):
+        button = Button(self, bg="red", text="Module 2", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: print("pushed 2"))
         button.grid(row=2, column=1, sticky=N+S+E+W, padx=5, pady=5)
     
-    def Button6(self):
-        button = Button(self, bg="red", text="Module 6", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: print("pushed"))
+    def Button3(self):
+        button = Button(self, bg="red", text="Module 3", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: print("pushed 3"))
         button.grid(row=2, column=2, sticky=N+S+E+W, padx=5, pady=5)
+    
+    def Button4(self):
+        button = Button(self, bg="red", text="Module 4", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: print("pushed 4"))
+        button.grid(row=3, column=0, sticky=N+S+E+W, padx=5, pady=5)
+    
+    def Button5(self):
+        button = Button(self, bg="red", text="Module 5", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: print("pushed 5"))
+        button.grid(row=3, column=1, sticky=N+S+E+W, padx=5, pady=5)
+    
+    def Button6(self):
+        button = Button(self, bg="red", text="Module 6", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: print("pushed 6"))
+        button.grid(row=3, column=2, sticky=N+S+E+W, padx=5, pady=5)
     
     
 
@@ -132,13 +157,9 @@ class MainGUI(Frame):
 window = Tk()
 # set the window title
 window.title("Continue Speaking And Everyone Lives")
-
+window.geometry("400x200")
 ## # generate the GUI
 p = MainGUI(window)
-<<<<<<< HEAD
 ## # display the GUI and wait for user interaction
 p.mainloop()
-=======
-# display the GUI and wait for user interaction
-window.mainloop()
->>>>>>> origin/Ethan
+print("closed")
