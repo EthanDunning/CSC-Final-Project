@@ -338,6 +338,7 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=1)
 
     def Game_Over(self):
+#        GPIO.cleanup()
         pass
 
 
