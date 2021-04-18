@@ -82,7 +82,7 @@ class MainGUI(Frame):
         resume = Button(self, bg="red", text="Resume", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: self.setupGUI())
         resume.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
-        quit = Button(self, bg="red", text="Quit", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: self.destoy())
+        quit = Button(self, bg="red", text="Quit", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: self.quit())
         quit.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
         for row in range(self.rows):
@@ -168,4 +168,3 @@ window.geometry("400x200")
 p = MainGUI(window)
 ## # display the GUI and wait for user interaction
 p.mainloop()
-print("closed")
