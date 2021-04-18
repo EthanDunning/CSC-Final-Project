@@ -6,7 +6,6 @@ from random import *
 
 # the main GUI
 
-
 class MainGUI(Frame):
     def __init__(self, parent):
         Frame.__init__(self, parent, bg="white")
