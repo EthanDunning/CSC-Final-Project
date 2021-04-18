@@ -109,12 +109,17 @@ class MainGUI(Frame):
         resume = Button(self, bg="red", text="Resume", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="blue", command=lambda: self.setupGUI())
         resume.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
+<<<<<<< HEAD
         reset = Button(self, bg="green", text="Reset", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="forest green", command=lambda: self.reset())
         reset.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
         quit = Button(self, bg="dim gray", text="Quit", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="light grey", command=lambda: self.quit())
         quit.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
+=======
+        quit = Button(self, bg="red", text="Quit", font=("TexGyreAdventor", 25), borderwidth=10, highlightthickness=0, activebackground="blue", command=lambda: self.quit())
+        quit.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5)
+>>>>>>> 6774453a900909d7c324b62136dd4788915c5ad1
 
         for row in range(self.rows):
             Grid.rowconfigure(self, row, weight=1)
