@@ -3,6 +3,7 @@ from tkinter import *
 from time import *
 from datetime import *
 from random import *
+from wires import Wires;
 
 # the main GUI
 
@@ -294,7 +295,7 @@ class MainGUI(Frame):
 
     def Button4(self, x, y, span):
         button = Button(self, bg="red", text="Module 4", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground="blue", command=lambda: print("pushed 4"))
+                        borderwidth=10, activebackground="blue", command=lambda: w.pauseForColor())
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -361,5 +362,7 @@ window.title("Continue Speaking And Everyone Lives")
 window.geometry("1000x400")
 # generate the GUI
 p = MainGUI(window)
+# generate wires
+w = Wires(p)
 # display the GUI and wait for user interaction
 p.mainloop()

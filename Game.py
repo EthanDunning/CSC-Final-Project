@@ -1,14 +1,14 @@
-import RPi.GPIO as GPIO;
+#import RPi.GPIO as GPIO;
 import time;
 #import guiBase as GUI;
 
-# set gpio mode
-GPIO.setmode(GPIO.BCM);
-# set gpio defaults 
-inputPins = [18, 19, 20, 21, 22];
-outputPins = [17, 16, 13, 12, 6];
-GPIO.setup(inputPins, GPIO.IN, pull_up_down=GPIO.PUD_DOWN);
-GPIO.setup(outputPins, GPIO.OUT);
+# # set gpio mode
+# GPIO.setmode(GPIO.BCM);
+# # set gpio defaults 
+# inputPins = [18, 19, 20, 21, 22];
+# outputPins = [17, 16, 13, 12, 6];
+# GPIO.setup(inputPins, GPIO.IN, pull_up_down=GPIO.PUD_DOWN);
+# GPIO.setup(outputPins, GPIO.OUT);
 
 # the game class contains the basic components necessary for each module
 # as well as the components necessary for the non-module parts of the game like
@@ -32,7 +32,9 @@ class Game:
         return self._time;
     @time.setter
     def time(self, value):
-        if (value <= 0):
+        if (value == None):
+            value = None;
+        elif (value <= 0):
             value = self.time;
         self._time = value;
 
@@ -41,7 +43,9 @@ class Game:
         return self._mistakes;
     @mistakes.setter
     def mistakes(self, value):
-        if (value <= 0):
+        if (value == None):
+            value = None;
+        elif (value <= 0):
             value = self.mistakes;
         self._mistakes = value;
 
@@ -63,24 +67,24 @@ class Game:
 
     # I/O methods that interface with the gpio
 
-    # input from the gpio pins
-    def takeInput ():
-        for i in range(len(inputPins)):
-            # set high pins to true
-            if (GPIO.input(inputPins[i]) == True):
-                self.input[i] = True;
+    # # input from the gpio pins
+    # def takeInput ():
+    #     for i in range(len(inputPins)):
+    #         # set high pins to true
+    #         if (GPIO.input(inputPins[i]) == True):
+    #             self.input[i] = True;
 
-            # set low pins to false
-            else:
-                self.input[i] = False;
+    #         # set low pins to false
+    #         else:
+    #             self.input[i] = False;
 
-        return;
+    #     return;
 
-    # output to the gpio pins
-    def giveOutput(self):
-        for i in range(len(outputPins)):
-            GPIO.output(outputPins[i], self.output[i]);
-        return;
+    # # output to the gpio pins
+    # def giveOutput(self):
+    #     for i in range(len(outputPins)):
+    #         GPIO.output(outputPins[i], self.output[i]);
+    #     return;
 
     # clear I/O
     def clear ():
@@ -99,4 +103,4 @@ class Game:
 
 
 # clean pins
-GPIO.cleanup();
+#GPIO.cleanup();
