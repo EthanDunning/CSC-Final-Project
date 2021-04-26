@@ -24,7 +24,7 @@ class MainGUI(Frame):
         self.cols = 1
 
 
-         @property
+        @property
         def timer_pause(self):
             return self._timer_pause
         @timer_pause.setter
@@ -110,6 +110,7 @@ class MainGUI(Frame):
         self.mins = self.startmins
         self.secs = self.startsecs
         self.strikes = 0
+        self.timer_pause = False
         self.loc = "Home"
         self.counter = None
         self.rows = 1
@@ -207,7 +208,7 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=1)
 
     def update_timer(self):
-        while self.pause==False:
+        if self.timer_pause==False:
             if self.strikes == 0:
                 self.counter = self.after(1000, self.update_timer)
             elif self.strikes == 1:
