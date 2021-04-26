@@ -190,7 +190,7 @@ class MainGUI(Frame):
         self.cols = 1
 
         resume = Button(self, bg="red", text="Resume", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground="blue", command=lambda: self.setupGUI())
+                        borderwidth=10, activebackground="blue", command=lambda: self.resume())
         resume.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
         reset = Button(self, bg="green", text="Reset", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="forest green", command=lambda: self.reset())
@@ -206,6 +206,14 @@ class MainGUI(Frame):
                 Grid.columnconfigure(self, col, weight=1)
 
         self.pack(fill=BOTH, expand=1)
+
+    def resume(self):
+        if self.loc == "Home":
+            self.setupGUI()
+        elif self.loc == "The Button":
+            self.Module_The_Button(False)
+        elif self.loc == "Keypad":
+            self.Module_Keypad(False)
 
     def update_timer(self):
         if self.timer_pause==False:
@@ -290,8 +298,8 @@ class MainGUI(Frame):
                     padx=5, pady=5, columnspan=span)
 
     def Button4(self, x, y, span):
-        button = Button(self, bg="red", text="Module 4", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground="blue", command=lambda: print("pushed 4"))
+        button = Button(self, bg="red", text="Keypad", font=("TexGyreAdventor", 25),
+                        borderwidth=10, activebackground="blue", command=lambda: self.Module_Keypad())
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -307,7 +315,7 @@ class MainGUI(Frame):
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
-    def Module_The_Button(self):
+    def Module_The_Button(self, new=True):
         self.clearFrame()
 
         self.rows = 3
@@ -317,22 +325,22 @@ class MainGUI(Frame):
         self.pause_button(0, 0, self.cols)
         self.countdown(self.mins, self.secs, 1, 0, 1)
         self.counter = self.after(1000, self.update_timer)
-
         self.location(1, 1, 1)
         self.health(1, 2, 1)
 
-        button_colors = ["red", "blue", "yellow", "white", "dim gray"]
-        button_labels = ["Abort", "Detonate", "Hold", "Press"]
-        strip_color = choice(button_colors)
-        button_color = choice(button_colors)
-        button_label = choice(button_labels)
+        if new==True:
+            button_colors = ["red", "blue", "yellow", "white", "dim gray"]
+            button_labels = ["Abort", "Detonate", "Hold", "Press"]
+            self.strip_color = choice(button_colors)
+            self.button_color = choice(button_colors)
+            self.button_label = choice(button_labels)
 
-        button = Label(self, bg=button_color, text=button_label, font=(
+        button = Label(self, bg=self.button_color, text=self.button_label, font=(
             "TexGyreAdventor", 25), borderwidth=10, relief="raised")
         button.grid(row=2, column=0, sticky=N+S+E +
                     W, padx=5, pady=5, columnspan=2)
 
-        strip = Label(self, text="", bg=strip_color,
+        strip = Label(self, text="", bg=self.strip_color,
                       borderwidth=10, relief="ridge")
         strip.grid(row=2, column=(self.cols-1), sticky=N +
                    S+E+W, padx=5, pady=5, columnspan=1)
@@ -346,6 +354,66 @@ class MainGUI(Frame):
         Grid.columnconfigure(self, 2, weight=1)
 
         self.pack(fill=BOTH, expand=1)
+
+    def Module_Keypad(self, new=True):
+        self.clearFrame()
+
+        self.rows = 5
+        self.cols = 3
+        self.loc = "Keypad"
+
+        self.pause_button(0, 0, self.cols)
+        self.countdown(self.mins, self.secs, 1, 0, 1)
+        self.counter = self.after(1000, self.update_timer)
+        self.location(1, 1, 1)
+        self.health(1, 2, 1)
+
+        symbols = {1:"a", 2:"n", 3:"R", 4:"D", 5:".", 6:"C", 7:"b", 8:"e", 9:"c", 10:"d", 11:"S", 12:"l", 13:"N", 14:"f", 15:"-", 16:"A", 17:"o", 18:"J", 19:"M", 20:"E", 21:";", 22:"F", 23:"g", 24:"m", 25:"T", 26:"L", 27:"/"}
+        column1 = [1,2,3,4,5,6,7,8]
+        column2 = [8,1,7,9,10,6,11]
+        column3 = [12,13,9,14,15,3,10]
+        column4 = [16,17,18,5,14,11,19]
+        column5 = [20,19,18,21,17,22,23]
+        column6 = [16,8,24,25,20,26,27]
+        
+        
+
+        column = choice([column1, column2, column3, column4, column5, column6])
+        #print(column)
+        if new==True:
+            self.keys = sample(column,4)
+            #print(keys)
+            self.symbol_1 = symbols[self.keys[0]]
+            self.symbol_2 = symbols[self.keys[1]]
+            self.symbol_3 = symbols[self.keys[2]]
+            self.symbol_4 = symbols[self.keys[3]]
+
+        keypad_1 = Button(self, bg="dim gray", text=self.symbol_1, font=("Wingdings", 25),
+                        borderwidth=10, activebackground="blue", command=lambda: keypad_check(column,self.keys[0]))
+        keypad_1.grid(row=3, column=0, sticky=N+S+E+W,
+                    padx=5, pady=5, columnspan=1)
+        
+        keypad_2 = Button(self, bg="dim gray", text=self.symbol_2, font=("Wingdings", 25),
+                        borderwidth=10, activebackground="blue", command=lambda: keypad_check(column,self.keys[1]))
+        keypad_2.grid(row=3, column=1, sticky=N+S+E+W,
+                    padx=5, pady=5, columnspan=1)
+                    
+        keypad_3 = Button(self, bg="dim gray", text=self.symbol_3, font=("Wingdings", 25),
+                        borderwidth=10, activebackground="blue", command=lambda: keypad_check(column,self.keys[2]))
+        keypad_3.grid(row=5, column=0, sticky=N+S+E+W,
+                    padx=5, pady=5, columnspan=1)
+
+        keypad_4 = Button(self, bg="dim gray", text=self.symbol_4, font=("Wingdings", 25),
+                        borderwidth=10, activebackground="blue", command=lambda: keypad_check(column,self.keys[3]))
+        keypad_4.grid(row=5, column=1, sticky=N+S+E+W,
+                    padx=5, pady=5, columnspan=1)
+        self.pack(fill=BOTH, expand=1)
+
+        def keypad_check(self, column, chosen):
+            pass
+
+
+
 
     def Game_Over(self):
 #       GPIO.cleanup()
