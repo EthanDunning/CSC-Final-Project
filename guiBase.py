@@ -261,26 +261,27 @@ class MainGUI(Frame):
             secs = f"0{secs}"
         else:
             secs = str(secs)
-        if mins<1 and secs<=30:
-            tcolor = "red"
+
+        if (self.mins < 1) and (self.secs <= 30):
+            timer = Label(self, text=f"{mins}:{secs}",
+                    bg="white", fg="red", font=("TexGyreAdventor", 45), relief="groove", borderwidth=10)
         else:
-            tcolor = "black"
-        timer = Label(self, text=f"{mins}:{secs}",
-                      bg="white", font=("TexGyreAdventor", 45), fg=tcolor, relief="ridge")
+            timer = Label(self, text=f"{mins}:{secs}",
+                      bg="white", font=("TexGyreAdventor", 45), relief="groove", borderwidth=10)
         timer.grid(row=x, column=y, sticky=N+S+E+W,
-                   ipadx=30, pady=5, columnspan=span)
+                   padx=5, pady=5, columnspan=span)
 
     def health(self, x, y, span):
         health = Label(self, text="[{}{}]".format(
-            X*self.strikes, " "*(self.maxstrikes-self.strikes)), bg="white", font=("TexGyreAdventor", 60))
-        health.grid(row=x, column=y, sticky=N+S+E+W,
-                    ipadx=30, pady=5, columnspan=span)
+            X*self.strikes, " "*(self.maxstrikes-self.strikes)), bg="white", font=("TexGyreAdventor", 60), relief="groove", borderwidth=10)
+        health.grid(row=x, column=y, sticky=N+S+E+W, padx=5,
+                    pady=5, columnspan=span)
 
     def location(self, x, y, span):
         location = Label(self, text=f"{self.loc}",
-                         bg="white", font=("TexGyreAdventor", 45))
+                         bg="white", font=("TexGyreAdventor", 45), relief="groove", borderwidth=10)
         location.grid(row=x, column=y, sticky=N+S+E+W,
-                      ipadx=30, pady=5, columnspan=span)
+                      padx=5, pady=5, columnspan=span)
 
     def Button1(self, x, y, span):
         button = Button(self, bg="red", text="The Button", font=("TexGyreAdventor", 25),
