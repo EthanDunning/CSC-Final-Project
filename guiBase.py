@@ -11,7 +11,7 @@ class MainGUI(Frame):
         Frame.__init__(self, parent, bg="white")
         parent.attributes("-fullscreen", False)
         self.maxstrikes = 2
-        self.startmins = 5
+        self.startmins = 1
         self.startsecs = 0
         self.timer_pause = False
 
@@ -261,9 +261,12 @@ class MainGUI(Frame):
             secs = f"0{secs}"
         else:
             secs = str(secs)
-
+        if mins<1 and secs<=30:
+            tcolor = "red"
+        else:
+            tcolor = "black"
         timer = Label(self, text=f"{mins}:{secs}",
-                      bg="white", font=("TexGyreAdventor", 45))
+                      bg="white", font=("TexGyreAdventor", 45), fg=tcolor, relief="ridge")
         timer.grid(row=x, column=y, sticky=N+S+E+W,
                    ipadx=30, pady=5, columnspan=span)
 
