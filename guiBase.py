@@ -280,7 +280,7 @@ class MainGUI(Frame):
         if (self.mins < 1) and (self.secs <= 30):
             if self.secs.is_integer()==False:
                timer = Label(self, text=f"{mins}:{secs}",
-                    bg="white", fg="white", font=("TexGyr5eAdventor", 35), relief="groove", borderwidth=10) 
+                    bg="white", fg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10) 
             else:
                 timer = Label(self, text=f"{mins}:{secs}",
                         bg="white", fg="red", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
