@@ -137,7 +137,7 @@ class MainGUI(Frame):
 
         Grid.columnconfigure(self, 0, weight=1)
 
-        self.pack(fill=BOTH, expand=1)
+        self.pack(fill=BOTH, expand=True)
 
     def setupGUI(self):
         self.clearFrame()
@@ -148,7 +148,7 @@ class MainGUI(Frame):
         self.pause_button(0, 0, 3)
 
         self.countdown(self.mins, self.secs, 1, 0, 1)
-        self.counter = self.after(1000, self.update_timer)
+        self.counter = self.after(1000, self.update_timer, 1, 0, 1)
 
         self.location(1, 1, 1)
         self.health(1, 2, 1)
@@ -160,15 +160,15 @@ class MainGUI(Frame):
         self.Button5(3, 1, 1)
         self.Button6(3, 2, 1)
 
-        Grid.rowconfigure(self, 0, weight=2)
-        Grid.rowconfigure(self, 1, weight=1)
+        Grid.rowconfigure(self, 0, weight=0)
+        Grid.rowconfigure(self, 1, weight=0)
 
         for row in range(2, self.rows):
             Grid.rowconfigure(self, row, weight=3)
         for col in range(self.cols):
             Grid.columnconfigure(self, col, weight=3)
 
-        self.pack(fill=BOTH, expand=1)
+        self.pack(fill=BOTH, expand=True)
 
     def clearFrame(self):
         if self.counter is not None:
@@ -178,12 +178,14 @@ class MainGUI(Frame):
         for widget in self.winfo_children():
             widget.destroy()
 
-        self.pack_forget()
-
         for row in range(self.rows):
             Grid.rowconfigure(self, row, weight=0)
-            for col in range(self.cols):
-                Grid.columnconfigure(self, col, weight=0)
+            
+        for col in range(self.cols):
+            Grid.columnconfigure(self, col, weight=0)
+
+        self.pack_forget()
+            
 
     def pause(self):
         self.clearFrame()
@@ -191,23 +193,23 @@ class MainGUI(Frame):
         self.rows = 3
         self.cols = 1
 
-        resume = Button(self, bg="red", text="Resume", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground="blue", command=lambda: self.resume())
-        resume.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5)
+        resume = Button(self, bg="red", text="Resume", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="blue", command=lambda: self.resume())
+        resume.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=1)
 
         reset = Button(self, bg="green", text="Reset", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="forest green", command=lambda: self.reset())
-        reset.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5)
+        reset.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=1)
 
-        quit = Button(self, bg="dim gray", text="Quit", font=("TexGyreAdventor", 25),
+        _quit = Button(self, bg="dim gray", text="Quit", font=("TexGyreAdventor", 25),
                       borderwidth=10, activebackground="light grey", command=lambda: self.quit())
-        quit.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5)
+        _quit.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=1)
 
-        for row in range(self.rows):
-            Grid.rowconfigure(self, row, weight=1)
-            for col in range(self.cols):
-                Grid.columnconfigure(self, col, weight=1)
+        
+        Grid.rowconfigure(self, 0, weight=1)
+        Grid.rowconfigure(self, 1, weight=1)
+        Grid.rowconfigure(self, 2, weight=1)
+        Grid.columnconfigure(self, 0, weight=1)
 
-        self.pack(fill=BOTH, expand=1)
+        self.pack(fill=BOTH, expand=True)
 
     def resume(self):
         if self.loc == "Home":
@@ -217,16 +219,16 @@ class MainGUI(Frame):
         elif self.loc == "Keypad":
             self.Module_Keypad(False)
 
-    def update_timer(self):
+    def update_timer(self, x, y, span):
         tick = 500
         if self.timer_pause==False:
             
             if self.strikes == 0:
-                self.counter = self.after(tick, self.update_timer)
+                self.counter = self.after(tick, self.update_timer, x, y, span)
             elif self.strikes == 1:
-                self.counter = self.after(int((tick/4)*3), self.update_timer)
+                self.counter = self.after(int((tick/4)*3), self.update_timer, x, y, span)
             elif self.strikes == 2:
-                self.counter = self.after(int(tick/2), self.update_timer)
+                self.counter = self.after(int(tick/2), self.update_timer, x, y, span)
 
         
 
@@ -239,7 +241,7 @@ class MainGUI(Frame):
                     self.mins = 0
                     self.Game_Over()
             if self.Alive==True:
-                self.countdown(self.mins, self.secs, 1, 0, 1)
+                self.countdown(self.mins, self.secs, x, y, span)
             self.update()
 
     def strike(self):
@@ -256,8 +258,7 @@ class MainGUI(Frame):
     def back_button(self, x, y, span):
         back_button = Button(self, bg="gray", text="Back", font=("TexGyreAdventor", 25),
                              borderwidth=10, activebackground="light grey", command=lambda: self.setupGUI())
-        back_button.grid(row=x, column=y, sticky=N+S +
-                         E+W, pady=5, columnspan=span)
+        back_button.grid(row=x, column=y, sticky=N+S+E+W, pady=5, columnspan=span)
 
     def countdown(self, mins, secs, x, y, span):
         if mins < 10:
@@ -273,25 +274,25 @@ class MainGUI(Frame):
         if (self.mins < 1) and (self.secs <= 30):
             if self.secs.is_integer()==False:
                timer = Label(self, text=f"{mins}:{secs}",
-                    bg="white", fg="white", font=("TexGyreAdventor", 45), relief="groove", borderwidth=10) 
+                    bg="white", fg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10) 
             else:
                 timer = Label(self, text=f"{mins}:{secs}",
-                        bg="white", fg="red", font=("TexGyreAdventor", 45), relief="groove", borderwidth=10)
+                        bg="white", fg="red", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         else:
             timer = Label(self, text=f"{mins}:{secs}",
-                      bg="white", font=("TexGyreAdventor", 45), relief="groove", borderwidth=10)
+                      bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         timer.grid(row=x, column=y, sticky=N+S+E+W,
                    padx=5, pady=5, columnspan=span)
 
     def health(self, x, y, span):
         health = Label(self, text="[{}{}]".format(
-            X*self.strikes, " "*(self.maxstrikes-self.strikes)), bg="white", font=("TexGyreAdventor", 60), relief="groove", borderwidth=10)
+            X*self.strikes, " "*(self.maxstrikes-self.strikes)), bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         health.grid(row=x, column=y, sticky=N+S+E+W, padx=5,
                     pady=5, columnspan=span)
 
     def location(self, x, y, span):
         location = Label(self, text=f"{self.loc}",
-                         bg="white", font=("TexGyreAdventor", 45), relief="groove", borderwidth=10)
+                         bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         location.grid(row=x, column=y, sticky=N+S+E+W,
                       padx=5, pady=5, columnspan=span)
 
@@ -340,7 +341,7 @@ class MainGUI(Frame):
 
         self.pause_button(0, 0, self.cols)
         self.countdown(self.mins, self.secs, 1, 0, 1)
-        self.counter = self.after(1000, self.update_timer)
+        self.counter = self.after(1000, self.update_timer, 1, 0,1)
         self.location(1, 1, 1)
         self.health(1, 2, 1)
 
@@ -353,38 +354,36 @@ class MainGUI(Frame):
 
         button = Label(self, bg=self.button_color, text=self.button_label, font=(
             "TexGyreAdventor", 25), borderwidth=10, relief="raised")
-        button.grid(row=2, column=0, sticky=N+S+E +
-                    W, padx=5, pady=5, columnspan=2)
+        button.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=2)
 
         strip = Label(self, text="", bg=self.strip_color,
                       borderwidth=10, relief="ridge")
-        strip.grid(row=2, column=(self.cols-1), sticky=N +
-                   S+E+W, padx=5, pady=5, columnspan=1)
+        strip.grid(row=2, column=(self.cols-1), sticky=N+S+E+W, padx=5, pady=5, columnspan=1)
 
         for row in range(0, self.rows):
-            Grid.rowconfigure(self, row, weight=1)
-        Grid.rowconfigure(self, 2, weight=10)
+            Grid.rowconfigure(self, row, weight=0)
+        Grid.rowconfigure(self, 2, weight=5)
 
         Grid.columnconfigure(self, 0, weight=5)
         Grid.columnconfigure(self, 1, weight=5)
-        Grid.columnconfigure(self, 2, weight=1)
+        Grid.columnconfigure(self, 2, weight=5)
 
-        self.pack(fill=BOTH, expand=1)
+        self.pack(fill=BOTH, expand=True)
 
     def Module_Keypad(self, new=True):
         self.clearFrame()
 
         self.rows = 5
-        self.cols = 3
+        self.cols = 6
         self.loc = "Keypad"
 
         self.pause_button(0, 0, self.cols)
-        self.countdown(self.mins, self.secs, 1, 0, 1)
-        self.counter = self.after(1000, self.update_timer)
-        self.location(1, 1, 1)
-        self.health(1, 2, 1)
+        self.countdown(self.mins, self.secs, 1, 0, 2)
+        self.counter = self.after(1000, self.update_timer, 1, 0, 2)
+        self.location(1, 2, 2)
+        self.health(1, 4, 2)
 
-        symbols = {1:"a", 2:"n", 3:"R", 4:"D", 5:".", 6:"C", 7:"b", 8:"e", 9:"c", 10:"d", 11:"S", 12:"l", 13:"N", 14:"f", 15:"-", 16:"A", 17:"o", 18:"J", 19:"M", 20:"E", 21:";", 22:"F", 23:"g", 24:"m", 25:"T", 26:"L", 27:"/"}
+        symbols = {1:"a", 2:"n", 3:"R", 4:"D", 5:".", 6:"C", 7:"b", 8:"e", 9:"c", 10:"d", 11:"S", 12:"l", 13:"N", 14:"f", 15:"-", 16:"A", 17:"o", 18:"J", 19:"M", 20:"E", 21:",", 22:"F", 23:"g", 24:"m", 25:"T", 26:"L", 27:"/"}
         column1 = [1,2,3,4,5,6,7,8]
         column2 = [8,1,7,9,10,6,11]
         column3 = [12,13,9,14,15,3,10]
@@ -404,32 +403,54 @@ class MainGUI(Frame):
             self.symbol_3 = symbols[self.keys[2]]
             self.symbol_4 = symbols[self.keys[3]]
 
-        keypad_1 = Button(self, bg="dim gray", text=self.symbol_1, font=("Wingdings", 25),
-                        borderwidth=10, activebackground="blue", command=lambda: keypad_check(column,self.keys[0]))
+        keypad_1 = Button(self, bg="lemon chiffon", text=self.symbol_1, font=("Wingdings", 25),
+                        borderwidth=10, command=lambda: keypad_check(column,self.keys[0]))
         keypad_1.grid(row=3, column=0, sticky=N+S+E+W,
-                    padx=5, pady=5, columnspan=1)
+                    padx=5, pady=5, columnspan=3)
         
-        keypad_2 = Button(self, bg="dim gray", text=self.symbol_2, font=("Wingdings", 25),
-                        borderwidth=10, activebackground="blue", command=lambda: keypad_check(column,self.keys[1]))
-        keypad_2.grid(row=3, column=1, sticky=N+S+E+W,
-                    padx=5, pady=5, columnspan=1)
+        keypad_2 = Button(self, bg="lemon chiffon", text=self.symbol_2, font=("Wingdings", 25),
+                        borderwidth=10, command=lambda: keypad_check(column,self.keys[1]))
+        keypad_2.grid(row=3, column=3, sticky=N+S+E+W,
+                    padx=5, pady=5, columnspan=3)
                     
-        keypad_3 = Button(self, bg="dim gray", text=self.symbol_3, font=("Wingdings", 25),
-                        borderwidth=10, activebackground="blue", command=lambda: keypad_check(column,self.keys[2]))
+        keypad_3 = Button(self, bg="lemon chiffon", text=self.symbol_3, font=("Wingdings", 25),
+                        borderwidth=10, command=lambda: keypad_check(column,self.keys[2]))
         keypad_3.grid(row=5, column=0, sticky=N+S+E+W,
-                    padx=5, pady=5, columnspan=1)
+                    padx=5, pady=5, columnspan=3)
 
-        keypad_4 = Button(self, bg="dim gray", text=self.symbol_4, font=("Wingdings", 25),
-                        borderwidth=10, activebackground="blue", command=lambda: keypad_check(column,self.keys[3]))
-        keypad_4.grid(row=5, column=1, sticky=N+S+E+W,
-                    padx=5, pady=5, columnspan=1)
-        self.pack(fill=BOTH, expand=1)
+        keypad_4 = Button(self, bg="lemon chiffon", text=self.symbol_4, font=("Wingdings", 25),
+                        borderwidth=10, command=lambda: keypad_check(column,self.keys[3]))
+        keypad_4.grid(row=5, column=3, sticky=N+S+E+W,
+                    padx=5, pady=5, columnspan=3)
 
-        def keypad_check(self, column, chosen):
-            pass
+        label_1 = Label(self, text="", bg="dim gray",
+                      borderwidth=10, relief="ridge")
+        label_1.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
+        
+        label_2 = Label(self, text="", bg="dim gray",
+                      borderwidth=10, relief="ridge")
+        label_2.grid(row=4, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
+
+        label_3 = Label(self, text="", bg="dim gray",
+                      borderwidth=10, relief="ridge")
+        label_3.grid(row=2, column=3, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
+
+        label_4 = Label(self, text="", bg="dim gray",
+                      borderwidth=10, relief="ridge")
+        label_4.grid(row=4, column=3, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
+
+        for col in range(self.cols):
+            Grid.columnconfigure(self, col, weight=3)
+        
+        Grid.rowconfigure(self, 0, weight=0)
+        Grid.rowconfigure(self, 1, weight=0)
+        Grid.rowconfigure(self, 2, weight=5)
+        Grid.rowconfigure(self, 3, weight=5)
+        Grid.rowconfigure(self, 4, weight=5)
+        Grid.rowconfigure(self, 5, weight=5)
 
 
-
+        self.pack(fill=BOTH, expand=True)
 
     def Game_Over(self):
 #       GPIO.cleanup()
