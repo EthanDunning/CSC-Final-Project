@@ -160,8 +160,8 @@ class MainGUI(Frame):
         self.Button5(3, 1, 1)
         self.Button6(3, 2, 1)
 
-        Grid.rowconfigure(self, 0, weight=1)
-        Grid.rowconfigure(self, 1, weight=1)
+        Grid.rowconfigure(self, 0, weight=0)
+        Grid.rowconfigure(self, 1, weight=0)
 
         for row in range(2, self.rows):
             Grid.rowconfigure(self, row, weight=3)
@@ -178,22 +178,14 @@ class MainGUI(Frame):
         for widget in self.winfo_children():
             widget.destroy()
 
-        self.pack_forget()
-
         for row in range(self.rows):
             Grid.rowconfigure(self, row, weight=0)
-            for col in range(self.cols):
-                Grid.columnconfigure(self, col, weight=0)
-
-
-        for row in range(self.rows):
-            Grid.rowconfigure(self, row, weight=1)
             
         for col in range(self.cols):
-            Grid.columnconfigure(self, col, weight=1)
-            
+            Grid.columnconfigure(self, col, weight=0)
 
-        self.pack(fill=BOTH, expand=True)
+        self.pack_forget()
+            
 
     def pause(self):
         self.clearFrame()
@@ -202,17 +194,19 @@ class MainGUI(Frame):
         self.cols = 1
 
         resume = Button(self, bg="red", text="Resume", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="blue", command=lambda: self.resume())
-        resume.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5)
+        resume.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=1)
 
         reset = Button(self, bg="green", text="Reset", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="forest green", command=lambda: self.reset())
-        reset.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5)
+        reset.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=1)
 
         _quit = Button(self, bg="dim gray", text="Quit", font=("TexGyreAdventor", 25),
                       borderwidth=10, activebackground="light grey", command=lambda: self.quit())
-        _quit.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5)
+        _quit.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=1)
 
-        for row in range(self.rows):
-            Grid.rowconfigure(self, row, weight=1)
+        
+        Grid.rowconfigure(self, 0, weight=1)
+        Grid.rowconfigure(self, 1, weight=1)
+        Grid.rowconfigure(self, 2, weight=1)
         Grid.columnconfigure(self, 0, weight=1)
 
         self.pack(fill=BOTH, expand=True)
