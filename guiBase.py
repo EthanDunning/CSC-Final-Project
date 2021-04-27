@@ -177,13 +177,19 @@ class MainGUI(Frame):
         # destroy all widgets from frame
         for widget in self.winfo_children():
             widget.destroy()
+            widget.pack_forget()
 
-            self.pack_forget()
+        self.pack_forget()
+
 
         for row in range(self.rows):
             Grid.rowconfigure(self, row, weight=1)
+            
         for col in range(self.cols):
             Grid.columnconfigure(self, col, weight=1)
+            
+
+        self.pack(fill=BOTH, expand=1)
 
     def pause(self):
         self.clearFrame()
@@ -202,7 +208,7 @@ class MainGUI(Frame):
         _quit.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
         for row in range(self.rows):
-            Grid.rowconfigure(self, row)
+            Grid.rowconfigure(self, row, weight=1)
         Grid.columnconfigure(self, 0, weight=1)
 
         self.pack(fill=BOTH, expand=1)
@@ -440,10 +446,10 @@ class MainGUI(Frame):
         
         Grid.rowconfigure(self, 0, weight=0)
         Grid.rowconfigure(self, 1, weight=0)
-        Grid.rowconfigure(self, 2, weight=10)
-        Grid.rowconfigure(self, 3, weight=2)
-        Grid.rowconfigure(self, 4, weight=10)
-        Grid.rowconfigure(self, 5, weight=2)
+        Grid.rowconfigure(self, 2, weight=5)
+        Grid.rowconfigure(self, 3, weight=5)
+        Grid.rowconfigure(self, 4, weight=5)
+        Grid.rowconfigure(self, 5, weight=5)
 
         def keypad_check(self, column):
             pass
