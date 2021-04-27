@@ -137,7 +137,7 @@ class MainGUI(Frame):
 
         Grid.columnconfigure(self, 0, weight=1)
 
-        self.pack(fill=BOTH, expand=1)
+        self.pack(fill=BOTH, expand=True)
 
     def setupGUI(self):
         self.clearFrame()
@@ -160,7 +160,7 @@ class MainGUI(Frame):
         self.Button5(3, 1, 1)
         self.Button6(3, 2, 1)
 
-        Grid.rowconfigure(self, 0, weight=2)
+        Grid.rowconfigure(self, 0, weight=1)
         Grid.rowconfigure(self, 1, weight=1)
 
         for row in range(2, self.rows):
@@ -168,7 +168,7 @@ class MainGUI(Frame):
         for col in range(self.cols):
             Grid.columnconfigure(self, col, weight=3)
 
-        self.pack(fill=BOTH, expand=1)
+        self.pack(fill=BOTH, expand=True)
 
     def clearFrame(self):
         if self.counter is not None:
@@ -193,7 +193,7 @@ class MainGUI(Frame):
             Grid.columnconfigure(self, col, weight=1)
             
 
-        self.pack(fill=BOTH, expand=1)
+        self.pack(fill=BOTH, expand=True)
 
     def pause(self):
         self.clearFrame()
@@ -212,10 +212,10 @@ class MainGUI(Frame):
         _quit.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
         for row in range(self.rows):
-            Grid.rowconfigure(self, row, weight=1, uniform="")
-        Grid.columnconfigure(self, 0, weight=1, uniform="")
+            Grid.rowconfigure(self, row, weight=1)
+        Grid.columnconfigure(self, 0, weight=1)
 
-        self.pack(fill=BOTH, expand=1)
+        self.pack(fill=BOTH, expand=True)
 
     def resume(self):
         if self.loc == "Home":
@@ -280,25 +280,25 @@ class MainGUI(Frame):
         if (self.mins < 1) and (self.secs <= 30):
             if self.secs.is_integer()==False:
                timer = Label(self, text=f"{mins}:{secs}",
-                    bg="white", fg="white", font=("TexGyr5eAdventor", 45), relief="groove", borderwidth=10) 
+                    bg="white", fg="white", font=("TexGyr5eAdventor", 35), relief="groove", borderwidth=10) 
             else:
                 timer = Label(self, text=f"{mins}:{secs}",
-                        bg="white", fg="red", font=("TexGyreAdventor", 45), relief="groove", borderwidth=10)
+                        bg="white", fg="red", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         else:
             timer = Label(self, text=f"{mins}:{secs}",
-                      bg="white", font=("TexGyreAdventor", 45), relief="groove", borderwidth=10)
+                      bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         timer.grid(row=x, column=y, sticky=N+S+E+W,
                    padx=5, pady=5, columnspan=span)
 
     def health(self, x, y, span):
         health = Label(self, text="[{}{}]".format(
-            X*self.strikes, " "*(self.maxstrikes-self.strikes)), bg="white", font=("TexGyreAdventor", 60), relief="groove", borderwidth=10)
+            X*self.strikes, " "*(self.maxstrikes-self.strikes)), bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         health.grid(row=x, column=y, sticky=N+S+E+W, padx=5,
                     pady=5, columnspan=span)
 
     def location(self, x, y, span):
         location = Label(self, text=f"{self.loc}",
-                         bg="white", font=("TexGyreAdventor", 45), relief="groove", borderwidth=10)
+                         bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         location.grid(row=x, column=y, sticky=N+S+E+W,
                       padx=5, pady=5, columnspan=span)
 
@@ -370,11 +370,11 @@ class MainGUI(Frame):
             Grid.rowconfigure(self, row, weight=0)
         Grid.rowconfigure(self, 2, weight=5)
 
-        Grid.columnconfigure(self, 0, weight=5, uniform="mod1c")
-        Grid.columnconfigure(self, 1, weight=5, uniform="mod1c")
-        Grid.columnconfigure(self, 2, weight=5, uniform="mod1c")
+        Grid.columnconfigure(self, 0, weight=5)
+        Grid.columnconfigure(self, 1, weight=5)
+        Grid.columnconfigure(self, 2, weight=5)
 
-        self.pack(fill=BOTH, expand=1)
+        self.pack(fill=BOTH, expand=True)
 
     def Module_Keypad(self, new=True):
         self.clearFrame()
@@ -455,11 +455,8 @@ class MainGUI(Frame):
         Grid.rowconfigure(self, 4, weight=5)
         Grid.rowconfigure(self, 5, weight=5)
 
-        def keypad_check(self, column):
-            pass
 
-
-        self.pack(fill=BOTH, expand=1)
+        self.pack(fill=BOTH, expand=True)
 
     def Game_Over(self):
 #       GPIO.cleanup()
