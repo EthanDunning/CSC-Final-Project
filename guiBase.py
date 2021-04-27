@@ -177,9 +177,13 @@ class MainGUI(Frame):
         # destroy all widgets from frame
         for widget in self.winfo_children():
             widget.destroy()
-            widget.pack_forget()
 
         self.pack_forget()
+
+        for row in range(self.rows):
+            Grid.rowconfigure(self, row, weight=0)
+            for col in range(self.cols):
+                Grid.columnconfigure(self, col, weight=0)
 
 
         for row in range(self.rows):
@@ -208,8 +212,8 @@ class MainGUI(Frame):
         _quit.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
         for row in range(self.rows):
-            Grid.rowconfigure(self, row, weight=1)
-        Grid.columnconfigure(self, 0, weight=1)
+            Grid.rowconfigure(self, row, weight=1, uniform="")
+        Grid.columnconfigure(self, 0, weight=1, uniform="")
 
         self.pack(fill=BOTH, expand=1)
 
