@@ -11,8 +11,15 @@ class MainGUI(Frame):
     def __init__(self, parent):
         Frame.__init__(self, parent, bg="white")
         parent.attributes("-fullscreen", False)
+
+        self.rows=1
+        self.cols=1
+        
+        self.reset()
+
+    def reset(self):
         self.Alive = True
-        self.maxstrikes = 5
+        self.maxstrikes = 2
         self.startmins = 3
         self.startsecs = 0
         self.timer_pause = False
@@ -21,8 +28,6 @@ class MainGUI(Frame):
         self.strikes = 0
         self.loc = "Home"
         self.counter = None
-        self.rows = 1
-        self.cols = 1
         self.Module_1_Started = False
         self.Module_2_Started = False
         self.Module_3_Started = False
@@ -35,7 +40,6 @@ class MainGUI(Frame):
         self.Module_4_Done = False
         self.Module_5_Done = True
         self.Module_6_Done = True
-
 
         @property
         def timer_pause(self):
@@ -114,21 +118,6 @@ class MainGUI(Frame):
         def cols(self, value):
             self._cols = value
 
-
-
-        self.start_screen()
-
-    def reset(self):
-        self.Alive = True
-        self.clearFrame()
-        self.mins = self.startmins
-        self.secs = self.startsecs
-        self.strikes = 0
-        self.timer_pause = False
-        self.loc = "Home"
-        self.counter = None
-        self.rows = 1
-        self.cols = 1
         self.start_screen()
 
     def start_screen(self):
@@ -180,6 +169,9 @@ class MainGUI(Frame):
         for col in range(self.cols):
             Grid.columnconfigure(self, col, weight=3)
 
+        if (self.Module_1_Done==True and self.Module_2_Done==True and self.Module_3_Done==True and self.Module_4_Done==True and self.Module_5_Done==True and self.Module_6_Done==True):
+            self.Game_Win()
+
         self.pack(fill=BOTH, expand=True)
 
     def clearFrame(self):
@@ -198,7 +190,6 @@ class MainGUI(Frame):
 
         self.pack_forget()
             
-
     def pause(self):
         self.clearFrame()
 
@@ -260,10 +251,10 @@ class MainGUI(Frame):
 
     def strike(self, x, y, span):
         self.strikes += 1
-        if self.strikes > self.maxstrikes:
-            self.strikes = self.maxstrikes
-            self.Game_Over()
+        print(self.strikes)
         self.health(x, y, span)
+        if self.strikes > self.maxstrikes:
+            self.Game_Over()
 
     def pause_button(self, x, y, span):
         button = Button(self, bg="gray", text="Pause", font=("TexGyreAdventor", 25),
@@ -473,9 +464,6 @@ class MainGUI(Frame):
             #print(column)
             self.Module_4_Started = True
 
-        if self.keypad_correct >= 3:
-                self.keypad_correct = 3
-                self.Module_4_Done = True
 
         keypad_1 = Button(self, bg="lemon chiffon", text=self.symbol_1, font=("Wingdings", 25),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_1))
@@ -523,6 +511,13 @@ class MainGUI(Frame):
         Grid.rowconfigure(self, 4, weight=5)
         Grid.rowconfigure(self, 5, weight=10)
 
+        self.pack(fill=BOTH, expand=True)
+
+        if self.keypad_correct >= 4:
+                self.keypad_correct = 4
+                self.Module_4_Done = True
+                self.MainMenu()
+
         def keypad_check(input):
             if self.keypad_correct <= 3:
                 if input == self.key_order[self.keypad_correct]:
@@ -535,22 +530,109 @@ class MainGUI(Frame):
                         self.label_3_color = "lime green"
                     elif input == self.symbol_4:
                         self.label_4_color = "lime green"
+                    self.Module_Keypad(self.Module_4_Started)
                 else:
                     self.keypad_correct = 0
-                    self.strike(1, 4, 2)
+                    
                     self.label_1_color = "dim gray"
                     self.label_2_color = "dim gray"
                     self.label_3_color = "dim gray"
                     self.label_4_color = "dim gray"
+                    self.Module_Keypad(self.Module_4_Started)
+                    self.strike(1, 4, 2)
 
-            self.Module_Keypad(self.Module_4_Started)
+            
 
-        self.pack(fill=BOTH, expand=True)
+        
+
+        
 
     def Game_Over(self):
 #       GPIO.cleanup()
-        self.Alive = False
-        pass
+        print("Dead")
+        self.clearFrame()
+
+        self.rows = 3
+        self.cols = 3
+
+        Time_Left = Label(self, text=f"Time Left:",
+                         bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
+        Time_Left.grid(row=0, column=0, sticky=N+S+E+W,
+                      padx=5, pady=5, columnspan=1, rowspan=1)
+
+        Lose = Label(self, text=f"You Lose!",
+                         bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
+        Lose.grid(row=0, column=1, sticky=N+S+E+W,
+                      padx=5, pady=5, columnspan=1, rowspan=2)
+
+        Strikes = Label(self, text=f"Strikes:",
+                         bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
+        Strikes.grid(row=0, column=2, sticky=N+S+E+W,
+                      padx=5, pady=5, columnspan=1, rowspan=1)
+        
+        self.countdown(self.mins, self.secs, 1, 0, 1)
+        self.health(1, 2, 1)
+
+        start_over = Button(self, bg="red", text="Start Over", font=(
+            "TexGyreAdventor", 25), borderwidth=10, activebackground="blue", command=lambda: self.reset())
+        start_over.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
+
+        quit = Button(self, bg="dim gray", text="Quit", font=("TexGyreAdventor", 25),
+                      borderwidth=10, activebackground="light grey", command=lambda: self.quit())
+        quit.grid(row=3, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
+
+        for row in range(self.rows):
+            Grid.rowconfigure(self, row, weight=1)
+
+        Grid.columnconfigure(self, 0, weight=1)
+        Grid.columnconfigure(self, 1, weight=5)
+        Grid.columnconfigure(self, 2, weight=1)
+
+
+        self.pack(fill=BOTH, expand=True)
+
+    def Game_Win(self):
+        self.clearFrame()
+
+        self.rows = 3
+        self.cols = 3
+
+        Time_Left = Label(self, text=f"Time Left:",
+                         bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
+        Time_Left.grid(row=0, column=0, sticky=N+S+E+W,
+                      padx=5, pady=5, columnspan=1, rowspan=1)
+
+        Win = Label(self, text=f"You Win!",
+                         bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
+        Win.grid(row=0, column=1, sticky=N+S+E+W,
+                      padx=5, pady=5, columnspan=1, rowspan=2)
+
+        Strikes = Label(self, text=f"Strikes:",
+                         bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
+        Strikes.grid(row=0, column=2, sticky=N+S+E+W,
+                      padx=5, pady=5, columnspan=1, rowspan=1)
+        
+        self.countdown(self.mins, self.secs, 1, 0, 1)
+        self.health(1, 2, 1)
+
+        start_over = Button(self, bg="red", text="Start Over", font=(
+            "TexGyreAdventor", 25), borderwidth=10, activebackground="blue", command=lambda: self.reset())
+        start_over.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
+
+        quit = Button(self, bg="dim gray", text="Quit", font=("TexGyreAdventor", 25),
+                      borderwidth=10, activebackground="light grey", command=lambda: self.quit())
+        quit.grid(row=3, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
+
+        for row in range(self.rows):
+            Grid.rowconfigure(self, row, weight=1)
+
+        Grid.columnconfigure(self, 0, weight=1)
+        Grid.columnconfigure(self, 1, weight=5)
+        Grid.columnconfigure(self, 2, weight=1)
+
+
+        self.pack(fill=BOTH, expand=True)
+
 
 
 # create the window
