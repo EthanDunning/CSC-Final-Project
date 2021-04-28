@@ -56,19 +56,23 @@ class Wires(Game):
 		self.other.rows = 4;
 		self.other.cols = 3;
 
-		# button to go back to the main screen
-		back = Button(self.other, bg="red", text="Go Back", font=("TexGyreAdventor", 25),
-                      borderwidth=10, activebackground="blue", command=lambda: self.other.setupGUI());
+		# list of current colors in order
+		colors = ["go", "crazy", "go", "stupid", "aaaa"];
 
-		# label that shows the current order of colors
-		colors = ["go", "crazy", "go", "stupid", "aaaa"]
+		# button that finishes the wire sequence
+		done = Button(self.other, bg="green", text="Done.", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="blue", command=lambda: self.recordColors());
+		done.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=2);
+
+		# button that goes to the main menu
+		mainMenu = Button(self.other, bg="grey", text="Go Back.", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="red", command=lambda: self.other.setupGUI());
+		mainMenu.grid(row=0, column=2, sticky=N+S+E+W, padx=5, pady=5);
+
+		# label that shows the wire sequence
 		colorsLabel = Label(self.other, bg="white", text=f"{colors}", font=("TexGyreAdventor", 40), relief="groove", borderwidth=10);
-		colorsLabel.grid(row=1, column=1, sticky=N+S+E+W, padx=5, pady=5, columnspan=3);
+		colorsLabel.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3);
 
 		self.other.pack(fill=BOTH, expand=1);
 
-
-		self.recordColors();
 		self.chooseCorrect();
 		pass;
 
