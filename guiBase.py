@@ -12,8 +12,8 @@ class MainGUI(Frame):
         Frame.__init__(self, parent, bg="white")
         parent.attributes("-fullscreen", False)
         self.Alive = True
-        self.maxstrikes = 2
-        self.startmins = 1
+        self.maxstrikes = 5
+        self.startmins = 3
         self.startsecs = 0
         self.timer_pause = False
         self.mins = self.startmins
@@ -244,11 +244,12 @@ class MainGUI(Frame):
                 self.countdown(self.mins, self.secs, x, y, span)
             self.update()
 
-    def strike(self):
+    def strike(self, x, y, span):
         self.strikes += 1
-        self.health(1, 2, 1)
-        if self.strikes == 3:
+        if self.strikes > self.maxstrikes:
+            self.strikes = self.maxstrikes
             self.Game_Over()
+        self.health(x, y, span)
 
     def pause_button(self, x, y, span):
         button = Button(self, bg="gray", text="Pause", font=("TexGyreAdventor", 25),
@@ -285,8 +286,8 @@ class MainGUI(Frame):
                    padx=5, pady=5, columnspan=span)
 
     def health(self, x, y, span):
-        health = Label(self, text="[{}{}]".format(
-            X*self.strikes, " "*(self.maxstrikes-self.strikes)), bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
+        health = Label(self, text="[{}{}]".format(X*self.strikes, " "*(self.maxstrikes-self.strikes)), 
+                        bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         health.grid(row=x, column=y, sticky=N+S+E+W, padx=5,
                     pady=5, columnspan=span)
 
@@ -304,7 +305,7 @@ class MainGUI(Frame):
 
     def Button2(self, x, y, span):
         button = Button(self, bg="tomato", text="Strike", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground="slate blue", command=lambda: self.strike())
+                        borderwidth=10, activebackground="slate blue", command=lambda: self.strike(1, 2, 1))
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -373,7 +374,7 @@ class MainGUI(Frame):
     def Module_Keypad(self, new=True):
         self.clearFrame()
 
-        self.rows = 5
+        self.rows = 6
         self.cols = 6
         self.loc = "Keypad"
 
@@ -384,7 +385,7 @@ class MainGUI(Frame):
         self.health(1, 4, 2)
 
         symbols = {1:"a", 2:"n", 3:"R", 4:"D", 5:".", 6:"C", 7:"b", 8:"e", 9:"c", 10:"d", 11:"S", 12:"l", 13:"N", 14:"f", 15:"-", 16:"A", 17:"o", 18:"J", 19:"M", 20:"E", 21:",", 22:"F", 23:"g", 24:"m", 25:"T", 26:"L", 27:"/"}
-        column1 = [1,2,3,4,5,6,7,8]
+        column1 = [1,2,3,4,5,6,7]
         column2 = [8,1,7,9,10,6,11]
         column3 = [12,13,9,14,15,3,10]
         column4 = [16,17,18,5,14,11,19]
@@ -392,6 +393,7 @@ class MainGUI(Frame):
         column6 = [16,8,24,25,20,26,27]
 
         column = choice([column1, column2, column3, column4, column5, column6])
+        #print(column1,column2,column3,column4,column5,column6)
         #print(column)
         if new==True:
             self.keypad_correct = 0
@@ -413,24 +415,25 @@ class MainGUI(Frame):
                     if i == j:
                         self.key_order.append(symbols[j])
             print(self.key_order)
+            print(column)
 
 
-        keypad_1 = Button(self, bg="lemon chiffon", text=self.symbol_1, font=("Calibri", 25),
+        keypad_1 = Button(self, bg="lemon chiffon", text=self.symbol_1, font=("Wingdings", 25),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_1))
         keypad_1.grid(row=3, column=0, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
         
-        keypad_2 = Button(self, bg="lemon chiffon", text=self.symbol_2, font=("Calibri", 25),
+        keypad_2 = Button(self, bg="lemon chiffon", text=self.symbol_2, font=("Wingdings", 25),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_2))
         keypad_2.grid(row=3, column=3, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
                     
-        keypad_3 = Button(self, bg="lemon chiffon", text=self.symbol_3, font=("Calibri", 25),
+        keypad_3 = Button(self, bg="lemon chiffon", text=self.symbol_3, font=("Wingdings", 25),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_3))
         keypad_3.grid(row=5, column=0, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
 
-        keypad_4 = Button(self, bg="lemon chiffon", text=self.symbol_4, font=("Calibri", 25),
+        keypad_4 = Button(self, bg="lemon chiffon", text=self.symbol_4, font=("Wingdings", 25),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_4))
         keypad_4.grid(row=5, column=3, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
@@ -441,11 +444,11 @@ class MainGUI(Frame):
         
         label_2 = Label(self, text="", bg=self.label_2_color,
                       borderwidth=10, relief="ridge")
-        label_2.grid(row=4, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
+        label_2.grid(row=2, column=3, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
 
         label_3 = Label(self, text="", bg=self.label_3_color,
                       borderwidth=10, relief="ridge")
-        label_3.grid(row=2, column=3, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
+        label_3.grid(row=4, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
 
         label_4 = Label(self, text="", bg=self.label_4_color,
                       borderwidth=10, relief="ridge")
@@ -457,9 +460,9 @@ class MainGUI(Frame):
         Grid.rowconfigure(self, 0, weight=0)
         Grid.rowconfigure(self, 1, weight=0)
         Grid.rowconfigure(self, 2, weight=5)
-        Grid.rowconfigure(self, 3, weight=5)
+        Grid.rowconfigure(self, 3, weight=10)
         Grid.rowconfigure(self, 4, weight=5)
-        Grid.rowconfigure(self, 5, weight=5)
+        Grid.rowconfigure(self, 5, weight=10)
 
         def keypad_check(input):
             if self.keypad_correct <= 3:
@@ -475,11 +478,12 @@ class MainGUI(Frame):
                         self.label_4_color = "lime green"
                 else:
                     self.keypad_correct = 0
-                    self.strike()
+                    self.strike(1, 4, 2)
                     self.label_1_color = "dim gray"
                     self.label_2_color = "dim gray"
                     self.label_3_color = "dim gray"
                     self.label_4_color = "dim gray"
+            self.Module_Keypad(False)
 
         self.pack(fill=BOTH, expand=True)
 
