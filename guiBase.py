@@ -639,6 +639,6 @@ window.geometry("800x400")
 # generate the GUI
 p = MainGUI(window)
 
-k = Keypad
+k = Keypad.Module_Keypad(p)
 # display the GUI and wait for user interaction
 p.mainloop()

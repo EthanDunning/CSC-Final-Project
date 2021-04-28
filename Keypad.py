@@ -1,10 +1,10 @@
-from Game import Game
+from guiBase import MainGUI
 from tkinter import *
 
 
-class Module_Keypad(Game):
+class Module_Keypad(MainGUI):
     def __init__(self, parent):
-        super.__init__(None,None)
+        Game.__init__(self)
         self.clearFrame()   
 
         self.rows = 6

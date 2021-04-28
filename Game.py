@@ -18,10 +18,8 @@ GPIO.setup(outputPins, GPIO.OUT);
 class Game:
 
     # constructor initializes with the time (in seconds) and mistakes allotted; inputs and outputs are false/low by default
-    def __init__(self, time=360, mistakes=3):
+    def __init__(self):
         # game difficulty settings
-        self.time = time;
-        self.mistakes = mistakes;
         # I/O lists
         self.input = [False, False, False, False, False];
         self.output = [False, False, False, False, False];
