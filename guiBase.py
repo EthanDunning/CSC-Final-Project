@@ -20,8 +20,8 @@ class MainGUI(Frame):
     def reset(self):
         self.Alive = True
         self.maxstrikes = 2
-        self.startmins = 3
-        self.startsecs = 0
+        self.startmins = 0
+        self.startsecs = 15
         self.timer_pause = False
         self.mins = self.startmins
         self.secs = self.startsecs
@@ -278,7 +278,7 @@ class MainGUI(Frame):
             secs = str(ceil(secs))
 
         if (self.mins < 1) and (self.secs <= 30):
-            if self.secs.is_integer()==False:
+            if float(self.secs).is_integer()==False:
                timer = Label(self, text=f"{mins}:{secs}",
                     bg="white", fg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10) 
             else:
@@ -549,7 +549,7 @@ class MainGUI(Frame):
 
     def Game_Over(self):
 #       GPIO.cleanup()
-        print("Dead")
+        self.Alive = False
         self.clearFrame()
 
         self.rows = 3
