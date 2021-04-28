@@ -1,6 +1,10 @@
+from Game import Game
+from tkinter import *
+
+
 class Module_Keypad(Game):
     def __init__(self, parent):
-        Game.__init__(self)
+        super.__init__(None,None)
         self.clearFrame()   
 
         self.rows = 6
