@@ -390,12 +390,11 @@ class MainGUI(Frame):
         column4 = [16,17,18,5,14,11,19]
         column5 = [20,19,18,21,17,22,23]
         column6 = [16,8,24,25,20,26,27]
-        
-        
 
         column = choice([column1, column2, column3, column4, column5, column6])
         #print(column)
         if new==True:
+            self.keypad_correct = 0
             self.keys = sample(column,4)
             #print(keys)
             self.symbol_1 = symbols[self.keys[0]]
@@ -403,39 +402,52 @@ class MainGUI(Frame):
             self.symbol_3 = symbols[self.keys[2]]
             self.symbol_4 = symbols[self.keys[3]]
 
-        keypad_1 = Button(self, bg="lemon chiffon", text=self.symbol_1, font=("Wingdings", 25),
-                        borderwidth=10, command=lambda: keypad_check(column,self.keys[0]))
+            self.label_1_color = "dim gray"
+            self.label_2_color = "dim gray"
+            self.label_3_color = "dim gray"
+            self.label_4_color = "dim gray"
+
+            self.key_order = []
+            for i in column:
+                for j in self.keys:
+                    if i == j:
+                        self.key_order.append(symbols[j])
+            print(self.key_order)
+
+
+        keypad_1 = Button(self, bg="lemon chiffon", text=self.symbol_1, font=("Calibri", 25),
+                        borderwidth=10, command=lambda: keypad_check(self.symbol_1))
         keypad_1.grid(row=3, column=0, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
         
-        keypad_2 = Button(self, bg="lemon chiffon", text=self.symbol_2, font=("Wingdings", 25),
-                        borderwidth=10, command=lambda: keypad_check(column,self.keys[1]))
+        keypad_2 = Button(self, bg="lemon chiffon", text=self.symbol_2, font=("Calibri", 25),
+                        borderwidth=10, command=lambda: keypad_check(self.symbol_2))
         keypad_2.grid(row=3, column=3, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
                     
-        keypad_3 = Button(self, bg="lemon chiffon", text=self.symbol_3, font=("Wingdings", 25),
-                        borderwidth=10, command=lambda: keypad_check(column,self.keys[2]))
+        keypad_3 = Button(self, bg="lemon chiffon", text=self.symbol_3, font=("Calibri", 25),
+                        borderwidth=10, command=lambda: keypad_check(self.symbol_3))
         keypad_3.grid(row=5, column=0, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
 
-        keypad_4 = Button(self, bg="lemon chiffon", text=self.symbol_4, font=("Wingdings", 25),
-                        borderwidth=10, command=lambda: keypad_check(column,self.keys[3]))
+        keypad_4 = Button(self, bg="lemon chiffon", text=self.symbol_4, font=("Calibri", 25),
+                        borderwidth=10, command=lambda: keypad_check(self.symbol_4))
         keypad_4.grid(row=5, column=3, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
 
-        label_1 = Label(self, text="", bg="dim gray",
+        label_1 = Label(self, text="", bg=self.label_1_color,
                       borderwidth=10, relief="ridge")
         label_1.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
         
-        label_2 = Label(self, text="", bg="dim gray",
+        label_2 = Label(self, text="", bg=self.label_2_color,
                       borderwidth=10, relief="ridge")
         label_2.grid(row=4, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
 
-        label_3 = Label(self, text="", bg="dim gray",
+        label_3 = Label(self, text="", bg=self.label_3_color,
                       borderwidth=10, relief="ridge")
         label_3.grid(row=2, column=3, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
 
-        label_4 = Label(self, text="", bg="dim gray",
+        label_4 = Label(self, text="", bg=self.label_4_color,
                       borderwidth=10, relief="ridge")
         label_4.grid(row=4, column=3, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
 
@@ -449,6 +461,25 @@ class MainGUI(Frame):
         Grid.rowconfigure(self, 4, weight=5)
         Grid.rowconfigure(self, 5, weight=5)
 
+        def keypad_check(input):
+            if self.keypad_correct <= 3:
+                if input == self.key_order[self.keypad_correct]:
+                    self.keypad_correct += 1
+                    if input == self.symbol_1:
+                        self.label_1_color = "lime green"
+                    elif input == self.symbol_2:
+                        self.label_2_color = "lime green"
+                    elif input == self.symbol_3:
+                        self.label_3_color = "lime green"
+                    elif input == self.symbol_4:
+                        self.label_4_color = "lime green"
+                else:
+                    self.keypad_correct = 0
+                    self.strike()
+                    self.label_1_color = "dim gray"
+                    self.label_2_color = "dim gray"
+                    self.label_3_color = "dim gray"
+                    self.label_4_color = "dim gray"
 
         self.pack(fill=BOTH, expand=True)
 
