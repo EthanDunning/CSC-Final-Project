@@ -65,6 +65,7 @@ class Game:
 
     # other methods 
 
+<<<<<<< HEAD
     # I/O methods that interface with the gpio
 
     # # input from the gpio pins
