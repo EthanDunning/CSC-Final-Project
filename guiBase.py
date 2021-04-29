@@ -22,8 +22,8 @@ class MainGUI(Frame):
     def reset(self):
         self.Alive = True
         self.maxstrikes = 2
-        self.startmins = 0
-        self.startsecs = 15
+        self.startmins = 5
+        self.startsecs = 0
         self.timer_pause = False
         self.mins = self.startmins
         self.secs = self.startsecs

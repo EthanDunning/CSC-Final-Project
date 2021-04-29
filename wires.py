@@ -57,24 +57,23 @@ class Wires(Game):
 		self.other.cols = 3;
 
 		# list of current colors in order
-		colors = ["go", "crazy", "go", "stupid", "aaaa"];
+		colors = ["go", "crazy", "go", "stupid", "aa"];
 
 		# button that finishes the wire sequence
 		done = Button(self.other, bg="green", text="Done.", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="blue", command=lambda: self.recordColors());
 		done.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=2);
 
 		# button that goes to the main menu
-		mainMenu = Button(self.other, bg="grey", text="Go Back.", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="red", command=lambda: self.other.setupGUI());
+		mainMenu = Button(self.other, bg="grey", text="Go Back.", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="red", command=lambda: self.other.MainMenu());
 		mainMenu.grid(row=0, column=2, sticky=N+S+E+W, padx=5, pady=5);
 
 		# label that shows the wire sequence
 		colorsLabel = Label(self.other, bg="white", text=f"{colors}", font=("TexGyreAdventor", 40), relief="groove", borderwidth=10);
 		colorsLabel.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3);
 
-		self.other.pack(fill=BOTH, expand=1);
+		self.other.pack(fill=BOTH, expand=True);
 
 		self.chooseCorrect();
-		pass;
 
 	# function allows the player to input the order of the colored wires on the breadboard 
 	def recordColors(self):
