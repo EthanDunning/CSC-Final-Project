@@ -35,12 +35,12 @@ class MainGUI(Frame):
         self.Module_4_Started = False
         self.Module_5_Started = False
         self.Module_6_Started = False
-        self.Module_1_Done = True
-        self.Module_2_Done = True
-        self.Module_3_Done = True
+        self.Module_1_Done = False
+        self.Module_2_Done = False
+        self.Module_3_Done = False
         self.Module_4_Done = False
-        self.Module_5_Done = True
-        self.Module_6_Done = True
+        self.Module_5_Done = False
+        self.Module_6_Done = False
 
         @property
         def timer_pause(self):
@@ -375,62 +375,55 @@ class MainGUI(Frame):
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
-    def Module_The_Button(self, started):
-        self.clearFrame()
-
-        self.rows = 3
-        self.cols = 6
-        self.loc = "The Button"
-
-        self.pause_button(0, 0, 3)
-        self.back_button(0, 3, 3)
-        self.countdown(self.mins, self.secs, 1, 0, 2)
-        self.counter = self.after(1000, self.update_timer, 1, 0,2)
-        self.location(1, 2, 2)
-        self.health(1, 4, 2)
-
-        if started == False:
-            stared=True
-            self.Module_1_Started = True
-            button_colors = ["red", "blue", "yellow", "white", "dim gray"]
-            button_labels = ["Abort", "Detonate", "Hold", "Press"]
-            self.strip_color = choice(button_colors)
-            self.button_color = choice(button_colors)
-            self.button_label = choice(button_labels)
-
-        button = Label(self, bg=self.button_color, text=self.button_label, font=(
-            "TexGyreAdventor", 25), borderwidth=10, relief="raised")
-        button.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=5)
-
-        strip = Label(self, text="", bg=self.strip_color,
-                      borderwidth=10, relief="ridge")
-        strip.grid(row=2, column=(self.cols-1), sticky=N+S+E+W, padx=5, pady=5, columnspan=1)
-
-        for row in range(0, self.rows):
-            Grid.rowconfigure(self, row, weight=0)
-        Grid.rowconfigure(self, 2, weight=5)
-
-        for col in range(self.cols):
-            Grid.columnconfigure(self, col, weight=5)
-
-        self.pack(fill=BOTH, expand=True)
+    
 
 
     def Keypad_Call(self, Module):
-        keypad = Module_Keypad(p)
-        print(keypad)
+        
         if Module == "Module_1":
-            self.Module_1_Done =  keypad
+            if self.Module_1_Started == False:
+                self.Module_1_Started = True
+                keypad1 = Module_Keypad(p)
+            
+            self.Module_1_Done =  keypad1
+                
         elif Module == "Module_2":
-            self.Module_2_Done =  keypad
+            if self.Module_2_Started == False:
+                self.Module_2_Started = True
+                keypad2 = Module_Keypad(p)
+            
+            self.Module_2_Done =  keypad2
+                
         elif Module == "Module_3":
-            self.Module_3_Done =  keypad
+            if self.Module_3_Started == False:
+                self.Module_3_Started = True
+                keypad3 = Module_Keypad(p)
+            
+            self.Module_3_Done =  keypad3
+                
         elif Module == "Module_4":
-            self.Module_4_Done =  keypad
+            if self.Module_4_Started == False:
+                print("Started")
+                self.Module_4_Started = True
+                keypad4 = Module_Keypad(p)
+            print(self.Module_4_Done)
+            self.Module_4_Done =  keypad4
+            print(self.Module_4_Done)
+                
         elif Module == "Module_5":
-            self.Module_5_Done =  keypad
+            if self.Module_5_Started == False:
+                self.Module_5_Started = True
+                keypad5 = Module_Keypad(p)
+            
+            self.Module_5_Done =  keypad5
+                
         elif Module == "Module_6":
-            self.Module_6_Done =  keypad
+            if self.Module_6_Started == False:
+                self.Module_6_Started = True
+                keypad6 = Module_Keypad(p)
+            
+            self.Module_6_Done =  keypad6
+                
 
         #self.MainMenu()
 
