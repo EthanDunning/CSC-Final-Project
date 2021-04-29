@@ -1,5 +1,6 @@
 from Game import Game
 from tkinter import *
+from random import *
 
 
 class Module_Keypad(Game):
@@ -22,7 +23,7 @@ class Module_Keypad(Game):
         self.other.location(1, 2, 2)
         self.other.health(1, 4, 2)
 
-        main(self.Module_Started)
+        self.main(self.Module_Started)
 
     def main(self, started):
 
@@ -63,58 +64,58 @@ class Module_Keypad(Game):
             self.Module_Started = True
 
 
-        keypad_1 = Button(self, bg="lemon chiffon", text=self.symbol_1, font=("Wingdings", 25),
+        keypad_1 = Button(self.other, bg="lemon chiffon", text=self.symbol_1, font=("Wingdings", 25),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_1))
         keypad_1.grid(row=3, column=0, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
         
-        keypad_2 = Button(self, bg="lemon chiffon", text=self.symbol_2, font=("Wingdings", 25),
+        keypad_2 = Button(self.other, bg="lemon chiffon", text=self.symbol_2, font=("Wingdings", 25),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_2))
         keypad_2.grid(row=3, column=3, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
                     
-        keypad_3 = Button(self, bg="lemon chiffon", text=self.symbol_3, font=("Wingdings", 25),
+        keypad_3 = Button(self.other, bg="lemon chiffon", text=self.symbol_3, font=("Wingdings", 25),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_3))
         keypad_3.grid(row=5, column=0, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
 
-        keypad_4 = Button(self, bg="lemon chiffon", text=self.symbol_4, font=("Wingdings", 25),
+        keypad_4 = Button(self.other, bg="lemon chiffon", text=self.symbol_4, font=("Wingdings", 25),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_4))
         keypad_4.grid(row=5, column=3, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
 
-        label_1 = Label(self, text="", bg=self.label_1_color,
+        label_1 = Label(self.other, text="", bg=self.label_1_color,
                       borderwidth=10, relief="ridge")
         label_1.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
         
-        label_2 = Label(self, text="", bg=self.label_2_color,
+        label_2 = Label(self.other, text="", bg=self.label_2_color,
                       borderwidth=10, relief="ridge")
         label_2.grid(row=2, column=3, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
 
-        label_3 = Label(self, text="", bg=self.label_3_color,
+        label_3 = Label(self.other, text="", bg=self.label_3_color,
                       borderwidth=10, relief="ridge")
         label_3.grid(row=4, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
 
-        label_4 = Label(self, text="", bg=self.label_4_color,
+        label_4 = Label(self.other, text="", bg=self.label_4_color,
                       borderwidth=10, relief="ridge")
         label_4.grid(row=4, column=3, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
 
-        for col in range(self.cols):
-            Grid.columnconfigure(self, col, weight=3)
+        for col in range(self.other.cols):
+            Grid.columnconfigure(self.other, col, weight=3)
         
-        Grid.rowconfigure(self, 0, weight=0)
-        Grid.rowconfigure(self, 1, weight=0)
-        Grid.rowconfigure(self, 2, weight=5)
-        Grid.rowconfigure(self, 3, weight=10)
-        Grid.rowconfigure(self, 4, weight=5)
-        Grid.rowconfigure(self, 5, weight=10)
+        Grid.rowconfigure(self.other, 0, weight=0)
+        Grid.rowconfigure(self.other, 1, weight=0)
+        Grid.rowconfigure(self.other, 2, weight=5)
+        Grid.rowconfigure(self.other, 3, weight=10)
+        Grid.rowconfigure(self.other, 4, weight=5)
+        Grid.rowconfigure(self.other, 5, weight=10)
 
-        self.pack(fill=BOTH, expand=True)
+        self.other.pack(fill=BOTH, expand=True)
 
         if self.keypad_correct >= 4:
                 self.keypad_correct = 4
                 self.Module_Done = True
-                self.MainMenu()
+                return self.Module_Done
 
         def keypad_check(input):
             if self.keypad_correct <= 3:
@@ -128,7 +129,7 @@ class Module_Keypad(Game):
                         self.label_3_color = "lime green"
                     elif input == self.symbol_4:
                         self.label_4_color = "lime green"
-                    self.Module_Keypad(self.Module_Started)
+                    self.main(self.Module_Started)
                 else:
                     self.keypad_correct = 0
                     
@@ -136,5 +137,5 @@ class Module_Keypad(Game):
                     self.label_2_color = "dim gray"
                     self.label_3_color = "dim gray"
                     self.label_4_color = "dim gray"
-                    self.Module_Keypad(self.Module_Started)
-                    self.strike(1, 4, 2)
+                    self.main(self.Module_Started)
+                    self.other.strike(1, 4, 2)
