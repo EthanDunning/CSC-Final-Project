@@ -1,14 +1,14 @@
-import RPi.GPIO as GPIO;
-import time;
+#import RPi.GPIO as GPIO;
+from time import *
 #import guiBase as GUI;
 
 # set gpio mode
-GPIO.setmode(GPIO.BCM);
+#GPIO.setmode(GPIO.BCM);
 # set gpio defaults 
 inputPins = [18, 19, 20, 21, 22];
 outputPins = [17, 16, 13, 12, 6];
-GPIO.setup(inputPins, GPIO.IN, pull_up_down=GPIO.PUD_DOWN);
-GPIO.setup(outputPins, GPIO.OUT);
+#GPIO.setup(inputPins, GPIO.IN, pull_up_down=GPIO.PUD_DOWN);
+#GPIO.setup(outputPins, GPIO.OUT);
 
 # the game class contains the basic components necessary for each module
 # as well as the components necessary for the non-module parts of the game like
@@ -18,10 +18,8 @@ GPIO.setup(outputPins, GPIO.OUT);
 class Game:
 
     # constructor initializes with the time (in seconds) and mistakes allotted; inputs and outputs are false/low by default
-    def __init__(self, time=360, mistakes=3):
+    def __init__(self):
         # game difficulty settings
-        self.time = time;
-        self.mistakes = mistakes;
         # I/O lists
         self.input = [False, False, False, False, False];
         self.output = [False, False, False, False, False];
@@ -61,7 +59,7 @@ class Game:
 
     # other methods 
 
-# pins
+# # pins
 # leds = []
 # switches = []
 # wires = []
@@ -69,80 +67,80 @@ class Game:
 # test_led = []
 # speaker = []
 
-# setting up the GPIO
-GPIO.setmode(GPIO.BCM)
-# I/O
-GPIO.setup(leds, GPIO.OUT)
-GPIO.setup(test_led, GPIO.OUT)
-GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(wires, GPIO.IN)
+# # setting up the GPIO
+# GPIO.setmode(GPIO.BCM)
+# # I/O
+# GPIO.setup(leds, GPIO.OUT)
+# GPIO.setup(test_led, GPIO.OUT)
+# GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+# GPIO.setup(wires, GPIO.IN)
 
-try:
-	# testing the leds
-	def all_on():
-		for i in leds:
-			GPIO.output(leds, True)
+# try:
+# 	# testing the leds
+# 	def all_on():
+# 		for i in leds:
+# 			GPIO.output(leds, True)
 
-	def all_off():
-		for i in leds:
-			GPIO.output(leds, False)
+# 	def all_off():
+# 		for i in leds:
+# 			GPIO.output(leds, False)
 
-	def switch_test():
-		for i in switches:
-			if i == True:
-				GPIO.output(test_led, True)
+# 	def switch_test():
+# 		for i in switches:
+# 			if i == True:
+# 				GPIO.output(test_led, True)
 
-except KeyboardInterrupt:
-	GPIO.cleanup()
+# except KeyboardInterrupt:
+# 	GPIO.cleanup()
 
-all_on()
-sleep(0.5)
-all_off()
-sleep(0.5)
+# all_on()
+# sleep(0.5)
+# all_off()
+# sleep(0.5)
 
 # ultrasonic sensor
-GPIO_TRIGGER = []
-GPIO_ECHO = <>
+# GPIO_TRIGGER = []
+# GPIO_ECHO = None
  
-#set GPIO direction (IN / OUT)
-GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
-GPIO.setup(GPIO_ECHO, GPIO.IN)
+# #set GPIO direction (IN / OUT)
+# GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
+# GPIO.setup(GPIO_ECHO, GPIO.IN)
  
-def distance():
-    # set Trigger to HIGH
-    GPIO.output(GPIO_TRIGGER, True)
+# def distance():
+#     # set Trigger to HIGH
+#     GPIO.output(GPIO_TRIGGER, True)
  
-    # set Trigger after 0.01ms to LOW
-    time.sleep(0.00001)
-    GPIO.output(GPIO_TRIGGER, False)
+#     # set Trigger after 0.01ms to LOW
+#     time.sleep(0.00001)
+#     GPIO.output(GPIO_TRIGGER, False)
  
-    StartTime = time.time()
-    StopTime = time.time()
+#     StartTime = time.time()
+#     StopTime = time.time()
  
-    # save StartTime
-    while GPIO.input(GPIO_ECHO) == 0:
-        StartTime = time.time()
+#     # save StartTime
+#     while GPIO.input(GPIO_ECHO) == 0:
+#         StartTime = time.time()
  
-    # save time of arrival
-    while GPIO.input(GPIO_ECHO) == 1:
-        StopTime = time.time()
+#     # save time of arrival
+#     while GPIO.input(GPIO_ECHO) == 1:
+#         StopTime = time.time()
  
-    # time difference between start and arrival
-    TimeElapsed = StopTime - StartTime
-    # multiply with the sonic speed (34300 cm/s)
-    # and divide by 2, because there and back
-    distance = (TimeElapsed * 34300) / 2
+#     # time difference between start and arrival
+#     TimeElapsed = StopTime - StartTime
+#     # multiply with the sonic speed (34300 cm/s)
+#     # and divide by 2, because there and back
+#     distance = (TimeElapsed * 34300) / 2
  
-    return distance
+#     return distance
  
-if __name__ == '__main__':
-    try:
-        while True:
-            dist = distance()
-            print ("Measured Distance = %.1f cm" % dist)
-            time.sleep(1)
+# if __name__ == '__main__':
+#     try:
+#         while True:
+#             dist = distance()
+#             print ("Measured Distance = %.1f cm" % dist)
+#             sleep(1)
  
-        # Reset by pressing CTRL + C
-    except KeyboardInterrupt:
-        print("Measurement stopped by User")
-        GPIO.cleanup()
+#         # Reset by pressing CTRL + C
+#     except KeyboardInterrupt:
+#         print("Measurement stopped by User")
+#         GPIO.cleanup()
