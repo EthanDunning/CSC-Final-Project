@@ -552,7 +552,6 @@ class MainGUI(Frame):
         Grid.columnconfigure(self, 1, weight=5)
         Grid.columnconfigure(self, 2, weight=1)
 
-
         self.pack(fill=BOTH, expand=True)
 
     def Game_Win(self):
