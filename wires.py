@@ -57,7 +57,7 @@ class Wires(Game):
 		self.other.cols = 3;
 
 		# list of current colors in order
-		colors = ["go", "crazy", "go", "stupid", "aa"];
+		colors = [];
 
 		# button that finishes the wire sequence
 		done = Button(self.other, bg="green", text="Done.", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="blue", command=lambda: self.recordColors());
@@ -68,9 +68,36 @@ class Wires(Game):
 		mainMenu.grid(row=0, column=2, sticky=N+S+E+W, padx=5, pady=5);
 
 		# label that shows the wire sequence
-		colorsLabel = Label(self.other, bg="white", text=f"{colors}", font=("TexGyreAdventor", 40), relief="groove", borderwidth=10);
+		colorsLabel = Label(self.other, bg="white", text=f"{colors}", font=("TexGyreAdventor", 28), relief="groove", borderwidth=10);
 		colorsLabel.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3);
 
+		# list of tuples. each one contains the color name and function that adds it to the list (or removes in the case of the backspace)
+		colorButtons = [("orange", lambda: appendColor("Orange")), ("yellow", lambda: appendColor("Yellow")), ("green", lambda: appendColor("Green")), ("blue", lambda: appendColor("Blue")), ("purple", lambda: appendColor("Purple")), ("red", lambda: appendColor("red"))];
+
+		# this function will append the color to the list, then update the display label
+		def appendColor (c):
+			if (c == "red" and len(colors) > 0):
+				colors.pop();
+			elif (c != "red" and len(colors) < 5):
+				colors.append(c);
+			colorsLabel.configure(text=str(colors));
+
+		# create the buttons in order
+		count = 0;
+		for row in range(2, self.other.rows):
+			for col in range(self.other.cols):
+
+				key = Button(self.other, bg=colorButtons[count][0], text=colorButtons[count][0], font=("TexGyreAdventor", 25), relief="groove", borderwidth=10, activebackground="grey", command=colorButtons[count][1]);
+				key.grid(row=row, column=col, sticky=N+S+E+W, padx=1, pady=1);
+
+				count += 1;
+
+		# configure and pack the grid for display
+		for row in range(self.other.rows):
+			Grid.rowconfigure(self.other, row, weight=1);
+		Grid.columnconfigure(self.other, 0, weight=4);			# make the done button bigger than the back button
+		for col in range(1, self.other.cols):
+			Grid.columnconfigure(self.other, col, weight=1);
 		self.other.pack(fill=BOTH, expand=True);
 
 		self.chooseCorrect();
