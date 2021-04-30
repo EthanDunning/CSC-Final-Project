@@ -11,13 +11,10 @@ class MainGUI(Frame):
     def __init__(self, parent):
         Frame.__init__(self, parent, bg="white")
         parent.attributes("-fullscreen", False)
-
         self.rows=1
         self.cols=1
         self.pack(fill=BOTH, expand=True)
         self.reset()
-        
-        
 
     def reset(self):
         self.Alive = True
@@ -49,8 +46,7 @@ class MainGUI(Frame):
         self.hp.set("[{}{}]".format("X"*self.strikes, " "*(self.maxstrikes-self.strikes)))
         self.loc = "Home"
         self.counter = None
-        
-        
+
         self.Module_1_Started = False
         self.Module_2_Started = False
         self.Module_3_Started = False
@@ -149,8 +145,6 @@ class MainGUI(Frame):
         self.Module_6 = None
 
         self.start_screen()
-        
-        
 
     def start_screen(self):
         self.clearFrame()
@@ -171,23 +165,16 @@ class MainGUI(Frame):
         Grid.columnconfigure(self, 0, weight=1)
 
         self.pack(fill=BOTH, expand=True)
-  
 
     def MainMenu(self):
-
         self.clearFrame()
         self.loc="Home"
         self.rows = 4
         self.cols = 3
-
         self.pause_button(0, 0, 3)
-
         self.countdown(1, 0, 1)
-        
-
         self.location(1, 1, 1)
         self.health(1, 2, 1)
-
         self.Button1(2, 0, 1)
         self.Button2(2, 1, 1)
         self.Button3(2, 2, 1)
@@ -226,7 +213,6 @@ class MainGUI(Frame):
             
     def pause(self):
         self.clearFrame()
-
         self.rows = 3
         self.cols = 1
 
@@ -240,7 +226,6 @@ class MainGUI(Frame):
                       borderwidth=10, activebackground="light grey", command=lambda: self.quit())
         _quit.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=1)
 
-        
         Grid.rowconfigure(self, 0, weight=1)
         Grid.rowconfigure(self, 1, weight=1)
         Grid.rowconfigure(self, 2, weight=1)
@@ -308,7 +293,6 @@ class MainGUI(Frame):
         if self.counter is None:
             self.counter = self.after(1000, self.update_timer)
         
-
     def strike(self):
         self.strikes += 1
         self.hp.set("[{}{}]".format("X"*self.strikes, " "*(self.maxstrikes-self.strikes)))
@@ -528,14 +512,10 @@ class MainGUI(Frame):
         except:
             pass
 
-    
-
-
     def Game_Over(self):
 #       GPIO.cleanup()
         self.Alive = False
         self.clearFrame()
-
         self.rows = 3
         self.cols = 3
 
@@ -577,7 +557,6 @@ class MainGUI(Frame):
 
     def Game_Win(self):
         self.clearFrame()
-
         self.rows = 3
         self.cols = 3
 
@@ -595,7 +574,7 @@ class MainGUI(Frame):
                          bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         Strikes.grid(row=0, column=2, sticky=N+S+E+W,
                       padx=5, pady=5, columnspan=1, rowspan=1)
-        
+
         self.countdown(1, 0, 1)
         self.health(1, 2, 1)
 
@@ -613,7 +592,6 @@ class MainGUI(Frame):
         Grid.columnconfigure(self, 0, weight=1)
         Grid.columnconfigure(self, 1, weight=5)
         Grid.columnconfigure(self, 2, weight=1)
-
 
         self.pack(fill=BOTH, expand=True)
 
