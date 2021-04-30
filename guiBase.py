@@ -17,11 +17,12 @@ class MainGUI(Frame):
         self.reset()
 
     def reset(self):
+        GPIO.cleanup()
         self.Alive = True
         self.maxstrikes = 2
         self.startmins = IntVar()
         self.startsecs = IntVar()
-        self.startmins = 1
+        self.startmins = 10
         self.startsecs = 0
         self.timer_pause = False
         self.timer = None
@@ -147,6 +148,7 @@ class MainGUI(Frame):
         self.start_screen()
 
     def start_screen(self):
+        GPIO.cleanup()
         self.clearFrame()
         self.rows = 2
         self.cols = 1
@@ -167,6 +169,7 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def MainMenu(self):
+        GPIO.cleanup()
         self.clearFrame()
         self.loc="Home"
         self.rows = 4
@@ -196,6 +199,7 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def clearFrame(self):
+        GPIO.cleanup()
         if self.counter is not None:
             self.after_cancel(self.counter)
             self.counter = None
@@ -513,7 +517,7 @@ class MainGUI(Frame):
             pass
 
     def Game_Over(self):
-#       GPIO.cleanup()
+        GPIO.cleanup()
         self.Alive = False
         self.clearFrame()
         self.rows = 3
@@ -552,9 +556,11 @@ class MainGUI(Frame):
         Grid.columnconfigure(self, 1, weight=5)
         Grid.columnconfigure(self, 2, weight=1)
 
+
         self.pack(fill=BOTH, expand=True)
 
     def Game_Win(self):
+        GPIO.cleanup()
         self.clearFrame()
         self.rows = 3
         self.cols = 3
