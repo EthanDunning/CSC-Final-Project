@@ -8,15 +8,11 @@ class Module_The_Button(Game):
     def __init__(self,other):
         super().__init__() 
         self.other = other
-
-        
         self.name = "The Button"
-        
-        
         self.other.loc = "The Button"
 
         self.Module_Started = False
-        self.Module_Done = False
+        self.Module_Done = True
 
         
         self.main(self.Module_Started)
