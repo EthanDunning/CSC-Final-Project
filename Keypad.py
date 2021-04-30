@@ -25,8 +25,7 @@ class Module_Keypad(Game):
         self.other.cols = 6
         self.other.pause_button(0, 0, 3)
         self.other.back_button(0, 3, 3)
-        self.other.countdown(self.other.mins, self.other.secs, 1, 0, 2)
-        self.other.counter = self.other.after(1000, self.other.update_timer, 1, 0, 2)
+        self.other.countdown(1, 0, 2)
         self.other.location(1, 2, 2)
         self.other.health(1, 4, 2)
 
@@ -66,23 +65,24 @@ class Module_Keypad(Game):
             #print(column)
             self.Module_Started = True
 
+        
 
-        keypad_1 = Button(self.other, bg="lemon chiffon", text=self.symbol_1, font=("Wingdings", 25),
+        keypad_1 = Button(self.other, bg="lemon chiffon", text=self.symbol_1, font=("Wingdings", 35),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_1))
         keypad_1.grid(row=3, column=0, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
         
-        keypad_2 = Button(self.other, bg="lemon chiffon", text=self.symbol_2, font=("Wingdings", 25),
+        keypad_2 = Button(self.other, bg="lemon chiffon", text=self.symbol_2, font=("Wingdings", 35),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_2))
         keypad_2.grid(row=3, column=3, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
                     
-        keypad_3 = Button(self.other, bg="lemon chiffon", text=self.symbol_3, font=("Wingdings", 25),
+        keypad_3 = Button(self.other, bg="lemon chiffon", text=self.symbol_3, font=("Wingdings", 35),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_3))
         keypad_3.grid(row=5, column=0, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
 
-        keypad_4 = Button(self.other, bg="lemon chiffon", text=self.symbol_4, font=("Wingdings", 25),
+        keypad_4 = Button(self.other, bg="lemon chiffon", text=self.symbol_4, font=("Wingdings", 35),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_4))
         keypad_4.grid(row=5, column=3, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
@@ -115,12 +115,6 @@ class Module_Keypad(Game):
 
         self.other.pack(fill=BOTH, expand=True)
 
-        if self.keypad_correct >= 4:
-                self.keypad_correct = 4
-                self.Module_Done = True
-                return self.Module_Done
-                self.other.MainMenu()
-
         def keypad_check(input):
             if self.keypad_correct <= 3:
                 if input == self.key_order[self.keypad_correct]:
@@ -142,4 +136,9 @@ class Module_Keypad(Game):
                     self.label_3_color = "dim gray"
                     self.label_4_color = "dim gray"
                     self.main(self.Module_Started)
-                    self.other.strike(1, 4, 2)
+                    self.other.strike()
+
+        if self.keypad_correct >= 4:
+            self.keypad_correct = 4
+            self.Module_Done = True
+            self.other.MainMenu() 

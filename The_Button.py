@@ -28,8 +28,7 @@ class Module_The_Button(Game):
         self.other.cols = 6
         self.other.pause_button(0, 0, 3)
         self.other.back_button(0, 3, 3)
-        self.other.countdown(self.other.mins, self.other.secs, 1, 0, 2)
-        self.other.counter = self.other.after(1000, self.other.update_timer, 1, 0,2)
+        self.other.countdown(1, 0, 2)
         self.other.location(1, 2, 2)
         self.other.health(1, 4, 2)
 
