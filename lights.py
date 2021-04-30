@@ -21,9 +21,9 @@ class flashing_lights():
     def __init__(self, leds, switches):
         self.leds = leds
         self.switches = switches
-        self.complete = False
+        self.module_Started = False
+        self.module_Done = False
     def game_start(self):
-        complete = False
         light_1 = random.choice(self.leds)
         while complete == False:
             GPIO.output(light_1, GPIO.HIGH)
@@ -34,24 +34,24 @@ class flashing_lights():
             if light_1 == 17 and GPIO.input(self.switches[0]) == GPIO.HIGH:
                 sleep(3)
                 if GPIO.input(switches[0]) == GPIO.HIGH:
-                    complete = True
-                    return complete
+                    self.module_Done = True
+                    return self.module_Done
             
 
             # Blue light 2, 4
             elif light_1 == 12 and GPIO.input(self.switches[1]) == GPIO.HIGH and GPIO.input(self.switches[3]) == GPIO.HIGH:
                 sleep(3)
                 if GPIO.input(self.switches[1]) == GPIO.HIGH and GPIO.input(self.switches[3]) == GPIO.HIGH:
-                    complete = True
-                    return complete
+                    self.module_Done = True
+                    return self.module_Done
             
 
             # Green light 4
             elif light_1 == 13 and GPIO.input(self.switches[3]) == GPIO.HIGH:
                 sleep(3)
                 if GPIO.input(self.switches[3]) == GPIO.HIGH:
-                    complete = True
-                    return complete
+                    self.module_Done = True
+                    return self.module_Done
 
             
 
@@ -59,8 +59,8 @@ class flashing_lights():
             elif light_1 == 16 and GPIO.input(self.switches[1]) == GPIO.HIGH and GPIO.input(self.switches[2]) == GPIO.HIGH:
                 sleep(3)
                 if GPIO.input(self.switches[1]) == GPIO.HIGH and GPIO.input(self.switches[2]) == GPIO.HIGH:
-                    complete = True
-                    return complete
+                    self.module_Done = True
+                    return self.module_Done
 
     
 leds = [17, 16, 13, 12]
