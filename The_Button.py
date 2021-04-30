@@ -10,15 +10,11 @@ class Module_The_Button(Game):
         self.other = other
         self.name = "The Button"
         self.other.loc = "The Button"
-
         self.Module_Started = False
         self.Module_Done = True
-
-        
         self.main(self.Module_Started)
 
     def main(self, started):
-
         self.other.clearFrame()
         self.other.rows = 3
         self.other.cols = 6
@@ -29,15 +25,12 @@ class Module_The_Button(Game):
         self.other.health(1, 4, 2)
 
         if started == False:
-
             self.Module_Started = True
             button_colors = ["red", "blue", "yellow", "white", "dim gray"]
             button_labels = ["Abort", "Detonate", "Hold", "Press"]
             self.strip_color = choice(button_colors)
             self.button_color = choice(button_colors)
             self.button_label = choice(button_labels)
-
-
 
         button = Label(self.other, bg=self.button_color, text=self.button_label, font=(
             "TexGyreAdventor", 25), borderwidth=10, relief="raised")

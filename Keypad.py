@@ -7,20 +7,15 @@ class Module_Keypad(Game):
     def __init__(self,other):
         super().__init__()
         self.other = other
-
         self.name = "Keypad"
-
         self.other.loc = "Keypad"
-
         self.Module_Started = False
         self.Module_Done = False
-
         self.main(self.Module_Started)
 
     def main(self, started):
 
         self.other.clearFrame()
-
         self.other.rows = 6
         self.other.cols = 6
         self.other.pause_button(0, 0, 3)
@@ -43,14 +38,11 @@ class Module_Keypad(Game):
         if started == False:
             
             self.keypad_correct = 0
-            
             self.keys = sample(column,4)
-            #print(keys)
             self.symbol_1 = symbols[self.keys[0]]
             self.symbol_2 = symbols[self.keys[1]]
             self.symbol_3 = symbols[self.keys[2]]
             self.symbol_4 = symbols[self.keys[3]]
-
             self.label_1_color = "dim gray"
             self.label_2_color = "dim gray"
             self.label_3_color = "dim gray"
@@ -64,8 +56,6 @@ class Module_Keypad(Game):
             #print(self.key_order)
             #print(column)
             self.Module_Started = True
-
-        
 
         keypad_1 = Button(self.other, bg="lemon chiffon", text=self.symbol_1, font=("Wingdings", 35),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_1))
