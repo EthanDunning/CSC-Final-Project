@@ -30,10 +30,10 @@ class MainGUI(Frame):
         self.strikes = 0
         self.loc = "Home"
         self.counter = None
-        self.Module_1 = None
+        self.Module_1 = Module_The_Button(p)
         self.Module_2 = None
         self.Module_3 = None
-        self.Module_4 = None
+        self.Module_4 = Module_Keypad(p)
         self.Module_5 = None
         self.Module_6 = None
         self.Module_1_Started = False
@@ -318,7 +318,7 @@ class MainGUI(Frame):
             button_color = "tomato"
             background = "slate blue"
         button = Button(self, bg=button_color, text="The Button", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_4", Module_Keypad(p)))
+                        borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_1"))
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -330,7 +330,7 @@ class MainGUI(Frame):
             button_color = "tomato"
             background = "slate blue"
         button = Button(self, bg=button_color, text="Strike", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground=background, command=lambda: self.strike(1, 2, 1))
+                        borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_2"))
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -342,7 +342,7 @@ class MainGUI(Frame):
             button_color = "tomato"
             background = "slate blue"
         button = Button(self, bg=button_color, text="Module 3", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground=background, command=lambda: print("pushed 3"))
+                        borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_3"))
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -354,7 +354,7 @@ class MainGUI(Frame):
             button_color = "tomato"
             background = "slate blue"
         button = Button(self, bg=button_color, text="Keypad", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_4", Module_Keypad(p)))
+                        borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_4"))
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -366,7 +366,7 @@ class MainGUI(Frame):
             button_color = "tomato"
             background = "slate blue"
         button = Button(self, bg=button_color, text="Keypad 2", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_5", Module_Keypad(p)))
+                        borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_5"))
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -378,47 +378,41 @@ class MainGUI(Frame):
             button_color = "tomato"
             background = "slate blue"
         button = Button(self, bg=button_color, text="Keypad 3", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_6", Module_Keypad(p)))
+                        borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_6"))
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
     
-    def Module_Setup(self, Button, Module):
+    def Module_Setup(self, Button):
         
         if Button == "Module_1":
             if self.Module_1_Started == False:
                 self.Module_1_Started = True
-                self.Module1 = Module
             self.Module1.main(self.Module_1_Started)
 
         elif Button == "Module_2":
             if self.Module_2_Started == False:
                 self.Module_2_Started = True
-                self.Module2 = Module
             self.Module2.main(self.Module_2_Started)
 
         elif Button == "Module_3":
             if self.Module_3_Started == False:
                 self.Module_3_Started = True
-                self.Module3 = Module
             self.Module3.main(self.Module_3_Started)
 
         elif Button == "Module_4":
             if self.Module_4_Started == False:
                 self.Module_4_Started = True
-                self.Module4 = Module
             self.Module4.main(self.Module_4_Started)
                 
         elif Button == "Module_5":
             if self.Module_5_Started == False:
                 self.Module_5_Started = True
-                self.Module5 = Module
             self.Module5.main(self.Module_5_Started)
 
         elif Button == "Module_6":
             if self.Module_6_Started == False:
                 self.Module_6_Started = True
-                self.Module6 = Module
             self.Module6.main(self.Module_6_Started)
         #self.MainMenu()
 
