@@ -1,25 +1,37 @@
 from Game import Game
 #import RPi.GPIO as GPIO
+from tkinter import *
+from random import *
+from math import *
 
 class Module_The_Button(Game):
     def __init__(self,other):
         super().__init__() 
-        self.other.clearFrame()
+        self.other = other
 
-        self.other.rows = 3
-        self.other.cols = 6
+        
+        self.name = "The Button"
+        
+        
         self.other.loc = "The Button"
-        self.Module_Started = False
 
-        self.other.pause_button(0, 0, 3)
-        self.other.back_button(0, 3, 3)
-        self.other.countdown(self.other.mins, self.other.secs, 1, 0, 2)
-        self.other.counter = self.other.after(1000, self.other.update_timer, 1, 0,2)
-        self.other.location(1, 2, 2)
-        self.other.health(1, 4, 2)
-        self.main(started)
+        self.Module_Started = False
+        self.Module_Done = False
+
+        
+        self.main(self.Module_Started)
 
     def main(self, started):
+
+        self.other.clearFrame()
+        self.other.rows = 3
+        self.other.cols = 6
+        self.other.pause_button(0, 0, 3)
+        self.other.back_button(0, 3, 3)
+        self.other.countdown(1, 0, 2)
+        self.other.location(1, 2, 2)
+        self.other.health(1, 4, 2)
+
         if started == False:
 
             self.Module_Started = True
