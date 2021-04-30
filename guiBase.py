@@ -122,10 +122,10 @@ class MainGUI(Frame):
         def cols(self, value):
             self._cols = value
 
-        self.Module_1 = Module_The_Button(p)
+        self.Module_1 = Module_The_Button(self)
         self.Module_2 = None
         self.Module_3 = None
-        self.Module_4 = Module_Keypad(p)
+        self.Module_4 = Module_Keypad(self)
         self.Module_5 = None
         self.Module_6 = None
 
@@ -155,8 +155,6 @@ class MainGUI(Frame):
   
 
     def MainMenu(self):
-
-        print(self.Module_4.name)
 
         self.clearFrame()
         self.loc="Home"
