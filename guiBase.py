@@ -5,6 +5,7 @@ from datetime import *
 from random import *
 from math import *
 from Keypad import *
+from The_Button import *
 
 # the main GUI
 
@@ -29,6 +30,12 @@ class MainGUI(Frame):
         self.strikes = 0
         self.loc = "Home"
         self.counter = None
+        self.Module_1 = None
+        self.Module_2 = None
+        self.Module_3 = None
+        self.Module_4 = None
+        self.Module_5 = None
+        self.Module_6 = None
         self.Module_1_Started = False
         self.Module_2_Started = False
         self.Module_3_Started = False
@@ -311,7 +318,7 @@ class MainGUI(Frame):
             button_color = "tomato"
             background = "slate blue"
         button = Button(self, bg=button_color, text="The Button", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground=background, command=lambda: self.Module_The_Button(self.Module_1_Started))
+                        borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_4", Module_Keypad(p)))
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -347,7 +354,7 @@ class MainGUI(Frame):
             button_color = "tomato"
             background = "slate blue"
         button = Button(self, bg=button_color, text="Keypad", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground=background, command=lambda: self.Keypad_Call("Module_4"))
+                        borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_4", Module_Keypad(p)))
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -358,8 +365,8 @@ class MainGUI(Frame):
         else:
             button_color = "tomato"
             background = "slate blue"
-        button = Button(self, bg=button_color, text="Module 5", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground=background, command=lambda: print("pushed 5"))
+        button = Button(self, bg=button_color, text="Keypad 2", font=("TexGyreAdventor", 25),
+                        borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_5", Module_Keypad(p)))
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -370,61 +377,49 @@ class MainGUI(Frame):
         else:
             button_color = "tomato"
             background = "slate blue"
-        button = Button(self, bg=button_color, text="Module 6", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground=background, command=lambda: print("pushed 6"))
+        button = Button(self, bg=button_color, text="Keypad 3", font=("TexGyreAdventor", 25),
+                        borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_6", Module_Keypad(p)))
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
     
-
-
-    def Keypad_Call(self, Module):
+    def Module_Setup(self, Button, Module):
         
-        if Module == "Module_1":
+        if Button == "Module_1":
             if self.Module_1_Started == False:
                 self.Module_1_Started = True
-                keypad1 = Module_Keypad(p)
-            
-            self.Module_1_Done =  keypad1
-                
-        elif Module == "Module_2":
+                self.Module1 = Module
+            self.Module1.main(self.Module_1_Started)
+
+        elif Button == "Module_2":
             if self.Module_2_Started == False:
                 self.Module_2_Started = True
-                keypad2 = Module_Keypad(p)
-            
-            self.Module_2_Done =  keypad2
-                
-        elif Module == "Module_3":
+                self.Module2 = Module
+            self.Module2.main(self.Module_2_Started)
+
+        elif Button == "Module_3":
             if self.Module_3_Started == False:
                 self.Module_3_Started = True
-                keypad3 = Module_Keypad(p)
-            
-            self.Module_3_Done =  keypad3
-                
-        elif Module == "Module_4":
+                self.Module3 = Module
+            self.Module3.main(self.Module_3_Started)
+
+        elif Button == "Module_4":
             if self.Module_4_Started == False:
-                print("Started")
                 self.Module_4_Started = True
-                keypad4 = Module_Keypad(p)
-            print(self.Module_4_Done)
-            self.Module_4_Done =  keypad4
-            print(self.Module_4_Done)
+                self.Module4 = Module
+            self.Module4.main(self.Module_4_Started)
                 
-        elif Module == "Module_5":
+        elif Button == "Module_5":
             if self.Module_5_Started == False:
                 self.Module_5_Started = True
-                keypad5 = Module_Keypad(p)
-            
-            self.Module_5_Done =  keypad5
-                
-        elif Module == "Module_6":
+                self.Module5 = Module
+            self.Module5.main(self.Module_5_Started)
+
+        elif Button == "Module_6":
             if self.Module_6_Started == False:
                 self.Module_6_Started = True
-                keypad6 = Module_Keypad(p)
-            
-            self.Module_6_Done =  keypad6
-                
-
+                self.Module6 = Module
+            self.Module6.main(self.Module_6_Started)
         #self.MainMenu()
 
     
