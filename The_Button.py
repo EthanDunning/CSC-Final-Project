@@ -1,5 +1,5 @@
 from Game import Game
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 from tkinter import *
 from random import *
 from math import *
