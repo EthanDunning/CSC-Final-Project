@@ -7,25 +7,28 @@ class Module_Keypad(Game):
     def __init__(self,other):
         super().__init__()
         self.other = other
-        self.other.clearFrame()   
 
-        self.other.rows = 6
-        self.other.cols = 6
+        self.name = "Keypad"
+
         self.other.loc = "Keypad"
 
         self.Module_Started = False
         self.Module_Done = False
 
+        self.main(self.Module_Started)
+
+    def main(self, started):
+
+        self.other.clearFrame()
+
+        self.other.rows = 6
+        self.other.cols = 6
         self.other.pause_button(0, 0, 3)
         self.other.back_button(0, 3, 3)
         self.other.countdown(self.other.mins, self.other.secs, 1, 0, 2)
         self.other.counter = self.other.after(1000, self.other.update_timer, 1, 0, 2)
         self.other.location(1, 2, 2)
         self.other.health(1, 4, 2)
-
-        self.main(self.Module_Started)
-
-    def main(self, started):
 
         symbols = {1:"a", 2:"n", 3:"R", 4:"D", 5:".", 6:"C", 7:"b", 8:"e", 9:"c", 10:"d", 11:"S", 12:"l", 13:"N", 14:"f", 15:"-", 16:"A", 17:"o", 18:"J", 19:"M", 20:"E", 21:",", 22:"F", 23:"g", 24:"m", 25:"T", 26:"L", 27:"/"}
         column1 = [1,2,3,13,5,6,7]
@@ -116,6 +119,7 @@ class Module_Keypad(Game):
                 self.keypad_correct = 4
                 self.Module_Done = True
                 return self.Module_Done
+                self.other.MainMenu()
 
         def keypad_check(input):
             if self.keypad_correct <= 3:
