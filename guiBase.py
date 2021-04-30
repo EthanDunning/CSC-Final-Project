@@ -122,15 +122,12 @@ class MainGUI(Frame):
         def cols(self, value):
             self._cols = value
 
-        global p 
-
         self.Module_1 = Module_The_Button(p)
         self.Module_2 = None
         self.Module_3 = None
         self.Module_4 = Module_Keypad(p)
         self.Module_5 = None
         self.Module_6 = None
-
 
         self.start_screen()
         
@@ -609,8 +606,6 @@ window = Tk()
 window.title("Continue Speaking And Everyone Lives")
 window.geometry("800x400")
 # generate the GUI
-global p
 p = MainGUI(window)
-global p
 # display the GUI and wait for user interaction
 p.mainloop()
