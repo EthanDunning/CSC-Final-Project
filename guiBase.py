@@ -18,6 +18,7 @@ class MainGUI(Frame):
         self.cols=1
         
         self.reset()
+        
 
     def reset(self):
         self.Alive = True
@@ -30,12 +31,8 @@ class MainGUI(Frame):
         self.strikes = 0
         self.loc = "Home"
         self.counter = None
-        self.Module_1 = Module_The_Button(p)
-        self.Module_2 = None
-        self.Module_3 = None
-        self.Module_4 = Module_Keypad(p)
-        self.Module_5 = None
-        self.Module_6 = None
+        
+        
         self.Module_1_Started = False
         self.Module_2_Started = False
         self.Module_3_Started = False
@@ -126,7 +123,16 @@ class MainGUI(Frame):
         def cols(self, value):
             self._cols = value
 
+        self.Module_1 = None
+        self.Module_2 = None
+        self.Module_3 = None
+        self.Module_4 = None
+        self.Module_5 = None
+        self.Module_6 = None
+
+
         self.start_screen()
+        
 
     def start_screen(self):
         self.clearFrame()

@@ -4,7 +4,7 @@ from Game import Game
 class Module_The_Button(Game):
     def __init__(self,other):
         super().__init__() 
-        self.other.clearFrame()
+        self.clearFrame()
 
         self.other.rows = 3
         self.other.cols = 6
