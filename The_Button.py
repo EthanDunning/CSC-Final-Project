@@ -7,19 +7,19 @@ from time import *
 GPIO.setwarnings(False)
 class Module_The_Button(Game):
     def __init__(self,other):
-        super().__init__() 
+        super().__init__(button_input) 
         self.other = other
         self.name = "The Button"
         self.other.loc = "The Button"
         self.Module_Started = False
         self.Module_Done = False
-        self.button = 25
+        self.button = button_input
         self.main(self.Module_Started)
         self.start = None
         self.end = None
         self.button_time = None
         self.button_pressed = None
-        
+        self.Modules_Completed
         self.button_checker = None
         #self.button_test()
         
@@ -33,6 +33,10 @@ class Module_The_Button(Game):
         self.other.countdown(1, 0, 2)
         self.other.location(1, 2, 2)
         self.other.health(1, 4, 2)
+
+        for module in self.other.Modules:
+            if module = True:
+                self.Modules_Completed += 1
 
         if started == False:
             self.Module_Started = True
@@ -75,7 +79,7 @@ class Module_The_Button(Game):
     def button_check(self):
         if self.Module_Started == True:
             self.button_pressed = None
-            GPIO.output(26, GPIO.input(self.button))
+            #GPIO.output(26, GPIO.input(self.button))
             if GPIO.input(self.button) == 1 and self.end==None and self.start==None:
                 self.start = time()
                 #print("started")
@@ -119,6 +123,32 @@ class Module_The_Button(Game):
 
                     elif len(self.button_color) > 4:
                         self.held_button()
+
+                elif self.button_color == "gray":
+                    self.held_button()
+
+                elif self.button_color == "yellow":
+                    if self.Modules_Completed <= 3:
+                        if self.button_pressed==True:
+                            self.button_win()
+                        else:
+                            self.other.strike()
+
+                elif self.button_color == "red":
+                    if self.button_pressed==True:
+                            self.button_win()
+                        else:
+                            self.other.strike()
+
+                if self.Modules_Completed > 6:
+                    if self.button_pressed==True:
+                            self.button_win()
+                        else:
+                            self.other.strike()
+                    
+                else:
+                    self.held_button()
+                    
 
     def held_button(self):
         
