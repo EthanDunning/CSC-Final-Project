@@ -78,13 +78,13 @@ class Module_The_Button(Game):
             GPIO.output(26, GPIO.input(self.button))
             if GPIO.input(self.button) == 1 and self.end==None and self.start==None:
                 self.start = time()
-                print("started")
+                #print("started")
                 self.strip.configure(bg=self.strip_color)
             if (GPIO.input(self.button) == 0 and self.start!=None and self.end==None):
                 self.end = time()
-                print("ended")
+                #print("ended")
                 self.button_time = (self.end-self.start)
-                print(self.button_time)
+                #print(self.button_time)
                 if self.button_time >= 0.001:
                     if self.button_time <= 1:
                         self.button_pressed = True
