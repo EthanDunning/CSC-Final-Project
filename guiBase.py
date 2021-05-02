@@ -139,7 +139,7 @@ class MainGUI(Frame):
         def cols(self, value):
             self._cols = value
 
-        self.Module_1 = Module_The_Button(self)
+        self.Module_1 = Module_The_Button(self,25)
         self.Module_2 = None
         self.Module_3 = None
         self.Module_4 = Module_Keypad(self)
