@@ -56,22 +56,22 @@ class Module_Keypad(Game):
             #print(column)
             self.Module_Started = True
 
-        keypad_1 = Button(self.other, bg="lemon chiffon", text=self.symbol_1, font=("Wingdings", 35),
+        keypad_1 = Button(self.other, bg="lemon chiffon", text=self.symbol_1, font=("Wingdings", 45),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_1))
         keypad_1.grid(row=3, column=0, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
         
-        keypad_2 = Button(self.other, bg="lemon chiffon", text=self.symbol_2, font=("Wingdings", 35),
+        keypad_2 = Button(self.other, bg="lemon chiffon", text=self.symbol_2, font=("Wingdings", 45),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_2))
         keypad_2.grid(row=3, column=3, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
                     
-        keypad_3 = Button(self.other, bg="lemon chiffon", text=self.symbol_3, font=("Wingdings", 35),
+        keypad_3 = Button(self.other, bg="lemon chiffon", text=self.symbol_3, font=("Wingdings", 45),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_3))
         keypad_3.grid(row=5, column=0, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
 
-        keypad_4 = Button(self.other, bg="lemon chiffon", text=self.symbol_4, font=("Wingdings", 35),
+        keypad_4 = Button(self.other, bg="lemon chiffon", text=self.symbol_4, font=("Wingdings", 45),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_4))
         keypad_4.grid(row=5, column=3, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
@@ -95,12 +95,12 @@ class Module_Keypad(Game):
         for col in range(self.other.cols):
             Grid.columnconfigure(self.other, col, weight=3)
         
-        Grid.rowconfigure(self.other, 0, weight=0)
-        Grid.rowconfigure(self.other, 1, weight=0)
-        Grid.rowconfigure(self.other, 2, weight=5)
-        Grid.rowconfigure(self.other, 3, weight=10)
-        Grid.rowconfigure(self.other, 4, weight=5)
-        Grid.rowconfigure(self.other, 5, weight=10)
+        Grid.rowconfigure(self.other, 0, weight=2)
+        Grid.rowconfigure(self.other, 1, weight=1)
+        Grid.rowconfigure(self.other, 2, weight=1)
+        Grid.rowconfigure(self.other, 3, weight=2)
+        Grid.rowconfigure(self.other, 4, weight=1)
+        Grid.rowconfigure(self.other, 5, weight=2)
 
         self.other.pack(fill=BOTH, expand=True)
 

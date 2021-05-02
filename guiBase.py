@@ -140,9 +140,9 @@ class MainGUI(Frame):
             self._cols = value
 
         self.Module_1 = Module_The_Button(self,25)
-        self.Module_2 = None
+        self.Module_2 = Module_Keypad(self)
         self.Module_3 = None
-        self.Module_4 = Module_Keypad(self)
+        self.Module_4 = None
         self.Module_5 = None
         self.Module_6 = None
 
@@ -211,8 +211,8 @@ class MainGUI(Frame):
         except:
             self.Module_6_Done = True
 
-        Grid.rowconfigure(self, 0, weight=0)
-        Grid.rowconfigure(self, 1, weight=0)
+        Grid.rowconfigure(self, 0, weight=1)
+        Grid.rowconfigure(self, 1, weight=1)
 
         for row in range(2, self.rows):
             Grid.rowconfigure(self, row, weight=3)

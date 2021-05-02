@@ -52,7 +52,7 @@ class Module_The_Button(Game):
             self.strip_color = choice(strip_colors)
     
         the_button = Label(self.other, bg=self.button_color, text=self.button_label, font=(
-            "TexGyreAdventor", 25), borderwidth=10, relief="raised")
+            "TexGyreAdventor", 45), borderwidth=10, relief="raised")
         the_button.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=5)
 
         self.strip = Label(self.other, text="", bg="black",
@@ -60,7 +60,7 @@ class Module_The_Button(Game):
         self.strip.grid(row=2, column=(self.other.cols-1), sticky=N+S+E+W, padx=5, pady=5, columnspan=1)
 
         for row in range(0, self.other.rows):
-            Grid.rowconfigure(self.other, row, weight=0)
+            Grid.rowconfigure(self.other, row, weight=2)
         Grid.rowconfigure(self.other, 2, weight=5)
 
         for col in range(self.other.cols):
