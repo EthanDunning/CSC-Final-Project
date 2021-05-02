@@ -6,21 +6,22 @@ from math import *
 from time import *
 GPIO.setwarnings(False)
 class Module_The_Button(Game):
-    def __init__(self,other):
-        super().__init__(button_input) 
+    def __init__(self,other,button_input):
+        super().__init__() 
         self.other = other
         self.name = "The Button"
         self.other.loc = "The Button"
         self.Module_Started = False
         self.Module_Done = False
         self.button = button_input
-        self.main(self.Module_Started)
+        
         self.start = None
         self.end = None
         self.button_time = None
         self.button_pressed = None
-        self.Modules_Completed
+        
         self.button_checker = None
+        self.main(self.Module_Started)
         #self.button_test()
         
     def main(self, started):
@@ -33,10 +34,12 @@ class Module_The_Button(Game):
         self.other.countdown(1, 0, 2)
         self.other.location(1, 2, 2)
         self.other.health(1, 4, 2)
-
-        for module in self.other.Modules:
-            if module = True:
+        self.Modules_Completed = 0
+        for module in self.other.Modules_Done:
+            if module == True:
                 self.Modules_Completed += 1
+
+        print(self.Modules_Completed)
 
         if started == False:
             self.Module_Started = True
@@ -70,7 +73,7 @@ class Module_The_Button(Game):
             GPIO.setup(26, GPIO.OUT)
             GPIO.setup(self.button, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
             GPIO.remove_event_detect(self.button)
-            GPIO.add_event_detect(self.button, GPIO.BOTH, callback=lambda *a: self.button_check(), bouncetime=10)
+            GPIO.add_event_detect(self.button, GPIO.BOTH, callback=lambda *a: self.button_check(), bouncetime=100)
         except:
             pass
 
@@ -85,15 +88,15 @@ class Module_The_Button(Game):
                 #print("started")
                 self.strip.configure(bg=self.strip_color)
             if (GPIO.input(self.button) == 0 and self.start!=None and self.end==None):
+                self.strip.configure(bg="black")
                 self.end = time()
                 #print("ended")
                 self.button_time = (self.end-self.start)
                 #print(self.button_time)
-                if self.button_time >= 0.001:
-                    if self.button_time <= 1:
-                        self.button_pressed = True
-                    else:
-                        self.button_pressed = False
+                self.button_pressed = True
+                if self.button_time >= 1:
+                    self.button_pressed = False
+                        
                 self.start = None
                 self.end = None
             
@@ -127,24 +130,23 @@ class Module_The_Button(Game):
                 elif self.button_color == "gray":
                     self.held_button()
 
-                elif self.button_color == "yellow":
-                    if self.Modules_Completed <= 3:
-                        if self.button_pressed==True:
-                            self.button_win()
-                        else:
-                            self.other.strike()
+                elif self.button_color == "yellow" and self.Modules_Completed <= 3:
+                    if self.button_pressed==True:
+                        self.button_win()
+                    else:
+                        self.other.strike()
 
                 elif self.button_color == "red":
                     if self.button_pressed==True:
                             self.button_win()
-                        else:
-                            self.other.strike()
+                    else:
+                        self.other.strike()
 
-                if self.Modules_Completed > 6:
+                if self.Modules_Completed == 5:
                     if self.button_pressed==True:
                             self.button_win()
-                        else:
-                            self.other.strike()
+                    else:
+                        self.other.strike()
                     
                 else:
                     self.held_button()

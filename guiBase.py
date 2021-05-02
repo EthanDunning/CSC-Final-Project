@@ -19,7 +19,7 @@ class MainGUI(Frame):
     def reset(self):
         GPIO.cleanup()
         self.Alive = True
-        self.maxstrikes = 2
+        self.maxstrikes = 4
         self.startmins = IntVar()
         self.startsecs = IntVar()
         self.startmins = 10
@@ -55,12 +55,12 @@ class MainGUI(Frame):
         self.Module_5_Started = False
         self.Module_6_Started = False
         self.Module_1_Done = False
-        self.Module_2_Done = False
-        self.Module_3_Done = False
+        self.Module_2_Done = True
+        self.Module_3_Done = True
         self.Module_4_Done = False
-        self.Module_5_Done = False
-        self.Module_6_Done = False
-        self.Modules = [self.Module_1_Done, self.Module_2_Done, self.Module_3_Done, self.Module_4_Done, self.Module_5_Done, self.Module_6_Done]
+        self.Module_5_Done = True
+        self.Module_6_Done = True
+        self.Modules_Done = [self.Module_1_Done, self.Module_2_Done, self.Module_3_Done, self.Module_4_Done, self.Module_5_Done, self.Module_6_Done]
 
         @property
         def timer_pause(self):
@@ -185,6 +185,31 @@ class MainGUI(Frame):
         self.Button4(3, 0, 1)
         self.Button5(3, 1, 1)
         self.Button6(3, 2, 1)
+
+        try:
+            self.Module_1_Done = self.Module_1.Module_Done
+        except:
+            self.Module_1_Done = True
+        try:
+            self.Module_2_Done = self.Module_2.Module_Done
+        except:
+            self.Module_2_Done = True
+        try:
+            self.Module_3_Done = self.Module_3.Module_Done
+        except:
+            self.Module_3_Done = True
+        try:
+            self.Module_4_Done = self.Module_4.Module_Done
+        except:
+            self.Module_4_Done = True
+        try:
+            self.Module_5_Done = self.Module_5.Module_Done
+        except:
+            self.Module_5_Done = True
+        try:
+            self.Module_6_Done = self.Module_6.Module_Done
+        except:
+            self.Module_6_Done = True
 
         Grid.rowconfigure(self, 0, weight=0)
         Grid.rowconfigure(self, 1, weight=0)
@@ -554,7 +579,7 @@ class MainGUI(Frame):
             Grid.rowconfigure(self, row, weight=1)
 
         Grid.columnconfigure(self, 0, weight=1)
-        Grid.columnconfigure(self, 1, weight=5)
+        Grid.columnconfigure(self, 1, weight=1)
         Grid.columnconfigure(self, 2, weight=1)
 
 
@@ -563,8 +588,9 @@ class MainGUI(Frame):
     def Game_Win(self):
         GPIO.cleanup()
         self.clearFrame()
-        self.rows = 3
+        self.rows = 4
         self.cols = 3
+        self.timer_pause = True
 
         Time_Left = Label(self, text=f"Time Left:",
                          bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
@@ -586,17 +612,17 @@ class MainGUI(Frame):
 
         start_over = Button(self, bg="red", text="Start Over", font=(
             "TexGyreAdventor", 25), borderwidth=10, activebackground="blue", command=lambda: self.reset())
-        start_over.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
+        start_over.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3, rowspan=1)
 
         quit = Button(self, bg="dim gray", text="Quit", font=("TexGyreAdventor", 25),
                       borderwidth=10, activebackground="light grey", command=lambda: self.quit())
-        quit.grid(row=3, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
+        quit.grid(row=3, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3, rowspan=1)
 
         for row in range(self.rows):
             Grid.rowconfigure(self, row, weight=1)
 
         Grid.columnconfigure(self, 0, weight=1)
-        Grid.columnconfigure(self, 1, weight=5)
+        Grid.columnconfigure(self, 1, weight=1)
         Grid.columnconfigure(self, 2, weight=1)
 
         self.pack(fill=BOTH, expand=True)
