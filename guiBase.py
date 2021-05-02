@@ -60,6 +60,7 @@ class MainGUI(Frame):
         self.Module_4_Done = False
         self.Module_5_Done = False
         self.Module_6_Done = False
+        self.Modules = [self.Module_1_Done, self.Module_2_Done, self.Module_3_Done, self.Module_4_Done, self.Module_5_Done, self.Module_6_Done]
 
         @property
         def timer_pause(self):
@@ -268,7 +269,7 @@ class MainGUI(Frame):
                     self.Game_Over()
 
         if self.mins < 10:
-            if self.secs < 10:
+            if ceil(self.secs) < 10:
                 self.time.set(f"0{self.mins}:0{ceil(self.secs)}")
             else:
                 self.time.set(f"0{self.mins}:{ceil(self.secs)}")
