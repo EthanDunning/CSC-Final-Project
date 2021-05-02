@@ -55,11 +55,11 @@ class MainGUI(Frame):
         self.Module_5_Started = False
         self.Module_6_Started = False
         self.Module_1_Done = False
-        self.Module_2_Done = True
-        self.Module_3_Done = True
+        self.Module_2_Done = False
+        self.Module_3_Done = False
         self.Module_4_Done = False
-        self.Module_5_Done = True
-        self.Module_6_Done = True
+        self.Module_5_Done = False
+        self.Module_6_Done = False
         self.Modules_Done = [self.Module_1_Done, self.Module_2_Done, self.Module_3_Done, self.Module_4_Done, self.Module_5_Done, self.Module_6_Done]
 
         @property

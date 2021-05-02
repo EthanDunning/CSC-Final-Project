@@ -39,7 +39,7 @@ class Module_The_Button(Game):
             if module == True:
                 self.Modules_Completed += 1
 
-        print(self.Modules_Completed)
+        #print(self.Modules_Completed)
 
         if started == False:
             self.Module_Started = True
