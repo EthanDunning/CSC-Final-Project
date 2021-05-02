@@ -17,11 +17,12 @@ class MainGUI(Frame):
         self.reset()
 
     def reset(self):
+        GPIO.cleanup()
         self.Alive = True
         self.maxstrikes = 2
         self.startmins = IntVar()
         self.startsecs = IntVar()
-        self.startmins = 1
+        self.startmins = 10
         self.startsecs = 0
         self.timer_pause = False
         self.timer = None
@@ -59,6 +60,7 @@ class MainGUI(Frame):
         self.Module_4_Done = False
         self.Module_5_Done = False
         self.Module_6_Done = False
+        self.Modules = [self.Module_1_Done, self.Module_2_Done, self.Module_3_Done, self.Module_4_Done, self.Module_5_Done, self.Module_6_Done]
 
         @property
         def timer_pause(self):
@@ -147,6 +149,7 @@ class MainGUI(Frame):
         self.start_screen()
 
     def start_screen(self):
+        GPIO.cleanup()
         self.clearFrame()
         self.rows = 2
         self.cols = 1
@@ -167,6 +170,7 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def MainMenu(self):
+        GPIO.cleanup()
         self.clearFrame()
         self.loc="Home"
         self.rows = 4
@@ -196,6 +200,7 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def clearFrame(self):
+        GPIO.cleanup()
         if self.counter is not None:
             self.after_cancel(self.counter)
             self.counter = None
@@ -264,7 +269,7 @@ class MainGUI(Frame):
                     self.Game_Over()
 
         if self.mins < 10:
-            if self.secs < 10:
+            if ceil(self.secs) < 10:
                 self.time.set(f"0{self.mins}:0{ceil(self.secs)}")
             else:
                 self.time.set(f"0{self.mins}:{ceil(self.secs)}")
@@ -513,7 +518,7 @@ class MainGUI(Frame):
             pass
 
     def Game_Over(self):
-#       GPIO.cleanup()
+        GPIO.cleanup()
         self.Alive = False
         self.clearFrame()
         self.rows = 3
@@ -556,6 +561,7 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def Game_Win(self):
+        GPIO.cleanup()
         self.clearFrame()
         self.rows = 3
         self.cols = 3

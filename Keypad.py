@@ -2,7 +2,6 @@ from Game import Game
 from tkinter import *
 from random import *
 
-
 class Module_Keypad(Game):
     def __init__(self,other):
         super().__init__()
