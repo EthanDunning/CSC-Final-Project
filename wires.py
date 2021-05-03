@@ -45,13 +45,45 @@ class Wires(Game):
 	# other methods 
 
 	# setup the GPIO pins 
-	def gpioSetup():
+	def gpioSetup(self):
 		self.output = [True, True, True, True, True];
 		self.giveOutput();
 
-	# set the GUI
-	def setGUI():
-		pass;
+	# set the GUI for the main part of the puzzle 
+	def setGUI(self):
+		# clear the frame and set the grid 
+		self.other.clearFrame();
+		self.other.rows = 3;
+		self.other.cols = 2;
+		self.other.loc = "Wires";
+
+
+		# button that goes to the main menu
+		mainMenu = Button(self.other, bg="grey", text="Go Back.", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="red", command=lambda: self.other.MainMenu());
+		mainMenu.grid(row=0, column=1, sticky=N+S+E+W, padx=5, pady=5);
+
+		# button that pauses the game
+		pause = Button(self.other, bg="grey", text="Pause.", font=("TexGyreAdventor", 25), borderwidth=10, activebackground="red", command=lambda: self.other.pause());
+		pause.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5);
+
+		# label for the colors 
+		colorsLabel = Label(self.other, bg="white", text=str(self.wires), font=("TexGyreAdventor", 28), relief="groove", borderwidth=10);
+		colorsLabel.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=2);
+
+		# label for timer
+		self.other.countdown(self.other.mins, self.other.secs, 2, 0, 1);
+		self.other.counter = self.other.after(1000, self.other.update_timer, 2, 0, 1);
+
+		# label for strikes 
+		self.other.health(2, 1, 1);
+
+		# configure and pack the grid for display
+		for row in range(self.other.rows):
+			Grid.rowconfigure(self.other, row, weight=1);
+		for col in range(self.other.cols):
+			Grid.columnconfigure(self.other, col, weight=1);
+		self.other.pack(fill=BOTH, expand=True);
+
 
 	# pause the game so colors can be input 
 	def pauseForColor(self):
