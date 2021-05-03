@@ -1,5 +1,6 @@
 from Game import Game;
 from tkinter import *;
+from collections import Counter;
 
 DEBUG = True;
 '''
@@ -86,6 +87,7 @@ class Wires(Game):
 			# check that there are 5 wires in the list 
 			if (len(c) == 5):		
 				self.wires = c;
+				self.chooseCorrect();
 			else:
 				colors = ["There must be 5 wires."];
 				colorsLabel.configure(text=str(colors));
@@ -133,13 +135,63 @@ class Wires(Game):
 			Grid.columnconfigure(self.other, col, weight=1);
 		self.other.pack(fill=BOTH, expand=True);
 
-		self.chooseCorrect();
+		
 
 
 
 	# function picks the correct wire to pull based on the order of the wires
 	def chooseCorrect(self):
-		pass;
+
+		# create lists from the list of wires to determine:
+		# 1. If that color is being used
+		# 2. How many of that color is being used
+		counts = {"Orange":0, "Yellow":0, "Green":0, "Blue":0, "Purple":0};
+		for c in counts:
+			if DEBUG:
+				print(c);
+			counts[c] = self.wires.count(c);
+		falses = 0;
+		for i in counts:
+			if (counts[i] == 0):
+				falses += 1;
+
+		# ladder of elifs for each possiblity 
+		# why the FUCK does python not have switch cases??????
+		
+		# If the last wire is purple and there are no yellow wires, pull the fourth wire
+		if (self.wires[4] == "Purple" and counts["Yellow"] == 0):
+			self.correct = 3;
+
+		# If there is exactly one green wire, and there is more than one blue wire, pull the first wire.
+		elif (counts["Green"] == 1 and counts["Blue"] > 1):
+			self.correct = 0;
+
+		# If there are no orange wires, pull the second wire
+		elif (counts["Orange"] == 0):
+			self.correct = 1;
+
+		# If there are only two different colors in the set of wires, pull the last wire.
+		elif (falses == 3):
+			self.correct = 4;
+
+		# If there are all different colors of wires in the set, pull the third wire.
+		elif (falses == 0):
+			self.correct = 2;
+
+		# If the first and last wires are green and there are no purple wires, pull the second wire.
+		elif (self.wires[0] == "Green" and self.wires[4] == "Green" and counts["Purple"] == 0):
+			self.correct = 1;
+
+		# Otherwise, pull the first wire.
+		else:
+			self.correct = 0;
+
+
+		if DEBUG:
+			print(counts);
+			print(self.correct);
+
+		self.setGUI();
 
 	# function waits for a wire to be pulled and checks that it was correct 
 	def wirePull(self):
