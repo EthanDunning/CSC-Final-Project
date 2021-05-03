@@ -31,36 +31,92 @@ class flashing_lights():
             GPIO.output(light_1, GPIO.LOW)
             sleep(0.5)
             # Red light 1
-            if light_1 == 17 and GPIO.input(self.switches[0]) == GPIO.HIGH:
-                sleep(3)
-                if GPIO.input(switches[0]) == GPIO.HIGH:
-                    self.module_Done = True
-                    return self.module_Done
+            if light_1 == 17: 
+                if GPIO.input(self.switches[0]) == GPIO.HIGH:
+                    GPIO.output(light_1, GPIO.HIGH)
+                    sleep(0.5)
+                    GPIO.output(light_1, GPIO.LOW)
+                    sleep(0.5)
+                    GPIO.output(light_1, GPIO.HIGH)
+                    sleep(0.5)
+                    GPIO.output(light_1, GPIO.LOW)
+                    sleep(0.5)   
+                    GPIO.output(light_1, GPIO.HIGH)
+                    sleep(0.5)
+                    GPIO.output(light_1, GPIO.LOW)
+                    sleep(0.5)                 
+                    if GPIO.input(switches[0]) == GPIO.HIGH:
+                        self.module_Done = True
+                        return self.module_Done
+                elif GPIO.input(self.switches[3]) == GPIO.HIGH or GPIO.input(self.switches[1]) == GPIO.HIGH or GPIO.input(self.switches[2]) == GPIO.HIGH:
+                    self.mistakes += 1
             
 
             # Blue light 2, 4
-            elif light_1 == 12 and GPIO.input(self.switches[1]) == GPIO.HIGH and GPIO.input(self.switches[3]) == GPIO.HIGH:
-                sleep(3)
+            elif light_1 == 12:
                 if GPIO.input(self.switches[1]) == GPIO.HIGH and GPIO.input(self.switches[3]) == GPIO.HIGH:
-                    self.module_Done = True
-                    return self.module_Done
+                    GPIO.output(light_1, GPIO.HIGH)
+                    sleep(0.5)
+                    GPIO.output(light_1, GPIO.LOW)
+                    sleep(0.5)
+                    GPIO.output(light_1, GPIO.HIGH)
+                    sleep(0.5)
+                    GPIO.output(light_1, GPIO.LOW)
+                    sleep(0.5)   
+                    GPIO.output(light_1, GPIO.HIGH)
+                    sleep(0.5)
+                    GPIO.output(light_1, GPIO.LOW)
+                    sleep(0.5)
+                    if GPIO.input(self.switches[1]) == GPIO.HIGH and GPIO.input(self.switches[3]) == GPIO.HIGH:
+                        self.module_Done = True
+                        return self.module_Done
+                elif GPIO.input(self.switches[2]) == GPIO.HIGH or GPIO.input(self.switches[0]) == GPIO.HIGH:
+                    self.mistakes += 1
             
 
             # Green light 4
-            elif light_1 == 13 and GPIO.input(self.switches[3]) == GPIO.HIGH:
-                sleep(3)
+            elif light_1 == 13:
                 if GPIO.input(self.switches[3]) == GPIO.HIGH:
-                    self.module_Done = True
-                    return self.module_Done
+                    GPIO.output(light_1, GPIO.HIGH)
+                    sleep(0.5)
+                    GPIO.output(light_1, GPIO.LOW)
+                    sleep(0.5)
+                    GPIO.output(light_1, GPIO.HIGH)
+                    sleep(0.5)
+                    GPIO.output(light_1, GPIO.LOW)
+                    sleep(0.5)   
+                    GPIO.output(light_1, GPIO.HIGH)
+                    sleep(0.5)
+                    GPIO.output(light_1, GPIO.LOW)
+                    sleep(0.5)
+                    if GPIO.input(self.switches[3]) == GPIO.HIGH:
+                        self.module_Done = True
+                        return self.module_Done
+                elif GPIO.input(self.switches[0]) == GPIO.HIGH or GPIO.input(self.switches[1]) == GPIO.HIGH or GPIO.input(self.switches[2]) == GPIO.HIGH:
+                    self.mistakes += 1
 
             
 
             # Yellow light 2, 3
-            elif light_1 == 16 and GPIO.input(self.switches[1]) == GPIO.HIGH and GPIO.input(self.switches[2]) == GPIO.HIGH:
-                sleep(3)
+            elif light_1 == 16:
                 if GPIO.input(self.switches[1]) == GPIO.HIGH and GPIO.input(self.switches[2]) == GPIO.HIGH:
-                    self.module_Done = True
-                    return self.module_Done
+                    GPIO.output(light_1, GPIO.HIGH)
+                    sleep(0.5)
+                    GPIO.output(light_1, GPIO.LOW)
+                    sleep(0.5)
+                    GPIO.output(light_1, GPIO.HIGH)
+                    sleep(0.5)
+                    GPIO.output(light_1, GPIO.LOW)
+                    sleep(0.5)   
+                    GPIO.output(light_1, GPIO.HIGH)
+                    sleep(0.5)
+                    GPIO.output(light_1, GPIO.LOW)
+                    sleep(0.5)
+                    if GPIO.input(self.switches[1]) == GPIO.HIGH and GPIO.input(self.switches[2]) == GPIO.HIGH:
+                        self.module_Done = True
+                        return self.module_Done
+                elif GPIO.input(self.switches[0]) == GPIO.HIGH or GPIO.input(self.switches[3]) == GPIO.HIGH:
+                    self.mistakes += 1
 
     
 leds = [17, 16, 13, 12]
