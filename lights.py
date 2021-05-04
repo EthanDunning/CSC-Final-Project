@@ -17,7 +17,7 @@ import random
 import RPi.GPIO as GPIO
 from time import sleep
 
-class flashing_lights():
+class flashing_lights(Game):
     def __init__(self, leds, switches):
         self.leds = leds
         self.switches = switches
@@ -32,6 +32,7 @@ class flashing_lights():
             sleep(0.5)
             # Red light 1
             if light_1 == 17: 
+                # push this button
                 if GPIO.input(self.switches[0]) == GPIO.HIGH:
                     GPIO.output(light_1, GPIO.HIGH)
                     sleep(0.5)
@@ -44,16 +45,19 @@ class flashing_lights():
                     GPIO.output(light_1, GPIO.HIGH)
                     sleep(0.5)
                     GPIO.output(light_1, GPIO.LOW)
-                    sleep(0.5)                 
+                    sleep(0.5)      
+                    # after 3 seconds ...           
                     if GPIO.input(switches[0]) == GPIO.HIGH:
                         self.module_Done = True
                         return self.module_Done
+                # not these buttons
                 elif GPIO.input(self.switches[3]) == GPIO.HIGH or GPIO.input(self.switches[1]) == GPIO.HIGH or GPIO.input(self.switches[2]) == GPIO.HIGH:
-                    self.mistakes += 1
+                    self.strikes += 1
             
 
             # Blue light 2, 4
             elif light_1 == 12:
+                # Push these buttons
                 if GPIO.input(self.switches[1]) == GPIO.HIGH and GPIO.input(self.switches[3]) == GPIO.HIGH:
                     GPIO.output(light_1, GPIO.HIGH)
                     sleep(0.5)
@@ -67,15 +71,18 @@ class flashing_lights():
                     sleep(0.5)
                     GPIO.output(light_1, GPIO.LOW)
                     sleep(0.5)
+                    # after 3 seconds, if they are still pressed, the module is complete
                     if GPIO.input(self.switches[1]) == GPIO.HIGH and GPIO.input(self.switches[3]) == GPIO.HIGH:
                         self.module_Done = True
                         return self.module_Done
+                # not these buttons
                 elif GPIO.input(self.switches[2]) == GPIO.HIGH or GPIO.input(self.switches[0]) == GPIO.HIGH:
-                    self.mistakes += 1
+                    self.strikes += 1
             
 
             # Green light 4
             elif light_1 == 13:
+                # push this button
                 if GPIO.input(self.switches[3]) == GPIO.HIGH:
                     GPIO.output(light_1, GPIO.HIGH)
                     sleep(0.5)
@@ -89,16 +96,19 @@ class flashing_lights():
                     sleep(0.5)
                     GPIO.output(light_1, GPIO.LOW)
                     sleep(0.5)
+                    # after 3 seconds, if the button is still pressed, the module is complete
                     if GPIO.input(self.switches[3]) == GPIO.HIGH:
                         self.module_Done = True
                         return self.module_Done
+                # not these buttons
                 elif GPIO.input(self.switches[0]) == GPIO.HIGH or GPIO.input(self.switches[1]) == GPIO.HIGH or GPIO.input(self.switches[2]) == GPIO.HIGH:
-                    self.mistakes += 1
+                    self.strikes += 1
 
             
 
             # Yellow light 2, 3
             elif light_1 == 16:
+                # push these buttons 
                 if GPIO.input(self.switches[1]) == GPIO.HIGH and GPIO.input(self.switches[2]) == GPIO.HIGH:
                     GPIO.output(light_1, GPIO.HIGH)
                     sleep(0.5)
@@ -112,11 +122,13 @@ class flashing_lights():
                     sleep(0.5)
                     GPIO.output(light_1, GPIO.LOW)
                     sleep(0.5)
+                    # after 3 seconds ...
                     if GPIO.input(self.switches[1]) == GPIO.HIGH and GPIO.input(self.switches[2]) == GPIO.HIGH:
                         self.module_Done = True
                         return self.module_Done
+                # not these buttons
                 elif GPIO.input(self.switches[0]) == GPIO.HIGH or GPIO.input(self.switches[3]) == GPIO.HIGH:
-                    self.mistakes += 1
+                    self.strikes += 1
 
     
 leds = [17, 16, 13, 12]
@@ -159,6 +171,5 @@ try:
     g1 = flashing_lights(leds, switches)
     g1.game_start()
     GPIO.cleanup()
-    print(x)
 except KeyboardInterrupt:
     GPIO.cleanup()
