@@ -20,13 +20,14 @@
 from time import sleep
 import RPi.GPIO as GPIO
 import random
-class morse():
+class morse(Game):
     def __init__(self, lights):
         self.module_Started = False
         self.module_Done = False
         self.word = False
         self.lights = lights
 
+    # picks a random word from the list
     def word_select(self):
         words = ['fall', 'your', 'slid', 'bomb', 'left']
         word = random.choice(words)
@@ -39,12 +40,13 @@ class morse():
     def word(self, value):
         self._word = value
 
+    # dot function
     def dot(light):
         GPIO.output(leds[light], GPIO.HIGH)
         sleep(0.25)
         GPIO.output(leds[light], GPIO.LOW)
         sleep(0.25)
-
+    # dash function
     def dash(light):
         GPIO.output(leds[light], GPIO.HIGH)
         sleep(0.75)
