@@ -2,13 +2,7 @@ import RPi.GPIO as GPIO;
 from time import *
 #import guiBase as GUI;
 
-set gpio mode
-GPIO.setmode(GPIO.BCM);
-set gpio defaults 
-inputPins = [18, 19, 20, 21, 22];
-outputPins = [17, 16, 13, 12, 6];
-#GPIO.setup(inputPins, GPIO.IN, pull_up_down=GPIO.PUD_DOWN);
-#GPIO.setup(outputPins, GPIO.OUT);
+
 
 # the game class contains the basic components necessary for each module
 # as well as the components necessary for the non-module parts of the game like
@@ -23,6 +17,14 @@ class Game:
         # I/O lists
         self.input = [False, False, False, False, False];
         self.output = [False, False, False, False, False];
+
+        #set gpio mode
+        GPIO.setmode(GPIO.BCM);
+        #set gpio defaults 
+        self.inputPins = [18, 19, 20, 21, 22];
+        self.outputPins = [17, 16, 13, 12, 6];
+        GPIO.setup(self.inputPins, GPIO.IN, pull_up_down=GPIO.PUD_DOWN);
+        GPIO.setup(self.outputPins, GPIO.OUT);
 
     # getters and setters
     @property
@@ -67,9 +69,16 @@ class Game:
 
     # input from the gpio pins
     def takeInput(self):
-        for i in range(len(inputPins)):
+        #set gpio mode
+        GPIO.setmode(GPIO.BCM);
+        #set gpio defaults 
+        self.inputPins = [18, 19, 20, 21, 22];
+        self.outputPins = [17, 16, 13, 12, 6];
+        GPIO.setup(self.inputPins, GPIO.IN, pull_up_down=GPIO.PUD_DOWN);
+        GPIO.setup(self.outputPins, GPIO.OUT);
+        for i in range(len(self.inputPins)):
             # set high pins to true
-            if (GPIO.input(inputPins[i]) == True):
+            if (GPIO.input(self.inputPins[i]) == True):
                 self.input[i] = True;
 
             # set low pins to false
@@ -80,8 +89,15 @@ class Game:
 
     # output to the gpio pins
     def giveOutput(self):
-        for i in range(len(outputPins)):
-            GPIO.output(outputPins[i], self.output[i]);
+        #set gpio mode
+        GPIO.setmode(GPIO.BCM);
+        #set gpio defaults 
+        self.inputPins = [18, 19, 20, 21, 22];
+        self.outputPins = [17, 16, 13, 12, 6];
+        GPIO.setup(self.inputPins, GPIO.IN, pull_up_down=GPIO.PUD_DOWN);
+        GPIO.setup(self.outputPins, GPIO.OUT);
+        for i in range(len(self.outputPins)):
+            GPIO.output(self.outputPins[i], self.output[i]);
         return;
 
     # clear I/O

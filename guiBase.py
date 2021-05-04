@@ -1,10 +1,10 @@
 from tkinter import *
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 from random import *
 from math import *
 from Keypad import *
-#from The_Button import *
-from Wires import *
+from The_Button import *
+from wires import *
 
 
 # the main GUI
@@ -147,7 +147,9 @@ class MainGUI(Frame):
         self.Module_1 = None
         # self.Module_1 = Module_The_Button(self,25)
         self.Module_2 = Module_Keypad(self)
+        print(self);
         self.Module_3 = Module_Wires(self)
+        print(self.Module_3);
         self.Module_4 = None
         self.Module_5 = None
         self.Module_6 = None
@@ -286,7 +288,7 @@ class MainGUI(Frame):
         elif self.loc == "Keypad":
             self.Module_Keypad(self.Module_4_Started)
         elif self.loc == "Wires":
-            self.Module_Wires()
+            self.Module_3.setGUI();
 
     def update_timer(self):
         tick = 500
@@ -540,7 +542,7 @@ class MainGUI(Frame):
             elif Button == "Module_3":
                 if self.Module_3_Started == False:
                     self.Module_3_Started = True
-                self.Module_3.main(self.Module_3_Started)
+                self.Module_3.pauseForColor()
 
             elif Button == "Module_4":
                 if self.Module_4_Started == False:
@@ -659,5 +661,6 @@ window.title("Continue Speaking And Everyone Lives")
 window.geometry("800x400")
 # generate the GUI
 p = MainGUI(window)
+print(p)
 # display the GUI and wait for user interaction
 p.mainloop()
