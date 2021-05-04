@@ -56,7 +56,8 @@ class morse():
         sleep(1)
 
 
-    def game_start(self, word):
+    def game_start(self):
+        self.word = self.word_select()
         while self.module_Done == False:
             if word == 'fall':
                 # F
@@ -241,5 +242,5 @@ GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 # GPIO.setup(wires, GPIO.IN)
 
 g1 = morse(leds)
-g1.game_start('bomb')
+g1.game_start()
 
