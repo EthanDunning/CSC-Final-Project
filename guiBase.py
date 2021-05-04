@@ -155,11 +155,11 @@ class MainGUI(Frame):
             self._cols = value
 
         self.Module_1 = Module_The_Button(self,25)
-        self.Module_2 = Module_Keypad(self)
-        self.Module_3 = Module_Wires(self)
-        self.Module_4 = None
-        self.Module_5 = None
-        self.Module_6 = None
+        self.Module_2 = Module_The_Button(self,25)
+        self.Module_3 = Module_The_Button(self,25)
+        self.Module_4 = Module_The_Button(self,25)
+        self.Module_5 = Module_The_Button(self,25)
+        self.Module_6 = Module_The_Button(self,25)
 
         self.start_screen()
 
@@ -309,34 +309,34 @@ class MainGUI(Frame):
                     self.mins = 0
                     self.Game_Over()
 
-        if self.mins < 10:
-            if ceil(self.secs) < 10:
-                self.time.set(f"0{self.mins}:0{ceil(self.secs)}")
+            if self.mins < 10:
+                if ceil(self.secs) < 10:
+                    self.time.set(f"0{self.mins}:0{ceil(self.secs)}")
+                else:
+                    self.time.set(f"0{self.mins}:{ceil(self.secs)}")
             else:
-                self.time.set(f"0{self.mins}:{ceil(self.secs)}")
-        else:
-            if self.secs < 10:
-                self.time.set(f"{self.mins}:0{ceil(self.secs)}")
-            else:
-                self.time.set(f"{self.mins}:{ceil(self.secs)}")
+                if self.secs < 10:
+                    self.time.set(f"{self.mins}:0{ceil(self.secs)}")
+                else:
+                    self.time.set(f"{self.mins}:{ceil(self.secs)}")
 
-        if (self.mins < 1) and (self.secs <= 30):
-            if float(self.secs).is_integer()==False:
-               self.timer.config(fg="white")
+            if (self.mins < 1) and (self.secs <= 30):
+                if float(self.secs).is_integer()==False:
+                    self.timer.config(fg="white")
+                else:
+                    self.timer.config(fg="red")
             else:
-                self.timer.config(fg="red")
-        else:
-            if self.Alive==True:
-                pass
-        
-        self.update()
+                if self.Alive==True:
+                    pass
+            
+            self.update()
 
     def countdown(self, x, y, span):
         self.timer = Label(self, textvariable=self.time,
                       bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         self.timer.grid(row=x, column=y, sticky=N+S+E+W,
                    padx=5, pady=5, columnspan=span)
-        if self.counter is None:
+        if self.counter is None and self.Alive == True:
             self.counter = self.after(1000, self.update_timer)
         
     def strike(self):
@@ -561,6 +561,7 @@ class MainGUI(Frame):
     def Game_Over(self):
         GPIO.cleanup()
         self.Alive = False
+        self.counter = None
         self.clearFrame()
         self.rows = 3
         self.cols = 3
