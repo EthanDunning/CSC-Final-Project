@@ -23,6 +23,7 @@ class flashing_lights(Game):
         self.switches = switches
         self.module_Started = False
         self.module_Done = False
+        self.name = 'Blinkers'
     def game_start(self):
         light_1 = random.choice(self.leds)
         while complete == False:
@@ -52,7 +53,7 @@ class flashing_lights(Game):
                         return self.module_Done
                 # not these buttons
                 elif GPIO.input(self.switches[3]) == GPIO.HIGH or GPIO.input(self.switches[1]) == GPIO.HIGH or GPIO.input(self.switches[2]) == GPIO.HIGH:
-                    self.strikes += 1
+                    self.strike()
             
 
             # Blue light 2, 4
@@ -77,7 +78,7 @@ class flashing_lights(Game):
                         return self.module_Done
                 # not these buttons
                 elif GPIO.input(self.switches[2]) == GPIO.HIGH or GPIO.input(self.switches[0]) == GPIO.HIGH:
-                    self.strikes += 1
+                    self.strike()
             
 
             # Green light 4
@@ -102,7 +103,7 @@ class flashing_lights(Game):
                         return self.module_Done
                 # not these buttons
                 elif GPIO.input(self.switches[0]) == GPIO.HIGH or GPIO.input(self.switches[1]) == GPIO.HIGH or GPIO.input(self.switches[2]) == GPIO.HIGH:
-                    self.strikes += 1
+                    self.strike()
 
             
 
@@ -128,7 +129,7 @@ class flashing_lights(Game):
                         return self.module_Done
                 # not these buttons
                 elif GPIO.input(self.switches[0]) == GPIO.HIGH or GPIO.input(self.switches[3]) == GPIO.HIGH:
-                    self.strikes += 1
+                    self.strike()
 
     
 leds = [17, 16, 13, 12]
