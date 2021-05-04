@@ -1,14 +1,14 @@
 #import RPi.GPIO as GPIO;
-import time;
+from time import *
 #import guiBase as GUI;
 
-# # set gpio mode
-# GPIO.setmode(GPIO.BCM);
+# set gpio mode
+#GPIO.setmode(GPIO.BCM);
 # set gpio defaults 
 inputPins = [18, 19, 20, 21, 22];
 outputPins = [17, 16, 13, 12, 6];
-# GPIO.setup(inputPins, GPIO.IN, pull_up_down=GPIO.PUD_DOWN);
-# GPIO.setup(outputPins, GPIO.OUT);
+#GPIO.setup(inputPins, GPIO.IN, pull_up_down=GPIO.PUD_DOWN);
+#GPIO.setup(outputPins, GPIO.OUT);
 
 # the game class contains the basic components necessary for each module
 # as well as the components necessary for the non-module parts of the game like
@@ -18,10 +18,8 @@ outputPins = [17, 16, 13, 12, 6];
 class Game:
 
     # constructor initializes with the time (in seconds) and mistakes allotted; inputs and outputs are false/low by default
-    def __init__(self, time=360, mistakes=3):
+    def __init__(self):
         # game difficulty settings
-        self.time = time;
-        self.mistakes = mistakes;
         # I/O lists
         self.input = [False, False, False, False, False];
         self.output = [False, False, False, False, False];
