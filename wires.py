@@ -84,6 +84,8 @@ class Wires(Game):
 			Grid.columnconfigure(self.other, col, weight=1);
 		self.other.pack(fill=BOTH, expand=True);
 
+		self.wirePull();
+
 
 	# pause the game so colors can be input 
 	def pauseForColor(self):
@@ -227,4 +229,29 @@ class Wires(Game):
 
 	# function waits for a wire to be pulled and checks that it was correct 
 	def wirePull(self):
-		pass;
+		
+		g = Game();
+
+		# repeat indefinitely while in this module and ready
+		while (self.other.loc == "Wires"):
+
+			# get the GPIO input 
+			g.takeInput();
+			connections = g.input;
+
+			# detect a pulled line 
+			for i in len(connections):
+				# dont want to double-call a previously incorrectly pulled wire
+				if (i != "checked"):
+					# check that the channel is pulled
+					if (not i):
+						# check that it is the correct channel to pull
+						if (i == self.correct):
+							pass;
+						else:
+							connections[i] = "checked";
+							self.other.strike(2, 1, 1);
+
+						break;
+
+			pass;

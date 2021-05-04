@@ -4,9 +4,9 @@ import time;
 
 # # set gpio mode
 # GPIO.setmode(GPIO.BCM);
-# # set gpio defaults 
-# inputPins = [18, 19, 20, 21, 22];
-# outputPins = [17, 16, 13, 12, 6];
+# set gpio defaults 
+inputPins = [18, 19, 20, 21, 22];
+outputPins = [17, 16, 13, 12, 6];
 # GPIO.setup(inputPins, GPIO.IN, pull_up_down=GPIO.PUD_DOWN);
 # GPIO.setup(outputPins, GPIO.OUT);
 
