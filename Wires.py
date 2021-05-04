@@ -13,7 +13,8 @@ class Module_Wires(Game):
 
 	def __init__(self, other):
 		super().__init__();
-
+		self.name = "Wires"
+		self.Module_Done = False
 		self.wires = [];
 		self.correct = 0;
 		# This may seem unintuitive, but I am saving the baseGUI as a property
