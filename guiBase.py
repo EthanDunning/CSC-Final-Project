@@ -143,7 +143,7 @@ class MainGUI(Frame):
 
         self.Module_1 = Module_The_Button(self,25)
         self.Module_2 = Module_Keypad(self)
-        self.Module_3 = None
+        self.Module_3 = Module_Wires(self)
         self.Module_4 = None
         self.Module_5 = None
         self.Module_6 = None
@@ -273,7 +273,7 @@ class MainGUI(Frame):
         elif self.loc == "Keypad":
             self.Module_Keypad(self.Module_4_Started)
         elif self.loc == "Wires":
-            w.setGUI();
+            self.Module_Wires()
 
     def update_timer(self):
         tick = 500
@@ -640,7 +640,5 @@ window.title("Continue Speaking And Everyone Lives")
 window.geometry("800x400")
 # generate the GUI
 p = MainGUI(window)
-# generate wires
-w = Wires(p)
 # display the GUI and wait for user interaction
 p.mainloop()
