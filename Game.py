@@ -1,10 +1,10 @@
-#import RPi.GPIO as GPIO;
+import RPi.GPIO as GPIO;
 from time import *
 #import guiBase as GUI;
 
-# set gpio mode
-#GPIO.setmode(GPIO.BCM);
-# set gpio defaults 
+set gpio mode
+GPIO.setmode(GPIO.BCM);
+set gpio defaults 
 inputPins = [18, 19, 20, 21, 22];
 outputPins = [17, 16, 13, 12, 6];
 #GPIO.setup(inputPins, GPIO.IN, pull_up_down=GPIO.PUD_DOWN);
@@ -66,7 +66,7 @@ class Game:
     # I/O methods that interface with the gpio
 
     # input from the gpio pins
-    def takeInput ():
+    def takeInput(self):
         for i in range(len(inputPins)):
             # set high pins to true
             if (GPIO.input(inputPins[i]) == True):
