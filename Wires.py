@@ -9,10 +9,10 @@ The game resumes, and the player must "cut" (remove) the correct wire based on t
 instructions relevant to the order. 
 '''
 
-class Wires(Game):
+class Module_Wires(Game):
 
 	def __init__(self, other):
-		super().__init__(None, None);
+		super().__init__();
 
 		self.wires = [];
 		self.correct = 0;
