@@ -19,13 +19,15 @@
 
 from time import sleep
 import RPi.GPIO as GPIO
+import tkinter
 import random
-class morse(Game):
+class morse():
     def __init__(self, lights):
         self.module_Started = False
         self.module_Done = False
         self.word = False
         self.lights = lights
+        self.name = 'Morse Code'
 
     # picks a random word from the list
     def word_select(self):
@@ -41,17 +43,17 @@ class morse(Game):
         self._word = value
 
     # dot function
-    def dot(light):
+    def dot(self, light):
         GPIO.output(leds[light], GPIO.HIGH)
-        sleep(0.25)
+        tkinter.after(0.25)
         GPIO.output(leds[light], GPIO.LOW)
-        sleep(0.25)
+        tkinter.after(0.25)
     # dash function
-    def dash(light):
+    def dash(self, light):
         GPIO.output(leds[light], GPIO.HIGH)
-        sleep(0.75)
+        tkinter.after(0.75)
         GPIO.output(leds[light], GPIO.LOW)
-        sleep(0.25)
+        tkinter.after(0.25)
 
 
     def game_start(self, word):
@@ -62,28 +64,29 @@ class morse(Game):
                 self.dot(0)
                 self.dash(0)
                 self.dot(0)
-                sleep(1)
+                tkinter.after(1)
                 # A
                 self.dot(1)
                 self.dash(1)
-                sleep(1)
+                tkinter.after(1)
                 # L
                 self.dot(2)
                 self.dash(2)
                 self.dot(2)
                 self.dot(2)
-                sleep(1)
+                tkinter.after(1)
                 # L
                 self.dot(3)
                 self.dash(3)
                 self.dot(3)
                 self.dot(3)
-                sleep(1)
-                if Distance() == 2:
-                    self.module_Done = True
-                    return self.module_Done
+                tkinter.after(1)
+                if 2 == 2:
+                    #self.module_Done = True
+                    #return self.module_Done
+                    pass
                 else:
-                    self.mistakes += 1
+                    self.strike()
             
             if word == 'your':
                 # Y
@@ -91,54 +94,56 @@ class morse(Game):
                 self.dot(0)
                 self.dash(0)
                 self.dash(0)
-                sleep(1)
+                tkinter.after(1)
                 # O
                 self.dash(1)
                 self.dash(1)
                 self.dash(1)
-                sleep(1)
+                tkinter.after(1)
                 # U
                 self.dot(2)
                 self.dot(2)
                 self.dash(2)
-                sleep(1)
+                tkinter.after(1)
                 # R
                 self.dot(3)
                 self.dash(3)
                 self.dot(3)
-                sleep(1)
-                if Distance() == 4:
-                    self.module_Done = True
-                    return self.module_Done
+                tkinter.after(1)
+                if 4 == 4:
+                    #self.module_Done = True
+                    #return self.module_Done
+                    pass
                 else:
-                    self.mistakes += 1
+                    self.strike()
 
             if word == 'slid':
                 # S
                 self.dot(0)
                 self.dot(0)
                 self.dot(0)
-                sleep(1)
+                tkinter.after(1)
                 # L
                 self.dot(1)
                 self.dash(1)
                 self.dot(1)
                 self.dot(1)
-                sleep(1)
+                tkinter.after(1)
                 # I
                 self.dot(2)
                 self.dot(2)
-                sleep(1)
+                tkinter.after(1)
                 # D
                 self.dash(3)
                 self.dot(3)
                 self.dot(3)
-                sleep(1)
-                if Distance() == 7:
-                    self.module_Done = True
-                    return self.module_Done
+                tkinter.after(1)
+                if 7 == 7:
+                    #self.module_Done = True
+                    #return self.module_Done
+                    pass
                 else:
-                    self.mistakes += 1
+                    self.strike()
             
             if word == 'bomb':
                 # B
@@ -146,27 +151,28 @@ class morse(Game):
                 self.dot(0)
                 self.dot(0)
                 self.dot(0)
-                sleep(1)
+                tkinter.after(1)
                 # O
                 self.dash(1)
                 self.dash(1)
                 self.dash(1)
-                sleep(1)
+                tkinter.after(1)
                 # M
                 self.dash(2)
                 self.dash(2)
-                sleep(1)
+                tkinter.after(1)
                 # B
                 self.dash(3)
                 self.dot(3)
                 self.dot(3)
                 self.dot(3)
-                sleep(1)
-                if Distance() == 8:
-                    self.module_Done = True
-                    return self.module_Done
+                tkinter.after(1)
+                if 8 == 8:
+                    #self.module_Done = True
+                    #return self.module_Done
+                    pass
                 else:
-                    self.mistakes += 1
+                    self.strike()
 
             if word == 'left':
                 # L
@@ -174,24 +180,25 @@ class morse(Game):
                 self.dash(0)
                 self.dot(0)
                 self.dot(0)
-                sleep(1)
+                tkinter.after(1)
                 # E
                 self.dot(1)
-                sleep(1)
+                tkinter.after(1)
                 # F
                 self.dot(2)
                 self.dot(2)
                 self.dash(2)
                 self.dot(2)
-                sleep(1)
+                tkinter.after(1)
                 # T
                 self.dash(3)
-                sleep(3)
-                if Distance() == 12:
-                    self.module_Done = True
-                    return self.module_Done
+                tkinter.after(3)
+                if 12 == 12:
+                    #self.module_Done = True
+                    #return self.module_Done
+                    pass
                 else:
-                    self.mistakes += 1
+                    self.strike()
 
 
 # def Distance():
