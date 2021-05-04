@@ -70,7 +70,7 @@ class Module_The_Button(Game):
 
         try:
             GPIO.setmode(GPIO.BCM)
-            GPIO.setup(26, GPIO.OUT)
+            GPIO.setup(22, GPIO.OUT)
             GPIO.setup(self.button, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
             GPIO.remove_event_detect(self.button)
             GPIO.add_event_detect(self.button, GPIO.BOTH, callback=lambda *a: self.button_check(), bouncetime=100)
@@ -82,7 +82,7 @@ class Module_The_Button(Game):
     def button_check(self):
         if self.Module_Started == True:
             self.button_pressed = None
-            #GPIO.output(26, GPIO.input(self.button))
+            #GPIO.output(22, GPIO.input(self.button))
             if GPIO.input(self.button) == 1 and self.end==None and self.start==None:
                 self.start = time()
                 #print("started")
