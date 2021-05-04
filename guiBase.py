@@ -147,9 +147,7 @@ class MainGUI(Frame):
         self.Module_1 = None
         # self.Module_1 = Module_The_Button(self,25)
         self.Module_2 = Module_Keypad(self)
-        print(self);
         self.Module_3 = Module_Wires(self)
-        print(self.Module_3);
         self.Module_4 = None
         self.Module_5 = None
         self.Module_6 = None
@@ -661,6 +659,6 @@ window.title("Continue Speaking And Everyone Lives")
 window.geometry("800x400")
 # generate the GUI
 p = MainGUI(window)
-print(p)
+#print(p)
 # display the GUI and wait for user interaction
 p.mainloop()

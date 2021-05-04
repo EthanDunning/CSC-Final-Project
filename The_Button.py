@@ -72,7 +72,7 @@ class Module_The_Button(Game):
 
         try:
             GPIO.setmode(GPIO.BCM)
-            GPIO.setup(26, GPIO.OUT)
+            #GPIO.setup(26, GPIO.OUT)
             GPIO.setup(self.button, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
             GPIO.remove_event_detect(self.button)
             GPIO.add_event_detect(self.button, GPIO.BOTH, callback=lambda *a: self.button_check(), bouncetime=100)
