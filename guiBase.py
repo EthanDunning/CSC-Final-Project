@@ -284,6 +284,7 @@ class MainGUI(Frame):
             self.Module_The_Button(self.Module_1_Started)
         elif self.loc == "Keypad":
             self.Module_Keypad(self.Module_4_Started)
+        
 
     def update_timer(self):
         tick = 500

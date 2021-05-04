@@ -159,7 +159,7 @@ class Module_The_Button(Game):
         #print(time)
         if self.strip_color == "red":
             if "1" in time:
-                print("win")
+                # print("win")
                 self.button_win()
             else:
                 self.other.strike()
