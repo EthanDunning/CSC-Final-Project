@@ -5,6 +5,20 @@ from math import *
 from Keypad import *
 from The_Button import *
 
+# pins
+leds = [17, 16, 13, 12]
+switches = [18, 19, 20, 21, 22]
+wires = [23, 24, 25, 26, 27]
+
+# # setting up the GPIO
+# GPIO.setmode(GPIO.BCM)
+# # I/O
+# GPIO.setup(leds, GPIO.OUT)
+# # GPIO.setup(test_led, GPIO.OUT)
+# GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+# GPIO.setup(wires, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+# # GPIO.setup(wires, GPIO.IN)
+
 # the main GUI
 
 class MainGUI(Frame):
