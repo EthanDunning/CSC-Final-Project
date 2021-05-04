@@ -17,87 +17,65 @@
 # There is a long gap between letters
 # There is a very long gap before the word repeats
 
-class morse_code():
-    def __init__():
+from time import sleep
+import RPi.GPIO as GPIO
+import random
+class morse():
+    def __init__(self, lights):
         self.module_Started = False
         self.module_Done = False
         self.word = False
+        self.lights = lights
 
-    def word_select():
-        words = [fall, your, slid, bomb, left]
-        self.word = random.choice(words)
+    def word_select(self):
+        words = ['fall', 'your', 'slid', 'bomb', 'left']
+        word = random.choice(words)
+        return word
+
+    @property
+    def word(self):
+        return self._word
+    @word.setter
+    def word(self, value):
+        self._word = value
 
     def dot(light):
-        GPIO.output(lights[light], GPIO.HIGH)
+        GPIO.output(leds[light], GPIO.HIGH)
         sleep(0.25)
-        GPIO.output(lights[light], GPIO.LOW)
+        GPIO.output(leds[light], GPIO.LOW)
         sleep(0.25)
 
     def dash(light):
-        GPIO.output(lights[light], GPIO.HIGH)
+        GPIO.output(leds[light], GPIO.HIGH)
         sleep(0.75)
-        GPIO.output(lights[light], GPIO.LOW)
+        GPIO.output(leds[light], GPIO.LOW)
         sleep(0.25)
 
-    def distance():
-        # set Trigger to HIGH
-        GPIO.output(GPIO_TRIGGER, True)
-    
-        # set Trigger after 0.01ms to LOW
-        time.sleep(0.00001)
-        GPIO.output(GPIO_TRIGGER, False)
-    
-        StartTime = time.time()
-        StopTime = time.time()
-    
-        # save StartTime
-        while GPIO.input(GPIO_ECHO) == 0:
-            StartTime = time.time()
-    
-        # save time of arrival
-        while GPIO.input(GPIO_ECHO) == 1:
-            StopTime = time.time()
-    
-        # time difference between start and arrival
-        TimeElapsed = StopTime - StartTime
-        # multiply with the sonic speed (34300 cm/s)
-        # and divide by 2, because there and back
-        distance = (TimeElapsed * 34300) / 2
-    
-        return distance
 
-    @property
-    def word():
-        return self._word
-    @word.setter
-    def word(value):
-        self._word = value
-
-
-    def game_start():
+    def game_start(self, word):
         while self.module_Done == False:
-            if self.word == fall:
+            if word == 'fall':
                 # F
-                dot(0)
-                dot(0)
-                dash(0)
-                dot(0)
+                self.dot(0)
+                self.dot(0)
+                self.dash(0)
+                self.dot(0)
                 sleep(1)
                 # A
-                dot(1)
-                dash(1)
+                self.dot(1)
+                self.dash(1)
                 sleep(1)
                 # L
-                dot(2)
-                dash(2)
-                dot(2)
-                dot(2)
+                self.dot(2)
+                self.dash(2)
+                self.dot(2)
+                self.dot(2)
                 sleep(1)
                 # L
-                dot(3)
-                dash(3)
-                dot(3)
-                dot(3)
+                self.dot(3)
+                self.dash(3)
+                self.dot(3)
+                self.dot(3)
                 sleep(1)
                 if Distance() == 2:
                     self.module_Done = True
@@ -105,27 +83,27 @@ class morse_code():
                 else:
                     self.mistakes += 1
             
-            if self.word == your:
+            if word == 'your':
                 # Y
-                dash(0)
-                dot(0)
-                dash(0)
-                dash(0)
+                self.dash(0)
+                self.dot(0)
+                self.dash(0)
+                self.dash(0)
                 sleep(1)
                 # O
-                dash(1)
-                dash(1)
-                dash(1)
+                self.dash(1)
+                self.dash(1)
+                self.dash(1)
                 sleep(1)
                 # U
-                dot(2)
-                dot(2)
-                dash(2)
+                self.dot(2)
+                self.dot(2)
+                self.dash(2)
                 sleep(1)
                 # R
-                dot(3)
-                dash(3)
-                dot(3)
+                self.dot(3)
+                self.dash(3)
+                self.dot(3)
                 sleep(1)
                 if Distance() == 4:
                     self.module_Done = True
@@ -133,26 +111,26 @@ class morse_code():
                 else:
                     self.mistakes += 1
 
-            if self.word == slid:
+            if word == 'slid':
                 # S
-                dot(0)
-                dot(0)
-                dot(0)
+                self.dot(0)
+                self.dot(0)
+                self.dot(0)
                 sleep(1)
                 # L
-                dot(1)
-                dash(1)
-                dot(1)
-                dot(1)
+                self.dot(1)
+                self.dash(1)
+                self.dot(1)
+                self.dot(1)
                 sleep(1)
                 # I
-                dot(2)
-                dot(2)
+                self.dot(2)
+                self.dot(2)
                 sleep(1)
                 # D
-                dash(3)
-                dot(3)
-                dot(3)
+                self.dash(3)
+                self.dot(3)
+                self.dot(3)
                 sleep(1)
                 if Distance() == 7:
                     self.module_Done = True
@@ -160,27 +138,27 @@ class morse_code():
                 else:
                     self.mistakes += 1
             
-            if self.word == bomb:
+            if word == 'bomb':
                 # B
-                dash(0)
-                dot(0)
-                dot(0)
-                dot(0)
+                self.dash(0)
+                self.dot(0)
+                self.dot(0)
+                self.dot(0)
                 sleep(1)
                 # O
-                dash(1)
-                dash(1)
-                dash(1)
+                self.dash(1)
+                self.dash(1)
+                self.dash(1)
                 sleep(1)
                 # M
-                dash(2)
-                dash(2)
+                self.dash(2)
+                self.dash(2)
                 sleep(1)
                 # B
-                dash(3)
-                dot(3)
-                dot(3)
-                dot(3)
+                self.dash(3)
+                self.dot(3)
+                self.dot(3)
+                self.dot(3)
                 sleep(1)
                 if Distance() == 8:
                     self.module_Done = True
@@ -188,24 +166,24 @@ class morse_code():
                 else:
                     self.mistakes += 1
 
-            if self.word == left:
+            if word == 'left':
                 # L
-                dot(0)
-                dash(0)
-                dot(0)
-                dot(0)
+                self.dot(0)
+                self.dash(0)
+                self.dot(0)
+                self.dot(0)
                 sleep(1)
                 # E
-                dot(1)
+                self.dot(1)
                 sleep(1)
                 # F
-                dot(2)
-                dot(2)
-                dash(2)
-                dot(2)
+                self.dot(2)
+                self.dot(2)
+                self.dash(2)
+                self.dot(2)
                 sleep(1)
                 # T
-                dash(3)
+                self.dash(3)
                 sleep(3)
                 if Distance() == 12:
                     self.module_Done = True
@@ -213,4 +191,46 @@ class morse_code():
                 else:
                     self.mistakes += 1
 
-                
+
+# def Distance():
+#     # set Trigger to HIGH
+#     GPIO.output(GPIO_TRIGGER, True)
+
+#     # set Trigger after 0.01ms to LOW
+#     time.sleep(0.00001)
+#     GPIO.output(GPIO_TRIGGER, False)
+
+#     StartTime = time.time()
+#     StopTime = time.time()
+
+#     # save StartTime
+#     while GPIO.input(GPIO_ECHO) == 0:
+#         StartTime = time.time()
+
+#     # save time of arrival
+#     while GPIO.input(GPIO_ECHO) == 1:
+#         StopTime = time.time()
+
+#     # time difference between start and arrival
+#     TimeElapsed = StopTime - StartTime
+#     # multiply with the sonic speed (34300 cm/s)
+#     # and divide by 2, because there and back
+#     distance = (TimeElapsed * 34300) / 2
+
+#     return distance
+
+leds = [17, 16, 13, 12]
+switches = [18, 19, 20, 21]
+# flashing_lights(leds, switches)
+    
+# setting up the GPIO
+GPIO.setmode(GPIO.BCM)
+# I/O
+GPIO.setup(leds, GPIO.OUT)
+# GPIO.setup(test_led, GPIO.OUT)
+GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+# GPIO.setup(wires, GPIO.IN)
+
+g1 = morse(leds)
+g1.game_start('bomb')
+
