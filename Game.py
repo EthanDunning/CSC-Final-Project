@@ -65,24 +65,24 @@ class Game:
 
     # I/O methods that interface with the gpio
 
-    # # input from the gpio pins
-    # def takeInput ():
-    #     for i in range(len(inputPins)):
-    #         # set high pins to true
-    #         if (GPIO.input(inputPins[i]) == True):
-    #             self.input[i] = True;
+    # input from the gpio pins
+    def takeInput ():
+        for i in range(len(inputPins)):
+            # set high pins to true
+            if (GPIO.input(inputPins[i]) == True):
+                self.input[i] = True;
 
-    #         # set low pins to false
-    #         else:
-    #             self.input[i] = False;
+            # set low pins to false
+            else:
+                self.input[i] = False;
 
-    #     return;
+        return;
 
-    # # output to the gpio pins
-    # def giveOutput(self):
-    #     for i in range(len(outputPins)):
-    #         GPIO.output(outputPins[i], self.output[i]);
-    #     return;
+    # output to the gpio pins
+    def giveOutput(self):
+        for i in range(len(outputPins)):
+            GPIO.output(outputPins[i], self.output[i]);
+        return;
 
     # clear I/O
     def clear ():

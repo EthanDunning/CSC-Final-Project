@@ -1,10 +1,10 @@
 from tkinter import *
 #import RPi.GPIO as GPIO
 from random import *
-from wires import Wires;
 from math import *
 from Keypad import *
-from The_Button import *
+#from The_Button import *
+from Wires import *
 
 
 # the main GUI
@@ -19,7 +19,10 @@ class MainGUI(Frame):
         self.reset()
 
     def reset(self):
-        GPIO.cleanup()
+        try:
+            GPIO.cleanup()
+        except:
+            pass
         self.Alive = True
         self.maxstrikes = 4
         self.startmins = IntVar()
@@ -141,7 +144,8 @@ class MainGUI(Frame):
         def cols(self, value):
             self._cols = value
 
-        self.Module_1 = Module_The_Button(self,25)
+        self.Module_1 = None
+        # self.Module_1 = Module_The_Button(self,25)
         self.Module_2 = Module_Keypad(self)
         self.Module_3 = Module_Wires(self)
         self.Module_4 = None
@@ -151,7 +155,10 @@ class MainGUI(Frame):
         self.start_screen()
 
     def start_screen(self):
-        GPIO.cleanup()
+        try:
+            GPIO.cleanup()
+        except:
+            pass
         self.clearFrame()
         self.rows = 2
         self.cols = 1
@@ -172,7 +179,10 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def MainMenu(self):
-        GPIO.cleanup()
+        try:
+            GPIO.cleanup()
+        except:
+            pass
         self.clearFrame()
         self.loc="Home"
         self.rows = 4
@@ -227,7 +237,10 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def clearFrame(self):
-        GPIO.cleanup()
+        try:
+            GPIO.cleanup()
+        except:
+            pass
         if self.counter is not None:
             self.after_cancel(self.counter)
             self.counter = None
@@ -547,7 +560,10 @@ class MainGUI(Frame):
             pass
 
     def Game_Over(self):
-        GPIO.cleanup()
+        try:
+            GPIO.cleanup()
+        except:
+            pass
         self.Alive = False
         self.clearFrame()
         self.rows = 3
@@ -590,7 +606,10 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def Game_Win(self):
-        GPIO.cleanup()
+        try:
+            GPIO.cleanup()
+        except:
+            pass
         self.clearFrame()
         self.rows = 4
         self.cols = 3
