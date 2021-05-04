@@ -15,7 +15,8 @@ class Wires(Game):
 
 	def __init__(self, other):
 		super().__init__(None, None);
-
+		self.name = "Wires"
+		self.Module_Done = False
 		self._wires = [];
 		self.wires = [];
 		self.correct = 0;
