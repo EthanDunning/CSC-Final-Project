@@ -45,15 +45,15 @@ class morse():
     # dot function
     def dot(self, light):
         GPIO.output(leds[light], GPIO.HIGH)
-        tkinter.after(0.25)
+        sleep(0.25)
         GPIO.output(leds[light], GPIO.LOW)
-        tkinter.after(0.25)
+        sleep(0.25)
     # dash function
     def dash(self, light):
         GPIO.output(leds[light], GPIO.HIGH)
-        tkinter.after(0.75)
+        sleep(0.75)
         GPIO.output(leds[light], GPIO.LOW)
-        tkinter.after(0.25)
+        sleep(1)
 
 
     def game_start(self, word):
@@ -64,23 +64,23 @@ class morse():
                 self.dot(0)
                 self.dash(0)
                 self.dot(0)
-                tkinter.after(1)
+                sleep(1)
                 # A
                 self.dot(1)
                 self.dash(1)
-                tkinter.after(1)
+                sleep(1)
                 # L
                 self.dot(2)
                 self.dash(2)
                 self.dot(2)
                 self.dot(2)
-                tkinter.after(1)
+                sleep(1)
                 # L
                 self.dot(3)
                 self.dash(3)
                 self.dot(3)
                 self.dot(3)
-                tkinter.after(1)
+                sleep(1)
                 if 2 == 2:
                     #self.module_Done = True
                     #return self.module_Done
@@ -94,22 +94,22 @@ class morse():
                 self.dot(0)
                 self.dash(0)
                 self.dash(0)
-                tkinter.after(1)
+                sleep(1)
                 # O
                 self.dash(1)
                 self.dash(1)
                 self.dash(1)
-                tkinter.after(1)
+                sleep(1)
                 # U
                 self.dot(2)
                 self.dot(2)
                 self.dash(2)
-                tkinter.after(1)
+                sleep(1)
                 # R
                 self.dot(3)
                 self.dash(3)
                 self.dot(3)
-                tkinter.after(1)
+                sleep(1)
                 if 4 == 4:
                     #self.module_Done = True
                     #return self.module_Done
@@ -122,22 +122,22 @@ class morse():
                 self.dot(0)
                 self.dot(0)
                 self.dot(0)
-                tkinter.after(1)
+                sleep(1)
                 # L
                 self.dot(1)
                 self.dash(1)
                 self.dot(1)
                 self.dot(1)
-                tkinter.after(1)
+                sleep(1)
                 # I
                 self.dot(2)
                 self.dot(2)
-                tkinter.after(1)
+                sleep(1)
                 # D
                 self.dash(3)
                 self.dot(3)
                 self.dot(3)
-                tkinter.after(1)
+                sleep(1)
                 if 7 == 7:
                     #self.module_Done = True
                     #return self.module_Done
@@ -151,22 +151,22 @@ class morse():
                 self.dot(0)
                 self.dot(0)
                 self.dot(0)
-                tkinter.after(1)
+                sleep(1)
                 # O
                 self.dash(1)
                 self.dash(1)
                 self.dash(1)
-                tkinter.after(1)
+                sleep(1)
                 # M
                 self.dash(2)
                 self.dash(2)
-                tkinter.after(1)
+                sleep(1)
                 # B
                 self.dash(3)
                 self.dot(3)
                 self.dot(3)
                 self.dot(3)
-                tkinter.after(1)
+                sleep(1)
                 if 8 == 8:
                     #self.module_Done = True
                     #return self.module_Done
@@ -180,19 +180,19 @@ class morse():
                 self.dash(0)
                 self.dot(0)
                 self.dot(0)
-                tkinter.after(1)
+                sleep(1)
                 # E
                 self.dot(1)
-                tkinter.after(1)
+                sleep(1)
                 # F
                 self.dot(2)
                 self.dot(2)
                 self.dash(2)
                 self.dot(2)
-                tkinter.after(1)
+                sleep(1)
                 # T
                 self.dash(3)
-                tkinter.after(3)
+                sleep(3)
                 if 12 == 12:
                     #self.module_Done = True
                     #return self.module_Done
