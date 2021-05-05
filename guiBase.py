@@ -152,7 +152,7 @@ class MainGUI(Frame):
         print(self.Module_3);
         self.Module_4 = None
         self.Module_5 = None
-        self.Module_6 = None
+        self.Module_6 = Module_Targeting(self);
 
         self.start_screen()
 
