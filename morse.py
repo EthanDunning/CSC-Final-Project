@@ -18,13 +18,15 @@
 # There is a very long gap before the word repeats
 
 from time import sleep
-#import RPi.GPIO as GPIO
-import tkinter
+import RPi.GPIO as GPIO
 import random
-# from Game import Game
-# from guiBase import MainGUI
-class morse():
+from Game import *
+#from guiBase import *
+from tkinter import *
+
+class Module_Morse_Code(Game):
     def __init__(self, lights):
+        super().__init__()
         self.module_Started = False
         self.module_Done = False
         self.word = False
@@ -34,9 +36,11 @@ class morse():
 
     # gui build
     def main(self, started):
+        print('started')
         self.other.clearFrame()
         self.other.rows = 4
         self.other.cols = 1
+        print('check 1')
         self.other.pause_button(0, 0, 3)
         self.other.back_button(0, 3, 3)
         self.other.countdown(1, 0, 2)
@@ -303,6 +307,5 @@ switches = [18, 19, 20, 21]
 # GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 # # GPIO.setup(wires, GPIO.IN)
 
-g1 = morse(leds)
-g1.main(False)
+
 
