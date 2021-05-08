@@ -155,7 +155,7 @@ class Module_Targeting:
 
         # button that confirms the distance 
         confirmButton = Button(self.other, command=lambda: 1+1, bg="chartreuse3", text=f"CONFIRM\nRANGE {self.rangeNum}", font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1");
-		confirmButton.grid(row=3, coulmn=1, sticky=N+S+E+W, padx=5, pady=5);        
+        confirmButton.grid(row=3, coulmn=1, sticky=N+S+E+W, padx=5, pady=5);        
 
         # configure and pack the grid for display
         for row in range(self.other.rows):
