@@ -39,6 +39,21 @@ class Module_Targeting:
         GPIO.setup(self.TRIG, GPIO.OUT);
         GPIO.setup(self.ECHO, GPIO.IN);
 
+        # sensor init 
+        # first, allow the sensor to settle for a bit 
+        print(f"Waiting for sensor to settle({self.SETTLE_TIME}ms)...");
+        if DEBUG:
+            print("about to GPIO");
+        GPIO.output(self.TRIG, GPIO.LOW);
+        if DEBUG:
+            print("about to settle time");
+        self.other.after(self.SETTLE_TIME);
+        if DEBUG:
+            print("just after settle time");
+
+        # puzzle properties 
+        self.rangeNum = 1;
+
     # calibrate the sensor by returning a correction factor for later measurements 
     def calibrate(self):
 
@@ -113,16 +128,44 @@ class Module_Targeting:
         # update started 
         self.Module_Started = True;
 
-        # first, allow the sensor to settle for a bit 
-        print(f"Waiting for sensor to settle({self.SETTLE_TIME}ms)...");
-        if DEBUG:
-            print("about to GPIO");
-        GPIO.output(self.TRIG, GPIO.LOW);
-        if DEBUG:
-            print("about to settle time");
-        self.other.after(self.SETTLE_TIME);
-        if DEBUG:
-            print("just after settle time");
+
+        
+
+        # gui nonsense 
+
+        # grid setup
+        self.other.rows = 4
+        self.other.cols = 2;
+
+        # necessary button/parts 
+        self.other.pause_button(0, 0, 1);
+        self.other.back_button(0, 1, 1);
+        self.other.countdown(1, 0, 1);
+        self.other.health(1, 1, 1);
+
+        # init min and max labels 
+        minWord = Label(self.other, bg="white", text=f"MIN: ", font=("TexGyreAdventor", 20), relief="groove", borderwidth=5);
+        minWord.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5);
+        maxWord = Label(self.other, bg="white", text=f"MAX: ", font=("TexGyreAdventor", 20), relief="groove", borderwidth=5);
+        maxWord.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5);
+
+        # label that shows the current distance
+        currentDistLabel = Label(self.other, bg="white", text=f"temp text", font=("TexGyreAdventor", 20), relief="sunken", borderwidth=5);
+        currentDistLabel.grid(row=3, column=0, sticky=N+S+E+W, padx=5, pady=5);
+
+        # button that confirms the distance 
+        confirmButton = Button(self.other, command=lambda: 1+1, bg="chartreuse3", text=f"CONFIRM\nRANGE {self.rangeNum}", font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1");
+		confirmButton.grid(row=3, coulmn=1, sticky=N+S+E+W, padx=5, pady=5);        
+
+        # configure and pack the grid for display
+        for row in range(self.other.rows):
+            Grid.rowconfigure(self.other, row, weight=1)
+        for col in range(self.other.cols):
+            Grid.columnconfigure(self.other, col, weight=1)
+        self.other.pack(fill=BOTH, expand=True)
+
+
+
 
         # next, calibrate the sensor 
         self.correction_factor = self.calibrate();
@@ -131,24 +174,21 @@ class Module_Targeting:
         input("Press enter to begin...");
         print("Getting measurements:");
 
-        while (True):
-            # get the distance to an object and correct it with the correction factor
-            print("-Measuring...");
-            distance = self.getDistance() * self.correction_factor;
-            #sleep(1);
+        # get the distance to an object and correct it with the correction factor
+        print("-Measuring...");
+        distance = self.getDistance() * self.correction_factor;
+        #sleep(1);
 
-            # and round to four decimal places 
-            self.other.after(1000, distance = round(distance, 4));
+        # and round to four decimal places 
+        self.other.after(1000, distance = round(distance, 4));
 
-            # display the distance calculated 
-            print(f"--Distance measured: {distance}cm");
+        # display the distance calculated 
+        print(f"--Distance measured: {distance}cm");
 
-            # prompt for another measurement 
-            i = input("--Get another measurement (Y/N)? ");
-            # stop measuring if desired 
-            i = i.lower();
-            if (not i in ["y", "yes", ""]):
-                break;
+        # prompt for another measurement 
+        i = input("--Get another measurement (Y/N)? ");
+        # stop measuring if desired 
+        i = i.lower();
 
         # finally, cleanup the GPIO pins
         print("Done.");
