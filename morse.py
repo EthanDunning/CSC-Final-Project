@@ -18,9 +18,11 @@
 # There is a very long gap before the word repeats
 
 from time import sleep
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import tkinter
 import random
+# from Game import Game
+# from guiBase import MainGUI
 class morse():
     def __init__(self, lights):
         self.module_Started = False
@@ -28,6 +30,58 @@ class morse():
         self.word = False
         self.lights = lights
         self.name = 'Morse Code'
+        self.frequency = 0
+
+    # gui build
+    def main(self, started):
+        self.other.clearFrame()
+        self.other.rows = 4
+        self.other.cols = 1
+        self.other.pause_button(0, 0, 3)
+        self.other.back_button(0, 3, 3)
+        self.other.countdown(1, 0, 2)
+        self.otherlocatiom(1, 2, 2)
+        self.other.health(1, 4, 2)
+        self.other.Modules_completed = 0
+        for module in self.other.Modules_Done:
+            self.other.Modules_completed += 1
+
+        print(self.other.Modules_completed)
+
+        if started == False:
+            self.other.Module_Started = True
+            button_colors = ["red", "green", "blue"]
+            button_labels = ["+", "-", self.freq, "OK"]
+        
+        # up button
+        up = Label(self.other, bg='green', text='black', font=('TexGyreAdventor', 45), borderwidth=10, relief='raised')
+        up.grid(row=1, col=2, sticky=N+S+E+W, padx=5, pady=5, columnspan=5)
+
+        # down button
+        down = Label(self.other, bg='red', text='black', font=('TexGyreAdventor', 45), borderwidth=10, relief='raised')
+        down.grid(row=3, col=2, sticky=N+S+E+W, padx=5, pady=5, columnspan=5)
+
+        # frequency counter
+        freq = Label(self.other, bg='blue', text='black', font=('TexGyreAdventor', 45), borderwidth=10, relief='raised')
+        freq.grid(row=1, col=2, sticky=N+S+E+W, padx=5, pady=5, columnspan=5)
+
+        for row in range(0, self.other.rows):
+            Grid.rowconfigure(self.other, row, weight=2)
+        Grid.rowconfigure(self.other, 2, weight=5)
+
+        for col in range(self.cols):
+            Grid.columnconfigure(self, col, weight=5)
+
+        self.pack(fill=BOTH, expand=True)
+
+    def up(self):
+        self.frequency += 1
+
+    def down(self):
+        self.frequency -= 1
+    
+    def freq():
+        pass
 
     # picks a random word from the list
     def word_select(self):
@@ -42,24 +96,32 @@ class morse():
     def word(self, value):
         self._word = value
 
+    @property
+    def frequency(self):
+        return self._frequency
+
+    @frequency.setter
+    def frequency(self, value):
+        frequency = value
+
     # dot function
     def dot(self, light):
-        GPIO.output(leds[light], GPIO.HIGH)
+        #GPIO.output(leds[light], GPIO.HIGH)
         sleep(0.25)
-        GPIO.output(leds[light], GPIO.LOW)
+        #GPIO.output(leds[light], GPIO.LOW)
         sleep(0.25)
     # dash function
     def dash(self, light):
-        GPIO.output(leds[light], GPIO.HIGH)
+        #GPIO.output(leds[light], GPIO.HIGH)
         sleep(0.75)
-        GPIO.output(leds[light], GPIO.LOW)
+        #GPIO.output(leds[light], GPIO.LOW)
         sleep(1)
 
 
     def game_start(self):
         self.word = self.word_select()
         while self.module_Done == False:
-            if word == 'fall':
+            if self.word == 'fall':
                 # F
                 self.dot(0)
                 self.dot(0)
@@ -233,14 +295,14 @@ leds = [17, 16, 13, 12]
 switches = [18, 19, 20, 21]
 # flashing_lights(leds, switches)
     
-# setting up the GPIO
-GPIO.setmode(GPIO.BCM)
-# I/O
-GPIO.setup(leds, GPIO.OUT)
-# GPIO.setup(test_led, GPIO.OUT)
-GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-# GPIO.setup(wires, GPIO.IN)
+# # setting up the GPIO
+# GPIO.setmode(GPIO.BCM)
+# # I/O
+# GPIO.setup(leds, GPIO.OUT)
+# # GPIO.setup(test_led, GPIO.OUT)
+# GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+# # GPIO.setup(wires, GPIO.IN)
 
 g1 = morse(leds)
-g1.game_start()
+g1.main(False)
 
