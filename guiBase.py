@@ -284,6 +284,8 @@ class MainGUI(Frame):
             self.Module_The_Button(self.Module_1_Started)
         elif self.loc == "Keypad":
             self.Module_Keypad(self.Module_4_Started)
+        elif self.loc == "Morse Code":
+            self.Module_Morse_Code(self.Module_3_Started)
         
 
     def update_timer(self):
