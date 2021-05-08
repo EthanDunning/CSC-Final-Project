@@ -5,6 +5,8 @@ from math import *
 from Keypad import *
 from The_Button import *
 from wires import *
+from targeting import *;
+from time import sleep, time;
 
 
 # the main GUI
