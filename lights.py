@@ -16,17 +16,24 @@
 import random
 import RPi.GPIO as GPIO
 from time import sleep
+from Game import *
+#from guiBase import *
+from tkinter import *
 
 class flashing_lights(Game):
     def __init__(self, leds, switches):
+        super().__init__()
         self.leds = leds
         self.switches = switches
         self.module_Started = False
         self.module_Done = False
-        self.name = 'Blinkers'
-    def game_start(self):
-        light_1 = random.choice(self.leds)
-        while complete == False:
+        self.name = 'Flashing Light'
+    def main(self, started):
+        print('started')
+        if started == False:
+            self.Module_Started = True
+            self.light_1 = random.choice(self.leds)
+        while self.module_Done == False:
             GPIO.output(light_1, GPIO.HIGH)
             sleep(0.5)
             GPIO.output(light_1, GPIO.LOW)
@@ -132,45 +139,45 @@ class flashing_lights(Game):
                     self.strike()
 
     
-leds = [17, 16, 13, 12]
-switches = [18, 19, 20, 21]
-# flashing_lights(leds, switches)
-    
-# setting up the GPIO
-GPIO.setmode(GPIO.BCM)
-# I/O
-GPIO.setup(leds, GPIO.OUT)
-# GPIO.setup(test_led, GPIO.OUT)
-GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+##leds = [17, 16, 13, 12]
+##switches = [18, 19, 20, 21]
+### flashing_lights(leds, switches)
+##    
+### setting up the GPIO
+##GPIO.setmode(GPIO.BCM)
+### I/O
+##GPIO.setup(leds, GPIO.OUT)
+### GPIO.setup(test_led, GPIO.OUT)
+##GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 # GPIO.setup(wires, GPIO.IN)
 
-try:
-    # testing the leds
-    def all_on():
-        for i in leds:
-            GPIO.output(leds, True)
-
-    def all_off():
-        for i in leds:
-            GPIO.output(leds, False)
-
-    def switch_test():
-        while True:
-            for i in switches:
-                if i == GPIO.HIGH:
-                    GPIO.output(leds[1], True)
-
-
-except KeyboardInterrupt:
-    GPIO.cleanup()
-try:
-    all_on()
-    sleep(0.5)
-    all_off()
-    sleep(0.5)
-    
-    g1 = flashing_lights(leds, switches)
-    g1.game_start()
-    GPIO.cleanup()
-except KeyboardInterrupt:
-    GPIO.cleanup()
+##try:
+##    # testing the leds
+##    def all_on():
+##        for i in leds:
+##            GPIO.output(leds, True)
+##
+##    def all_off():
+##        for i in leds:
+##            GPIO.output(leds, False)
+##
+##    def switch_test():
+##        while True:
+##            for i in switches:
+##                if i == GPIO.HIGH:
+##                    GPIO.output(leds[1], True)
+##
+##
+##except KeyboardInterrupt:
+##    GPIO.cleanup()
+##try:
+##    all_on()
+##    sleep(0.5)
+##    all_off()
+##    sleep(0.5)
+##    
+##    g1 = flashing_lights(leds, switches)
+##    g1.game_start()
+##    GPIO.cleanup()
+##except KeyboardInterrupt:
+##    GPIO.cleanup()
