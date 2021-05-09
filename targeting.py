@@ -57,12 +57,15 @@ class Module_Targeting:
     # calibrate the sensor by returning a correction factor for later measurements 
     def calibrate(self):
 
+        if DEBUG:
+            print("Begin calibrate")
+
         #print("Calibrating...");
 
         # prompt the user for an object's known distance
         #print("-Place the sensor a known distance away from an object.");
         #known_distance = float(input("-What is the measured distance (cm)? "));
-        known_distance = 7.62;
+        known_distance = 8.56;
 
         # measure the distance to the object with the sensor
         # do this several times and get an average
@@ -88,25 +91,38 @@ class Module_Targeting:
         if (DEBUG):
             print("--Correction factor is {}".format(correction_factor));
 
-        print("Done.");
-        print();
+        # print("Done.");
+        # print();
+
+        if DEBUG:
+            print(f"finish calibration got {correction_factor}");
         
         return correction_factor;
 
     # uses the sensor to calculate the distance to an object
     def getDistance (self):
+
+        if DEBUG:
+            print("begin getDistance");
+        
         # trigger the sensor by setting it high for a short time and then shutting it low
         GPIO.output(self.TRIG, GPIO.HIGH);
+        if DEBUG:
+            print("GPIO.output 1 done");
         #sleep(self.TRIGGER_TIME);
         self.other.after(self.TRIGGER_TIME, GPIO.output(self.TRIG, GPIO.LOW));
 
         # wait for the ECHO pin to read high
         # once the ECHO pin is high, the start time is set
         # once the ECHO pin is low, the end time is set
+        if DEBUG:
+            print("before while")
         while (GPIO.input(self.ECHO) == GPIO.LOW):
             start = time();
         while (GPIO.input(self.ECHO) == GPIO.HIGH):
             end = time();
+        if DEBUG:
+            print("after while")
 
         # calculate the duration that the ECHO pin was high
         # this is how long the pulse took to get from the sensor to the object -- and back again
@@ -198,28 +214,28 @@ class Module_Targeting:
 
 
 
-        # # next, calibrate the sensor 
-        # self.correction_factor = self.calibrate();
+        # next, calibrate the sensor 
+        self.correction_factor = self.calibrate();
 
-        # # then, measure
-        # input("Press enter to begin...");
-        # print("Getting measurements:");
+        # then, measure
+        input("Press enter to begin...");
+        print("Getting measurements:");
 
-        # # get the distance to an object and correct it with the correction factor
-        # print("-Measuring...");
-        # distance = self.getDistance() * self.correction_factor;
-        # #sleep(1);
+        # get the distance to an object and correct it with the correction factor
+        print("-Measuring...");
+        distance = self.getDistance() * self.correction_factor;
+        #sleep(1);
 
-        # # and round to four decimal places 
-        # self.other.after(1000, distance = round(distance, 4));
+        # and round to four decimal places 
+        self.other.after(1000, distance = round(distance, 4));
 
-        # # display the distance calculated 
-        # print(f"--Distance measured: {distance}cm");
+        # display the distance calculated 
+        print(f"--Distance measured: {distance}cm");
 
-        # # prompt for another measurement 
-        # i = input("--Get another measurement (Y/N)? ");
-        # # stop measuring if desired 
-        # i = i.lower();
+        # prompt for another measurement 
+        i = input("--Get another measurement (Y/N)? ");
+        # stop measuring if desired 
+        i = i.lower();
 
         # finally, cleanup the GPIO pins
         print("Done.");

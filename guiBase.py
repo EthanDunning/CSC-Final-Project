@@ -291,6 +291,8 @@ class MainGUI(Frame):
             self.Module_Keypad(self.Module_4_Started)
         elif self.loc == "Wires":
             self.Module_3.setGUI();
+        elif self.loc == "Targeting":
+            self.Module_6.main(self.Module_6_Started);
 
     def update_timer(self):
         tick = 500
