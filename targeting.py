@@ -39,17 +39,17 @@ class Module_Targeting:
         GPIO.setup(self.TRIG, GPIO.OUT);
         GPIO.setup(self.ECHO, GPIO.IN);
 
-        # # sensor init 
-        # # first, allow the sensor to settle for a bit 
-        # print(f"Waiting for sensor to settle({self.SETTLE_TIME}ms)...");
-        # if DEBUG:
-        #     print("about to GPIO");
-        # GPIO.output(self.TRIG, GPIO.LOW);
-        # if DEBUG:
-        #     print("about to settle time");
-        # self.other.after(self.SETTLE_TIME);
-        # if DEBUG:
-        #     print("just after settle time");
+        # sensor init 
+        # first, allow the sensor to settle for a bit 
+        print(f"Waiting for sensor to settle({self.SETTLE_TIME}ms)...");
+        if DEBUG:
+            print("about to GPIO");
+        GPIO.output(self.TRIG, GPIO.LOW);
+        if DEBUG:
+            print("about to settle time");
+        self.other.after(self.SETTLE_TIME);
+        if DEBUG:
+            print("just after settle time");
 
         # puzzle properties 
         self.rangeNum = 1;
@@ -128,6 +128,9 @@ class Module_Targeting:
         # update started 
         self.Module_Started = True;
 
+        # change location 
+        self.other.loc = "Targeting";
+
 
         
 
@@ -167,28 +170,28 @@ class Module_Targeting:
 
 
 
-        # next, calibrate the sensor 
-        self.correction_factor = self.calibrate();
+        # # next, calibrate the sensor 
+        # self.correction_factor = self.calibrate();
 
-        # then, measure
-        input("Press enter to begin...");
-        print("Getting measurements:");
+        # # then, measure
+        # input("Press enter to begin...");
+        # print("Getting measurements:");
 
-        # get the distance to an object and correct it with the correction factor
-        print("-Measuring...");
-        distance = self.getDistance() * self.correction_factor;
-        #sleep(1);
+        # # get the distance to an object and correct it with the correction factor
+        # print("-Measuring...");
+        # distance = self.getDistance() * self.correction_factor;
+        # #sleep(1);
 
-        # and round to four decimal places 
-        self.other.after(1000, distance = round(distance, 4));
+        # # and round to four decimal places 
+        # self.other.after(1000, distance = round(distance, 4));
 
-        # display the distance calculated 
-        print(f"--Distance measured: {distance}cm");
+        # # display the distance calculated 
+        # print(f"--Distance measured: {distance}cm");
 
-        # prompt for another measurement 
-        i = input("--Get another measurement (Y/N)? ");
-        # stop measuring if desired 
-        i = i.lower();
+        # # prompt for another measurement 
+        # i = input("--Get another measurement (Y/N)? ");
+        # # stop measuring if desired 
+        # i = i.lower();
 
         # finally, cleanup the GPIO pins
         print("Done.");
