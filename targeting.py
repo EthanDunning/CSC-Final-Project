@@ -122,6 +122,13 @@ class Module_Targeting:
 
     def main(self, started):
 
+        # function to confirm inputs
+        def confirm():
+            pass;
+
+        if DEBUG:
+            print("begin targeting main");
+
         # clear the frame
         self.other.clearFrame();
 
@@ -131,7 +138,8 @@ class Module_Targeting:
         # change location 
         self.other.loc = "Targeting";
 
-
+        if DEBUG:
+            print("pre gui nonsense");
         
 
         # gui nonsense 
@@ -140,32 +148,52 @@ class Module_Targeting:
         self.other.rows = 4
         self.other.cols = 2;
 
+        if DEBUG:
+            print("post grid size");
+
         # necessary button/parts 
         self.other.pause_button(0, 0, 1);
         self.other.back_button(0, 1, 1);
         self.other.countdown(1, 0, 1);
         self.other.health(1, 1, 1);
 
+        if DEBUG:
+            print("post necessary buttons")
+
         # init min and max labels 
         minWord = Label(self.other, bg="white", text=f"MIN: ", font=("TexGyreAdventor", 20), relief="groove", borderwidth=5);
         minWord.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5);
         maxWord = Label(self.other, bg="white", text=f"MAX: ", font=("TexGyreAdventor", 20), relief="groove", borderwidth=5);
-        maxWord.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5);
+        maxWord.grid(row=2, column=1, sticky=N+S+E+W, padx=5, pady=5);
+
+        if DEBUG:
+            print("post min/max labels");
 
         # label that shows the current distance
         currentDistLabel = Label(self.other, bg="white", text=f"temp text", font=("TexGyreAdventor", 20), relief="sunken", borderwidth=5);
         currentDistLabel.grid(row=3, column=0, sticky=N+S+E+W, padx=5, pady=5);
 
-        # button that confirms the distance 
-        confirmButton = Button(self.other, command=lambda: 1+1, bg="chartreuse3", text=f"CONFIRM\nRANGE {self.rangeNum}", font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1");
-        confirmButton.grid(row=3, coulmn=1, sticky=N+S+E+W, padx=5, pady=5);        
+        if DEBUG:
+            print("post current distance label");
 
+        # button that confirms the distance 
+        confirmButton = Button(self.other, bg="chartreuse3", text=f"CONFIRM\nRANGE {self.rangeNum}", font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1", command=lambda: confirm());
+        if DEBUG:
+            print("post confirm button creation");
+        confirmButton.grid(row=3, column=1, sticky=N+S+E+W, padx=5, pady=5);        
+
+        if DEBUG:
+            print("post current label and button\npre packing");
+        
         # configure and pack the grid for display
         for row in range(self.other.rows):
             Grid.rowconfigure(self.other, row, weight=1)
         for col in range(self.other.cols):
             Grid.columnconfigure(self.other, col, weight=1)
         self.other.pack(fill=BOTH, expand=True)
+
+        if DEBUG:
+            print("post packing");
 
 
 
