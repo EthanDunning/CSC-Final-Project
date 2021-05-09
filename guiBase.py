@@ -20,6 +20,12 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
         self.reset()
 
+    # function for sending output to the pins 
+    # seems that output must be sent through the Frame object or it halts
+    def pinOutput (self, pin, signal):
+        GPIO.output(pin, signal);
+        return;
+
     def reset(self):
         try:
             GPIO.cleanup()

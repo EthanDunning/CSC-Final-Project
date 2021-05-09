@@ -44,7 +44,7 @@ class Module_Targeting:
         print(f"Waiting for sensor to settle({self.SETTLE_TIME}ms)...");
         if DEBUG:
             print("about to GPIO");
-        GPIO.output(self.TRIG, GPIO.LOW);
+        self.other.pinOutput(self.TRIG, GPIO.LOW);
         if DEBUG:
             print("about to settle time");
         self.other.after(self.SETTLE_TIME);
@@ -106,11 +106,12 @@ class Module_Targeting:
             print("begin getDistance");
         
         # trigger the sensor by setting it high for a short time and then shutting it low
-        GPIO.output(self.TRIG, GPIO.HIGH);
+        self.other.pinOutput(self.TRIG, GPIO.HIGH);
         if DEBUG:
             print("GPIO.output 1 done");
         #sleep(self.TRIGGER_TIME);
-        self.other.after(self.TRIGGER_TIME, GPIO.output(self.TRIG, GPIO.LOW));
+        self.other.after(self.TRIGGER_TIME)
+        self.other.pinOutput(self.TRIG, GPIO.LOW);
 
         # wait for the ECHO pin to read high
         # once the ECHO pin is high, the start time is set
