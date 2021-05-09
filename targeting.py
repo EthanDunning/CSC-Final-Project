@@ -39,17 +39,17 @@ class Module_Targeting:
         GPIO.setup(self.TRIG, GPIO.OUT);
         GPIO.setup(self.ECHO, GPIO.IN);
 
-        # sensor init 
-        # first, allow the sensor to settle for a bit 
-        print(f"Waiting for sensor to settle({self.SETTLE_TIME}ms)...");
-        if DEBUG:
-            print("about to GPIO");
-        GPIO.output(self.TRIG, GPIO.LOW);
-        if DEBUG:
-            print("about to settle time");
-        self.other.after(self.SETTLE_TIME);
-        if DEBUG:
-            print("just after settle time");
+        # # sensor init 
+        # # first, allow the sensor to settle for a bit 
+        # print(f"Waiting for sensor to settle({self.SETTLE_TIME}ms)...");
+        # if DEBUG:
+        #     print("about to GPIO");
+        # GPIO.output(self.TRIG, GPIO.LOW);
+        # if DEBUG:
+        #     print("about to settle time");
+        # self.other.after(self.SETTLE_TIME);
+        # if DEBUG:
+        #     print("just after settle time");
 
         # puzzle properties 
         self.rangeNum = 1;
