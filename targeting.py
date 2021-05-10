@@ -1,6 +1,7 @@
 from tkinter import *
 import RPi.GPIO as GPIO;
 from time import sleep, time;
+import multiprocessing;
 import random;
 
 DEBUG = True
@@ -137,22 +138,31 @@ class Module_Targeting:
         if DEBUG:
             print("before while")
 
-        while (GPIO.input(self.ECHO) == GPIO.LOW):
-            start = time();
-            if DEBUG:
-                print("in first while")
+        def loop ():
+            while (GPIO.input(self.ECHO) == GPIO.LOW):
+                start = time();
+                if DEBUG:
+                    print("in first while")
 
-        while (GPIO.input(self.ECHO) == GPIO.HIGH):
-            end = time();
-            if DEBUG:
-                print("in second while")
+            while (GPIO.input(self.ECHO) == GPIO.HIGH):
+                end = time();
+                if DEBUG:
+                    print("in second while")
+
+            return (start - end);
+
+        def queue_loop():
+            p = multiprocessing.Process(target=loop);
+            p.start();
+
+
 
         if DEBUG:
             print("after while")
 
         # calculate the duration that the ECHO pin was high
         # this is how long the pulse took to get from the sensor to the object -- and back again
-        duration = end - start;
+        duration = queue_loop();
         # calculate the total distance that the pulse traveled by factoring in the speed of sound (m/s)
         distance = duration * self.SPEED_OF_SOUND;
         # the distance from the sensor to the object is half of the total distance traveled
