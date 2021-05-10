@@ -156,6 +156,7 @@ class Module_Targeting:
         def queue_loop():
             p = multiprocessing.Process(target=loop);
             p.start();
+            print("processing while loop")
 
 
         if DEBUG:
