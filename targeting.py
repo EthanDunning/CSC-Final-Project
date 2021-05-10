@@ -165,6 +165,18 @@ class Module_Targeting:
 
     def main(self, started):
 
+
+        if DEBUG:
+            print("begin targeting main");
+
+
+        # create a dictionary of tuples for button-specific information at each stage
+        buttonFuncs = {"calibrate": ("CALIBRATE", lambda: self.calibrate()), "range 1": ("CONFIRM\nRANGE 1", lambda: supervisor(1)), 
+                        "range 2": ("CONFIRM\nRANGE 2", lambda: supervisor(2)), "range 3": ("CONFIRM\nRANGE 3", lambda: supervisor(3))};
+
+        if DEBUG:
+            print(buttonFuncs["calibrate"]);
+
         # function supervises the following two, allowing confirm() to be called multiple times and makeRange() only once per range
         def supervisor(stage):
             rangeHasWord = [False, False, False];
@@ -216,12 +228,7 @@ class Module_Targeting:
 
             
 
-        # create a dictionary of tuples for button-specific information at each stage
-        buttonFuncs = {"calibrate": ("CALIBRATE", lambda: self.calibrate()), "range 1": ("CONFIRM\nRANGE 1", lambda: supervisor(1)), 
-                        "range 2": ("CONFIRM\nRANGE 2", lambda: supervisor(2)), "range 3": ("CONFIRM\nRANGE 3", lambda: supervisor(3))};
 
-        if DEBUG:
-            print("begin targeting main");
 
         # clear the frame
         self.other.clearFrame();
