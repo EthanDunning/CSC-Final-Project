@@ -1,6 +1,7 @@
 from tkinter import *
 import RPi.GPIO as GPIO;
 from time import sleep, time;
+import random;
 
 DEBUG = True
 
@@ -24,7 +25,7 @@ class Module_Targeting:
         self.Module_Started = False;
 
         # constants 
-        self.SETTLE_TIME = 2;
+        self.SETTLE_TIME = 200;
         self.CALIBRATIONS = 5;
         self.CALIBRATION_DELAY = 200;
         self.TRIGGER_TIME = 0.01;
@@ -40,7 +41,10 @@ class Module_Targeting:
         # GPIO.setup(self.ECHO, GPIO.IN);
 
         # puzzle properties 
-        self.rangeNum = 1;
+        self.minPhrase = "Set slide to calibrating distance.";
+        self.maxPhrase = "Press the Calibrate button."
+        self.currentMin = 0.0000;
+        self.currentMax = 15.0000;
 
     # calibrate the sensor by returning a correction factor for later measurements 
     def calibrate(self):
@@ -85,6 +89,8 @@ class Module_Targeting:
         if DEBUG:
             print(f"finish calibration got {correction_factor}");
         
+        self.correction_factor = correction_factor;
+
         return correction_factor;
 
     # uses the sensor to calculate the distance to an object
@@ -92,6 +98,8 @@ class Module_Targeting:
 
         if DEBUG:
             print("begin getDistance");
+
+
 
 
 
@@ -148,6 +156,8 @@ class Module_Targeting:
         print("Done.");
         GPIO.cleanup();
 
+        distance = round(distace, 4);
+
         if DEBUG:
             print(f"got distance {distance}cm");
 
@@ -155,9 +165,56 @@ class Module_Targeting:
 
     def main(self, started):
 
+        # function supervises the following two, allowing confirm() to be called multiple times and makeRange() only once per range
+        def supervisor(stage):
+            rangeHasWord = [False, False, False];
+
+            if (not rangeHasWord[stage - 1]):
+                makeRange(stage);
+                rangeHasWord[stage - 1] = True;
+
+            confirm(stage);
+
+        # calculate the current range 
+        def makeRange(stage):
+
+            # phrases that determine the increments 
+            words1 = {"THEIR": 0.0451, "I C": 1.0451, 
+                      "I DON\'T KNOW": 0.3210, "THEY\'RE": 1.3210, 
+                      "WHAT": 0.6124, "I SEE": 1.6124};
+
+            words2 = {"GO BACK": 0.0000, "NOTHING": 1.0000, "I GOT IT":2.0000, 
+                      "": 0.1372, "OUT OF RANGE": 1.1372, "READ": 2.1372, 
+                      "RED": 0.4444, "UHHH": 1.4444, "BLANK": 2.4444};
+
+            words3 = {"OK": 0.0000, "I GOT A STRIKE": 1.0000, "NOPE": 2.0000,
+                      "ARE YOU SURE": 0.1082, "OKAY": 1.1082, "UH HUH": 2.1082, 
+                      "LIKE": 0.2169, "YOU DONE?": 1.2169, "CORRECT": 2.2169, 
+                      "YOU DONE": 0.3292, "IT\'S BLANK": 1.3292, "READY": 2.3292,
+                      "SLOW DOWN": 0.4031, "DON\'T TELL ME": 1.4031, "IT SAYS": 2.4031};
+
+            # list that assigns each dictionary to its range
+            rangeOfWords = [words1, words2, words3];
+
+            self.currentMin = self.currentMin + random.choice(list(rangeOfWords[stage - 1].values()));
+            self.minPhrase = random.choice(list(rangeOfWords[stage - 1].items()));
+
+            self.currentMax = self.currentMax - random.choice(list(rangeOfWords[stage - 1].values()));
+            self.maxPhrase = random.choice(list(rangeOfWords[stage - 1].items()));
+
+
         # function to confirm inputs
-        def confirm():
+        def confirm(stage):
             pass;
+
+
+
+
+            
+
+        # create a dictionary of tuples for button-specific information at each stage
+        buttonFuncs = {"calibrate": ("CALIBRATE", lambda: self.calibrate()), "range 1": ("CONFIRM\nRANGE 1", lambda: supervisor(1)), 
+                        "range 2": ("CONFIRM\nRANGE 2", lambda: supervisor(2)), "range 3": ("CONFIRM\nRANGE 3", lambda: supervisor(3))};
 
         if DEBUG:
             print("begin targeting main");
@@ -194,9 +251,9 @@ class Module_Targeting:
             print("post necessary buttons")
 
         # init min and max labels 
-        minWord = Label(self.other, bg="white", text=f"MIN: ", font=("TexGyreAdventor", 20), relief="groove", borderwidth=5);
+        minWord = Label(self.other, bg="white", text=f"MIN: {self.minPhrase}", font=("TexGyreAdventor", 20), relief="groove", borderwidth=5);
         minWord.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5);
-        maxWord = Label(self.other, bg="white", text=f"MAX: ", font=("TexGyreAdventor", 20), relief="groove", borderwidth=5);
+        maxWord = Label(self.other, bg="white", text=f"MAX: {self.maxPhrase}", font=("TexGyreAdventor", 20), relief="groove", borderwidth=5);
         maxWord.grid(row=2, column=1, sticky=N+S+E+W, padx=5, pady=5);
 
         if DEBUG:
@@ -210,7 +267,7 @@ class Module_Targeting:
             print("post current distance label");
 
         # button that confirms the distance 
-        confirmButton = Button(self.other, bg="chartreuse3", text=f"CONFIRM\nRANGE {self.rangeNum}", font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1", command=lambda: confirm());
+        confirmButton = Button(self.other, bg="chartreuse3", text=f"{buttonFuncs["calibrate"][0]}", font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1", command=buttonFuncs["calibrate"][1];
         if DEBUG:
             print("post confirm button creation");
         confirmButton.grid(row=3, column=1, sticky=N+S+E+W, padx=5, pady=5);        
@@ -229,30 +286,6 @@ class Module_Targeting:
             print("post packing");
 
 
-
-
-        # next, calibrate the sensor 
-        self.correction_factor = self.calibrate();
-
-        # then, measure
-        input("Press enter to begin...");
-        print("Getting measurements:");
-
-        # get the distance to an object and correct it with the correction factor
-        print("-Measuring...");
-        distance = self.getDistance() * self.correction_factor;
-        #sleep(1);
-
-        # and round to four decimal places 
-        self.other.after(1000, distance = round(distance, 4));
-
-        # display the distance calculated 
-        print(f"--Distance measured: {distance}cm");
-
-        # prompt for another measurement 
-        i = input("--Get another measurement (Y/N)? ");
-        # stop measuring if desired 
-        i = i.lower();
 
 
 
