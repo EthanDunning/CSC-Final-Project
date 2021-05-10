@@ -172,8 +172,9 @@ class Module_Targeting:
 
 
         # create a dictionary of tuples for button-specific information at each stage
-        buttonFuncs = {"calibrate": ("CALIBRATE", self.calibrate()), "range 1": ("CONFIRM\nRANGE 1", supervisor(1)), 
-                        "range 2": ("CONFIRM\nRANGE 2", supervisor(2)), "range 3": ("CONFIRM\nRANGE 3", supervisor(3))};
+        # ignore the tuple, it is not used anymore, just the first part of the tuple is used 
+        buttonFuncs = {"calibrate": ("CALIBRATE", "self.calibrate()"), "range 1": ("CONFIRM\nRANGE 1", "supervisor(1)"), 
+                        "range 2": ("CONFIRM\nRANGE 2", "supervisor(2)"), "range 3": ("CONFIRM\nRANGE 3", "supervisor(3)")};
 
         if DEBUG:
             print(buttonFuncs["calibrate"]);
@@ -190,7 +191,7 @@ class Module_Targeting:
 
                 confirm(stage);
             else:
-                calibrate();
+                self.calibrate();
                 makeRange(1);
 
             minWord.configure(text=f"MIN: {self.minPhrase}");
@@ -284,7 +285,7 @@ class Module_Targeting:
             print("post current distance label");
 
         # button that confirms the distance 
-        confirmButton = Button(self.other, bg="chartreuse3", text=buttonFuncs["calibrate"][0], font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1", command=lambda: buttonFuncs["calibrate"][1];
+        confirmButton = Button(self.other, bg="chartreuse3", text=buttonFuncs["calibrate"][0], font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1", command=lambda: supervisor(0);
         if DEBUG:
             print("post confirm button creation");
         confirmButton.grid(row=3, column=1, sticky=N+S+E+W, padx=5, pady=5);        
