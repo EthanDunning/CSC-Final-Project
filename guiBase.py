@@ -20,6 +20,12 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
         self.reset()
 
+    # function for sending output to the pins 
+    # seems that output must be sent through the Frame object or it halts
+    def pinOutput (self, pin, signal):
+        GPIO.output(pin, signal);
+        return;
+
     def reset(self):
         try:
             GPIO.cleanup()
@@ -291,6 +297,8 @@ class MainGUI(Frame):
             self.Module_Keypad(self.Module_4_Started)
         elif self.loc == "Wires":
             self.Module_3.setGUI();
+        elif self.loc == "Targeting":
+            self.Module_6.main(self.Module_6_Started);
 
     def update_timer(self):
         tick = 500

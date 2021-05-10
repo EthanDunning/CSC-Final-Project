@@ -33,23 +33,11 @@ class Module_Targeting:
         self.correction_factor = 0;
 
         # GPIO setup
-        GPIO.setmode(GPIO.BCM);
         self.TRIG = 5;
         self.ECHO = 4;
-        GPIO.setup(self.TRIG, GPIO.OUT);
-        GPIO.setup(self.ECHO, GPIO.IN);
-
-        # sensor init 
-        # first, allow the sensor to settle for a bit 
-        print(f"Waiting for sensor to settle({self.SETTLE_TIME}ms)...");
-        if DEBUG:
-            print("about to GPIO");
-        GPIO.output(self.TRIG, GPIO.LOW);
-        if DEBUG:
-            print("about to settle time");
-        self.other.after(self.SETTLE_TIME);
-        if DEBUG:
-            print("just after settle time");
+        # GPIO.setmode(GPIO.BCM);
+        # GPIO.setup(self.TRIG, GPIO.OUT);
+        # GPIO.setup(self.ECHO, GPIO.IN);
 
         # puzzle properties 
         self.rangeNum = 1;
@@ -57,12 +45,15 @@ class Module_Targeting:
     # calibrate the sensor by returning a correction factor for later measurements 
     def calibrate(self):
 
+        if DEBUG:
+            print("Begin calibrate")
+
         #print("Calibrating...");
 
         # prompt the user for an object's known distance
         #print("-Place the sensor a known distance away from an object.");
         #known_distance = float(input("-What is the measured distance (cm)? "));
-        known_distance = 7.62;
+        known_distance = 8.56;
 
         # measure the distance to the object with the sensor
         # do this several times and get an average
@@ -88,25 +79,60 @@ class Module_Targeting:
         if (DEBUG):
             print("--Correction factor is {}".format(correction_factor));
 
-        print("Done.");
-        print();
+        # print("Done.");
+        # print();
+
+        if DEBUG:
+            print(f"finish calibration got {correction_factor}");
         
         return correction_factor;
 
     # uses the sensor to calculate the distance to an object
     def getDistance (self):
+
+        if DEBUG:
+            print("begin getDistance");
+
+
+
+        # GPIO setup
+        GPIO.setmode(GPIO.BCM);
+        GPIO.setup(self.TRIG, GPIO.OUT);
+        GPIO.setup(self.ECHO, GPIO.IN);
+
+        # sensor init 
+        # first, allow the sensor to settle for a bit 
+        print(f"Waiting for sensor to settle({self.SETTLE_TIME}ms)...");
+        if DEBUG:
+            print("about to GPIO");
+        self.other.pinOutput(self.TRIG, GPIO.LOW);
+        if DEBUG:
+            print("about to settle time");
+        self.other.after(self.SETTLE_TIME);
+        if DEBUG:
+            print("just after settle time");
+
+
+        
         # trigger the sensor by setting it high for a short time and then shutting it low
-        GPIO.output(self.TRIG, GPIO.HIGH);
+        self.other.pinOutput(self.TRIG, GPIO.HIGH);
+        if DEBUG:
+            print("GPIO.output 1 done");
         #sleep(self.TRIGGER_TIME);
-        self.other.after(self.TRIGGER_TIME, GPIO.output(self.TRIG, GPIO.LOW));
+        self.other.after(self.TRIGGER_TIME)
+        self.other.pinOutput(self.TRIG, GPIO.LOW);
 
         # wait for the ECHO pin to read high
         # once the ECHO pin is high, the start time is set
         # once the ECHO pin is low, the end time is set
+        if DEBUG:
+            print("before while")
         while (GPIO.input(self.ECHO) == GPIO.LOW):
             start = time();
         while (GPIO.input(self.ECHO) == GPIO.HIGH):
             end = time();
+        if DEBUG:
+            print("after while")
 
         # calculate the duration that the ECHO pin was high
         # this is how long the pulse took to get from the sensor to the object -- and back again
@@ -117,6 +143,13 @@ class Module_Targeting:
         distance /= 2;
         # convert from meters to centimeters
         distance *= 100;
+
+        # finally, cleanup the GPIO pins
+        print("Done.");
+        GPIO.cleanup();
+
+        if DEBUG:
+            print(f"got distance {distance}cm");
 
         return distance;
 
@@ -221,9 +254,7 @@ class Module_Targeting:
         # stop measuring if desired 
         i = i.lower();
 
-        # finally, cleanup the GPIO pins
-        print("Done.");
-        GPIO.cleanup();
+
 
 #piss = Module_Targeting("temp");
 #piss.main(True);
