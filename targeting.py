@@ -138,6 +138,8 @@ class Module_Targeting:
         if DEBUG:
             print("before while")
 
+        # multiprocessing because tk cannot handle while loops
+        # and a while loop is required here
         def loop ():
             while (GPIO.input(self.ECHO) == GPIO.LOW):
                 start = time();
@@ -154,7 +156,6 @@ class Module_Targeting:
         def queue_loop():
             p = multiprocessing.Process(target=loop);
             p.start();
-
 
 
         if DEBUG:
