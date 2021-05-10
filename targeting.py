@@ -95,76 +95,25 @@ class Module_Targeting:
 
         return correction_factor;
 
+
     # uses the sensor to calculate the distance to an object
     def getDistance (self):
-
-        if DEBUG:
-            print("begin getDistance");
-
-
-
-
-
-        # GPIO setup
-        GPIO.setmode(GPIO.BCM);
-        GPIO.setup(self.TRIG, GPIO.OUT);
-        GPIO.setup(self.ECHO, GPIO.IN);
-
-        # sensor init 
-        # first, allow the sensor to settle for a bit 
-        print(f"Waiting for sensor to settle({self.SETTLE_TIME}ms)...");
-        if DEBUG:
-            print("about to GPIO");
-        self.other.pinOutput(self.TRIG, GPIO.LOW);
-        if DEBUG:
-            print("about to settle time");
-        self.other.after(self.SETTLE_TIME);
-        if DEBUG:
-            print("just after settle time");
-
-
-        
         # trigger the sensor by setting it high for a short time and then shutting it low
-        self.other.pinOutput(self.TRIG, GPIO.HIGH);
-        if DEBUG:
-            print("GPIO.output 1 done");
-        #sleep(self.TRIGGER_TIME);
+        GPIO.output(self.TRIG, GPIO.HIGH);
         sleep(self.TRIGGER_TIME);
-        self.other.pinOutput(self.TRIG, GPIO.LOW);
+        GPIO.output(self.TRIG, GPIO.LOW);
 
         # wait for the ECHO pin to read high
         # once the ECHO pin is high, the start time is set
         # once the ECHO pin is low, the end time is set
-        if DEBUG:
-            print("before while")
-
-        # multiprocessing because tk cannot handle while loops
-        # and a while loop is required here
-        def loop ():
-            while (GPIO.input(self.ECHO) == GPIO.LOW):
-                start = time();
-                if DEBUG:
-                    print("in first while")
-
-            while (GPIO.input(self.ECHO) == GPIO.HIGH):
-                end = time();
-                if DEBUG:
-                    print("in second while")
-
-            return (start - end);
-
-        def queue_loop():
-            p = multiprocessing.Process(target=loop);
-            p.start();
-            print("processing while loop")
-
-
-        if DEBUG:
-            print("after while")
+        while (GPIO.input(self.ECHO) == GPIO.LOW):
+            start = time();
+        while (GPIO.input(self.ECHO) == GPIO.HIGH):
+            end = time();
 
         # calculate the duration that the ECHO pin was high
         # this is how long the pulse took to get from the sensor to the object -- and back again
-        duration = queue_loop();
+        duration = end - start;
         # calculate the total distance that the pulse traveled by factoring in the speed of sound (m/s)
         distance = duration * self.SPEED_OF_SOUND;
         # the distance from the sensor to the object is half of the total distance traveled
@@ -172,16 +121,95 @@ class Module_Targeting:
         # convert from meters to centimeters
         distance *= 100;
 
-        # finally, cleanup the GPIO pins
-        print("Done.");
-        GPIO.cleanup();
-
-        distance = round(distace, 4);
-
-        if DEBUG:
-            print(f"got distance {distance}cm");
-
         return distance;
+
+    # # uses the sensor to calculate the distance to an object
+    # def getDistance (self):
+
+    #     if DEBUG:
+    #         print("begin getDistance");
+
+
+
+
+
+    #     # GPIO setup
+    #     GPIO.setmode(GPIO.BCM);
+    #     GPIO.setup(self.TRIG, GPIO.OUT);
+    #     GPIO.setup(self.ECHO, GPIO.IN);
+
+    #     # sensor init 
+    #     # first, allow the sensor to settle for a bit 
+    #     print(f"Waiting for sensor to settle({self.SETTLE_TIME}ms)...");
+    #     if DEBUG:
+    #         print("about to GPIO");
+    #     self.other.pinOutput(self.TRIG, GPIO.LOW);
+    #     if DEBUG:
+    #         print("about to settle time");
+    #     self.other.after(self.SETTLE_TIME);
+    #     if DEBUG:
+    #         print("just after settle time");
+
+
+        
+    #     # trigger the sensor by setting it high for a short time and then shutting it low
+    #     self.other.pinOutput(self.TRIG, GPIO.HIGH);
+    #     if DEBUG:
+    #         print("GPIO.output 1 done");
+    #     #sleep(self.TRIGGER_TIME);
+    #     sleep(self.TRIGGER_TIME);
+    #     self.other.pinOutput(self.TRIG, GPIO.LOW);
+
+    #     # wait for the ECHO pin to read high
+    #     # once the ECHO pin is high, the start time is set
+    #     # once the ECHO pin is low, the end time is set
+    #     if DEBUG:
+    #         print("before while")
+
+    #     # multiprocessing because tk cannot handle while loops
+    #     # and a while loop is required here
+    #     def loop ():
+    #         while (GPIO.input(self.ECHO) == GPIO.LOW):
+    #             start = time();
+    #             if DEBUG:
+    #                 print("in first while")
+
+    #         while (GPIO.input(self.ECHO) == GPIO.HIGH):
+    #             end = time();
+    #             if DEBUG:
+    #                 print("in second while")
+
+    #         return (start - end);
+
+    #     def queue_loop():
+    #         p = multiprocessing.Process(target=loop);
+    #         p.start();
+    #         print("processing while loop")
+
+
+    #     if DEBUG:
+    #         print("after while")
+
+    #     # calculate the duration that the ECHO pin was high
+    #     # this is how long the pulse took to get from the sensor to the object -- and back again
+    #     duration = queue_loop();
+    #     # calculate the total distance that the pulse traveled by factoring in the speed of sound (m/s)
+    #     distance = duration * self.SPEED_OF_SOUND;
+    #     # the distance from the sensor to the object is half of the total distance traveled
+    #     distance /= 2;
+    #     # convert from meters to centimeters
+    #     distance *= 100;
+
+    #     # finally, cleanup the GPIO pins
+    #     print("Done.");
+    #     GPIO.cleanup();
+
+    #     distance = round(distace, 4);
+
+    #     if DEBUG:
+    #         print(f"got distance {distance}cm");
+
+    #     return distance;
 
     def main(self, started):
 
