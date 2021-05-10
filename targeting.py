@@ -139,9 +139,13 @@ class Module_Targeting:
 
         while (GPIO.input(self.ECHO) == GPIO.LOW):
             start = time();
+            if DEBUG:
+                print("in first while")
 
         while (GPIO.input(self.ECHO) == GPIO.HIGH):
             end = time();
+            if DEBUG:
+                print("in second while")
 
         if DEBUG:
             print("after while")
