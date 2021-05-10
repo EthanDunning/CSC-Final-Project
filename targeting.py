@@ -28,7 +28,7 @@ class Module_Targeting:
         self.SETTLE_TIME = 200;
         self.CALIBRATIONS = 5;
         self.CALIBRATION_DELAY = 200;
-        self.TRIGGER_TIME = 0.01;
+        self.TRIGGER_TIME = 0.00001;
         self.SPEED_OF_SOUND = 343;
 
         self.correction_factor = 0;
@@ -128,7 +128,7 @@ class Module_Targeting:
         if DEBUG:
             print("GPIO.output 1 done");
         #sleep(self.TRIGGER_TIME);
-        self.other.after(self.TRIGGER_TIME)
+        sleep(self.TRIGGER_TIME);
         self.other.pinOutput(self.TRIG, GPIO.LOW);
 
         # wait for the ECHO pin to read high
