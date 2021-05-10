@@ -175,6 +175,10 @@ class Module_Targeting:
 
             confirm(stage);
 
+            minWord.configure(text=f"MIN: {self.minPhrase}");
+            maxWord.configure(text=f"MAX: {self.maxPhrase}");
+            confirmButton.configure(text=f"{buttonFuncs["calibrate"][0]}", command=buttonFuncs["calibrate"][1]);
+
         # calculate the current range 
         def makeRange(stage):
 
