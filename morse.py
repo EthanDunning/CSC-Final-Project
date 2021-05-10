@@ -21,22 +21,21 @@ from time import sleep
 import RPi.GPIO as GPIO
 import random
 from Game import *
-##from guiBase import *
 from tkinter import *
-##from lights import *
 
 class Module_Morse_Code(Game):
-    def __init__(self, other, lights):
+    def __init__(self, other):
         super().__init__()
         self.other = other
         self.Module_Started = False
         self.Module_Done = False
         self.word = False
         self.TrueFreq = False
-        self.lights = lights
         self.name = 'Morse Code'
         self.other.loc = 'Morse Code'
         self.freq = 0
+        self.leds = [17,16,13,12]
+        self.word, self.TrueFreq = self.word_select()
         self.main(self.Module_Started)
 
     # gui build
@@ -56,17 +55,9 @@ class Module_Morse_Code(Game):
             self.other.Modules_completed += 1
 
         print(self.other.Modules_completed)
-##         # setting up the GPIO
-##        GPIO.setmode(GPIO.BCM)
-##         # I/O
-##        GPIO.setup(leds, GPIO.OUT)
-##         # GPIO.setup(test_led, GPIO.OUT)
-##        GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-##        #GPIO.setup(wires, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-##         # GPIO.setup(wires, GPIO.IN)
 
         if started == False:
-            self.other.Module_Started = True
+            self.Module_Started = True
             button_colors = ["red", "green", "blue"]
             button_labels = ["+", "-", self.freq, "OK"]
         
@@ -85,26 +76,23 @@ class Module_Morse_Code(Game):
         # Check Button
         check = Button(self.other, bg='orange', text='Check', font=('TexGyreAdventor', 45), borderwidth=10, relief='raised', command = lambda: self.Button_Press('check'))
         check.grid(row=3, column=1, sticky=N+S+E+W, padx=0, pady=0, columnspan=1)
-##        for row in range(0, self.other.rows):
-##            Grid.rowconfigure(self.other, row, weight=2)
-##        Grid.rowconfigure(self.other, 2, weight=5)
-##
+
+        # start button
+        start = Button(self.other, bg='purple', text = 'Start', font=('TexGyreAdventor', 45), borderwidth=10, relief='raised', command = lambda: self.Button_Press('start'))
+        start.grid(row=3, column=0, sticky=N+S+E+W, padx=0, pady=0, columnspan=1)
+        
         for col in range(self.other.cols):
             Grid.columnconfigure(self.other, col, weight=5)
-        #self.setup()
         self.other.pack(fill=BOTH, expand=True)
-        #self.game_start()
-##
-##    def setup(self):
-##         # setting up the GPIO
-##        GPIO.setmode(GPIO.BCM)
-##         # I/O
-##        GPIO.setup(leds, GPIO.OUT)
-##         # GPIO.setup(test_led, GPIO.OUT)
-##        GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-##        #GPIO.setup(wires, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-##         # GPIO.setup(wires, GPIO.IN)
-##        return
+        self.gpio_setup()
+        #self.game_start(self.Module_Started)
+
+    def gpio_setup(self):
+         # setting up the GPIO
+        GPIO.setmode(GPIO.BCM)
+         # I/O
+        GPIO.setup(self.leds, GPIO.OUT)
+        return
 
     def Button_Press(self, Button):
         if Button == 'up':
@@ -120,11 +108,17 @@ class Module_Morse_Code(Game):
             freq.grid(row=2, column=1, sticky=N+S+E+W, padx=0, pady=0, columnspan=1)
             return self.freq
         elif Button == 'check':
+            print(self.freq, self.TrueFreq)
+            print(self.Module_Started)
             if self.freq == self.TrueFreq:
-                self.Module_Complete = True
-            else:
-                self.other.strike
-        
+                self.Module_Done = True
+                self.other.MainMenu()
+            elif self.freq != self.TrueFreq:
+                self.other.strike()
+        elif Button == 'start':
+            self.game_start(self.Module_Started)
+            self.timer_update()
+    
 
     # picks a random word from the list
     def word_select(self):
@@ -152,174 +146,165 @@ class Module_Morse_Code(Game):
 
     # dot function
     def dot(self, light):
-##        GPIO.output(leds[light], GPIO.HIGH)
-##        sleep(0.25)
-##        GPIO.output(leds[light], GPIO.LOW)
-##        sleep(0.25)
-        pass
+        GPIO.output(self.leds[light], GPIO.HIGH)
+        self.other.after(250)
+        GPIO.output(self.leds[light], GPIO.LOW)
+        self.other.after(250)
+        return
     # dash function
     def dash(self, light):
-##        GPIO.output(leds[light], GPIO.HIGH)
-##        sleep(0.75)
-##        GPIO.output(leds[light], GPIO.LOW)
-##        sleep(1)
-        pass
+        GPIO.output(self.leds[light], GPIO.HIGH)
+        self.other.after(750)
+        GPIO.output(self.leds[light], GPIO.LOW)
+        self.other.after(1000)
+        return
+
+    def timer_update(self):
+        if self.other.secs <= 10:
+            self.other.secs += 50
+            self.other.mins -= 1
+        else:
+            self.other.secs -= 10
 
 
-    def game_start(self):
-        self.word, self.TrueFreq = self.word_select()
-        while self.Module_Done == False:
+    def game_start(self, started):
+        if self.Module_Done == False:
+            print('start test')
             if self.word == 'fall':
+                print('fall')
                 # F
                 self.dot(0)
                 self.dot(0)
                 self.dash(0)
                 self.dot(0)
-                sleep(1)
+                self.other.after(1000)
                 # A
                 self.dot(1)
                 self.dash(1)
-                sleep(1)
+                self.other.after(1000)
                 # L
                 self.dot(2)
                 self.dash(2)
                 self.dot(2)
                 self.dot(2)
-                sleep(1)
+                self.other.after(1000)
                 # L
                 self.dot(3)
                 self.dash(3)
                 self.dot(3)
                 self.dot(3)
-                sleep(1)
+                self.other.after(1000)
+                print('after fall')
             
             if self.word == 'your':
+                print('your')
                 # Y
                 self.dash(0)
                 self.dot(0)
                 self.dash(0)
                 self.dash(0)
-                sleep(1)
+                self.other.after(1000)
                 # O
                 self.dash(1)
                 self.dash(1)
                 self.dash(1)
-                sleep(1)
+                self.other.after(1000)
                 # U
                 self.dot(2)
                 self.dot(2)
                 self.dash(2)
-                sleep(1)
+                self.other.after(1000)
                 # R
                 self.dot(3)
                 self.dash(3)
                 self.dot(3)
-                sleep(1)
+                self.other.after(1000)
+                print('after your')
 
             if self.word == 'slid':
+                print('slid')
                 # S
                 self.dot(0)
                 self.dot(0)
                 self.dot(0)
-                sleep(1)
+                self.other.after(1000)
                 # L
                 self.dot(1)
                 self.dash(1)
                 self.dot(1)
                 self.dot(1)
-                sleep(1)
+                self.other.after(1000)
                 # I
                 self.dot(2)
                 self.dot(2)
-                sleep(1)
+                self.other.after(1000)
                 # D
                 self.dash(3)
                 self.dot(3)
                 self.dot(3)
-                sleep(1)
+                self.other.after(1000)
+                print('after slid')
             
             if self.word == 'bomb':
+                print('bomb')
                 # B
                 self.dash(0)
                 self.dot(0)
                 self.dot(0)
                 self.dot(0)
-                sleep(1)
+                self.other.after(1000)
                 # O
                 self.dash(1)
                 self.dash(1)
                 self.dash(1)
-                sleep(1)
+                self.other.after(1000)
                 # M
                 self.dash(2)
                 self.dash(2)
-                sleep(1)
+                self.other.after(1000)
                 # B
                 self.dash(3)
                 self.dot(3)
                 self.dot(3)
                 self.dot(3)
-                sleep(1)
+                self.other.after(1000)
+                print('after bomb')
 
             if self.word == 'left':
+                print('left')
                 # L
                 self.dot(0)
                 self.dash(0)
                 self.dot(0)
                 self.dot(0)
-                sleep(1)
+                self.other.after(1000)
                 # E
                 self.dot(1)
-                sleep(1)
+                self.other.after(1000)
                 # F
                 self.dot(2)
                 self.dot(2)
                 self.dash(2)
                 self.dot(2)
-                sleep(1)
+                self.other.after(1000)
                 # T
                 self.dash(3)
-                sleep(3)
+                self.other.after(1000)
+                print('after left')
 
+                
 
-# def Distance():
-#     # set Trigger to HIGH
-#     GPIO.output(GPIO_TRIGGER, True)
-
-#     # set Trigger after 0.01ms to LOW
-#     time.sleep(0.00001)
-#     GPIO.output(GPIO_TRIGGER, False)
-
-#     StartTime = time.time()
-#     StopTime = time.time()
-
-#     # save StartTime
-#     while GPIO.input(GPIO_ECHO) == 0:
-#         StartTime = time.time()
-
-#     # save time of arrival
-#     while GPIO.input(GPIO_ECHO) == 1:
-#         StopTime = time.time()
-
-#     # time difference between start and arrival
-#     TimeElapsed = StopTime - StartTime
-#     # multiply with the sonic speed (34300 cm/s)
-#     # and divide by 2, because there and back
-#     distance = (TimeElapsed * 34300) / 2
-
-#     return distance
-
-leds = [17, 16, 13, 12]
-switches = [18, 19, 20, 21]
-#flashing_lights(leds, switches)
-    
- # setting up the GPIO
-GPIO.setmode(GPIO.BCM)
- # I/O
-GPIO.setup(leds, GPIO.OUT)
- # GPIO.setup(test_led, GPIO.OUT)
-GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
- # GPIO.setup(wires, GPIO.IN)
+##leds = [17, 16, 13, 12]
+##switches = [18, 19, 20, 21]
+###flashing_lights(leds, switches)
+##    
+## # setting up the GPIO
+##GPIO.setmode(GPIO.BCM)
+## # I/O
+##GPIO.setup(leds, GPIO.OUT)
+## # GPIO.setup(test_led, GPIO.OUT)
+##GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+## # GPIO.setup(wires, GPIO.IN)
 
 
 ##f1 = Module_Morse_Code(leds)
