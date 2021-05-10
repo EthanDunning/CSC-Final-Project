@@ -45,6 +45,7 @@ class Module_Targeting:
         self.maxPhrase = "Press the Calibrate button."
         self.currentMin = 0.0000;
         self.currentMax = 15.0000;
+        self.currentRange = 0;
 
     # calibrate the sensor by returning a correction factor for later measurements 
     def calibrate(self):
@@ -177,19 +178,24 @@ class Module_Targeting:
         if DEBUG:
             print(buttonFuncs["calibrate"]);
 
-        # function supervises the following two, allowing confirm() to be called multiple times and makeRange() only once per range
+        # function supervises the functions that are to be called upon button press 
         def supervisor(stage):
             rangeHasWord = [False, False, False];
 
-            if (not rangeHasWord[stage - 1]):
-                makeRange(stage);
-                rangeHasWord[stage - 1] = True;
+            # button functions if the 
+            if self.currentRange > 0:
+                if (not rangeHasWord[stage - 1]):
+                    makeRange(stage);
+                    rangeHasWord[stage - 1] = True;
 
-            confirm(stage);
+                confirm(stage);
+            else:
+                calibrate();
+                makeRange(1);
 
             minWord.configure(text=f"MIN: {self.minPhrase}");
             maxWord.configure(text=f"MAX: {self.maxPhrase}");
-            confirmButton.configure(text=buttonFuncs["calibrate"][0], command=buttonFuncs["calibrate"][1]);
+            confirmButton.configure(text=buttonFuncs["calibrate"][0], command=supervisor(self.currentRange));
 
         # calculate the current range 
         def makeRange(stage):
