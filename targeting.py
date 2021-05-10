@@ -198,28 +198,28 @@ class Module_Targeting:
 
 
 
-        # # next, calibrate the sensor 
-        # self.correction_factor = self.calibrate();
+        # next, calibrate the sensor 
+        self.correction_factor = self.calibrate();
 
-        # # then, measure
-        # input("Press enter to begin...");
-        # print("Getting measurements:");
+        # then, measure
+        input("Press enter to begin...");
+        print("Getting measurements:");
 
-        # # get the distance to an object and correct it with the correction factor
-        # print("-Measuring...");
-        # distance = self.getDistance() * self.correction_factor;
-        # #sleep(1);
+        # get the distance to an object and correct it with the correction factor
+        print("-Measuring...");
+        distance = self.getDistance() * self.correction_factor;
+        #sleep(1);
 
-        # # and round to four decimal places 
-        # self.other.after(1000, distance = round(distance, 4));
+        # and round to four decimal places 
+        self.other.after(1000, distance = round(distance, 4));
 
-        # # display the distance calculated 
-        # print(f"--Distance measured: {distance}cm");
+        # display the distance calculated 
+        print(f"--Distance measured: {distance}cm");
 
-        # # prompt for another measurement 
-        # i = input("--Get another measurement (Y/N)? ");
-        # # stop measuring if desired 
-        # i = i.lower();
+        # prompt for another measurement 
+        i = input("--Get another measurement (Y/N)? ");
+        # stop measuring if desired 
+        i = i.lower();
 
         # finally, cleanup the GPIO pins
         print("Done.");
