@@ -136,9 +136,9 @@ class Module_Targeting:
         # once the ECHO pin is low, the end time is set
         if DEBUG:
             print("before while")
-        while (GPIO.input(self.ECHO) == GPIO.LOW):
+        if (GPIO.input(self.ECHO) == GPIO.LOW):
             start = time();
-        while (GPIO.input(self.ECHO) == GPIO.HIGH):
+        if (GPIO.input(self.ECHO) == GPIO.HIGH):
             end = time();
         if DEBUG:
             print("after while")
