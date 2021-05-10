@@ -189,7 +189,7 @@ class Module_Targeting:
 
             minWord.configure(text=f"MIN: {self.minPhrase}");
             maxWord.configure(text=f"MAX: {self.maxPhrase}");
-            confirmButton.configure(text=f"{buttonFuncs["calibrate"][0]}", command=buttonFuncs["calibrate"][1]);
+            confirmButton.configure(text=buttonFuncs["calibrate"][0], command=buttonFuncs["calibrate"][1]);
 
         # calculate the current range 
         def makeRange(stage):
@@ -278,7 +278,7 @@ class Module_Targeting:
             print("post current distance label");
 
         # button that confirms the distance 
-        confirmButton = Button(self.other, bg="chartreuse3", text=f"{buttonFuncs["calibrate"][0]}", font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1", command=buttonFuncs["calibrate"][1];
+        confirmButton = Button(self.other, bg="chartreuse3", text=buttonFuncs["calibrate"][0], font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1", command=buttonFuncs["calibrate"][1];
         if DEBUG:
             print("post confirm button creation");
         confirmButton.grid(row=3, column=1, sticky=N+S+E+W, padx=5, pady=5);        
