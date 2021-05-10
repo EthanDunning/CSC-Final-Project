@@ -171,8 +171,8 @@ class Module_Targeting:
 
 
         # create a dictionary of tuples for button-specific information at each stage
-        buttonFuncs = {"calibrate": ("CALIBRATE", lambda: self.calibrate()), "range 1": ("CONFIRM\nRANGE 1", lambda: supervisor(1)), 
-                        "range 2": ("CONFIRM\nRANGE 2", lambda: supervisor(2)), "range 3": ("CONFIRM\nRANGE 3", lambda: supervisor(3))};
+        buttonFuncs = {"calibrate": ("CALIBRATE", self.calibrate()), "range 1": ("CONFIRM\nRANGE 1", supervisor(1)), 
+                        "range 2": ("CONFIRM\nRANGE 2", supervisor(2)), "range 3": ("CONFIRM\nRANGE 3", supervisor(3))};
 
         if DEBUG:
             print(buttonFuncs["calibrate"]);
@@ -278,7 +278,7 @@ class Module_Targeting:
             print("post current distance label");
 
         # button that confirms the distance 
-        confirmButton = Button(self.other, bg="chartreuse3", text=buttonFuncs["calibrate"][0], font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1", command=buttonFuncs["calibrate"][1];
+        confirmButton = Button(self.other, bg="chartreuse3", text=buttonFuncs["calibrate"][0], font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1", command=lambda: buttonFuncs["calibrate"][1];
         if DEBUG:
             print("post confirm button creation");
         confirmButton.grid(row=3, column=1, sticky=N+S+E+W, padx=5, pady=5);        
