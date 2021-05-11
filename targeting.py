@@ -259,7 +259,7 @@ class Module_Targeting:
                     notRangeHasWord[self.currentRange] = False;
 
             else:
-                self.calibrate();
+                self.calibrationWrapper();
                 self.currentRange = 1;
                 makeRange(self.currentRange);
                 notRangeHasWord[0] = False;
