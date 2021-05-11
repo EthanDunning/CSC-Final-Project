@@ -102,7 +102,7 @@ class Module_Targeting:
 
     # wrapper to call getDistance through another process so it doesn't lag the timer
     def calibrationWrapper(self):
-        if __name__ == "__main__":
+        if __name__ == "__Module_Targeting__":
             d = multiprocessing.Process(target=calibrate, args=(self,));
             d.start();
             d.join();
