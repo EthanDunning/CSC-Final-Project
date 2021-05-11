@@ -345,7 +345,15 @@ class Module_Targeting:
 
                 self.other.MainMenu();
 
-            
+        # function changes the label to show current reading distance
+        def showDistance():
+
+            distance = self.getDistance();
+            self.other.after(100);
+
+            currentDistLabel.configure(text=str(distance));
+            self.other.after(100, showDistance());
+
 
 
 
