@@ -349,10 +349,10 @@ class Module_Targeting:
         def showDistance():
 
             distance = self.getDistance();
-            self.other.after(100);
+            self.other.after(200);
 
             currentDistLabel.configure(text=str(distance));
-            self.other.after(100, showDistance());
+            #self.other.after(100, showDistance());
 
 
 
