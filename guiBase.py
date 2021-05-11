@@ -182,11 +182,11 @@ class MainGUI(Frame):
         self.cols = 1
         self.loc = "Home"
         button = Button(self, bg="red", text="Push to Start", font=(
-            "TexGyreAdventor", 25), borderwidth=10, command=lambda: self.MainMenu())
+            "TexGyreAdventor", 25), borderwidth=10, activebackground="red", command=lambda: self.MainMenu())
         button.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
         quit = Button(self, bg="dim gray", text="Quit", font=("TexGyreAdventor", 25),
-                      borderwidth=10, command=lambda: self.quit())
+                      borderwidth=10, activebackground="light grey", command=lambda: self.quit())
         quit.grid(row=1, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
         Grid.rowconfigure(self, 0, weight=3)
@@ -429,10 +429,10 @@ class MainGUI(Frame):
                 background = "lime green"
             else:
                 button_color = "tomato"
-                background = "slate blue"
+                background = "tomato"
         except:
             button_color = "tomato"
-            background = "slate blue"
+            background = "tomato"
 
         if self.Module_1 == None:
             button_color = "lime green"
@@ -441,10 +441,10 @@ class MainGUI(Frame):
 
         try:
             button = Button(self, bg=button_color, text=self.Module_1.name, font=("TexGyreAdventor", 25),
-                            borderwidth=10, command=lambda: self.Module_Setup("Module_1"))
+                            borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_1"))
         except:
             button = Button(self, bg=button_color, text="None", font=("TexGyreAdventor", 25),
-                            borderwidth=10, command=lambda: self.Module_Setup("Module_1"))
+                            borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_1"))
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -455,10 +455,10 @@ class MainGUI(Frame):
                 background = "lime green"
             else:
                 button_color = "tomato"
-                background = "slate blue"
+                background = "tomato"
         except:
             button_color = "tomato"
-            background = "slate blue"
+            background = "tomato"
 
         if self.Module_2 == None:
             button_color = "lime green"
@@ -467,10 +467,10 @@ class MainGUI(Frame):
 
         try:
             button = Button(self, bg=button_color, text=self.Module_2.name, font=("TexGyreAdventor", 25),
-                            borderwidth=10, command=lambda: self.Module_Setup("Module_2"))
+                            borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_2"))
         except:
             button = Button(self, bg=button_color, text="Strike", font=("TexGyreAdventor", 25),
-                            borderwidth=10, command=lambda: self.strike())
+                            borderwidth=10, activebackground=background, command=lambda: self.strike())
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -481,10 +481,10 @@ class MainGUI(Frame):
                 background = "lime green"
             else:
                 button_color = "tomato"
-                background = "slate blue"
+                background = "tomato"
         except:
             button_color = "tomato"
-            background = "slate blue"
+            background = "tomato"
 
         if self.Module_3 == None:
             button_color = "lime green"
@@ -493,10 +493,10 @@ class MainGUI(Frame):
 
         try:
             button = Button(self, bg=button_color, text=self.Module_3.name, font=("TexGyreAdventor", 25),
-                            borderwidth=10, command=lambda: self.Module_Setup("Module_3"))
+                            borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_3"))
         except:
             button = Button(self, bg=button_color, text="None", font=("TexGyreAdventor", 25),
-                            borderwidth=10, command=lambda: self.Module_Setup("Module_3"))
+                            borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_3"))
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -507,10 +507,10 @@ class MainGUI(Frame):
                 background = "lime green"
             else:
                 button_color = "tomato"
-                background = "slate blue"
+                background = "tomato"
         except:
             button_color = "tomato"
-            background = "slate blue"
+            background = "tomato"
 
         if self.Module_4 == None:
             button_color = "lime green"
@@ -519,10 +519,10 @@ class MainGUI(Frame):
 
         try:
             button = Button(self, bg=button_color, text=self.Module_4.name, font=("TexGyreAdventor", 25),
-                            borderwidth=10, command=lambda: self.Module_Setup("Module_4"))
+                            borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_4"))
         except:
             button = Button(self, bg=button_color, text="None", font=("TexGyreAdventor", 25),
-                            borderwidth=10, command=lambda: self.Module_Setup("Module_4"))
+                            borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_4"))
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -533,10 +533,10 @@ class MainGUI(Frame):
                 background = "lime green"
             else:
                 button_color = "tomato"
-                background = "slate blue"
+                background = "tomato"
         except:
             button_color = "tomato"
-            background = "slate blue"
+            background = "tomato"
 
         if self.Module_5 == None:
             button_color = "lime green"
@@ -545,10 +545,10 @@ class MainGUI(Frame):
 
         try:
             button = Button(self, bg=button_color, text=self.Module_5.name, font=("TexGyreAdventor", 25),
-                            borderwidth=10, command=lambda: self.Module_Setup("Module_5"))
+                            borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_5"))
         except:
             button = Button(self, bg=button_color, text="None", font=("TexGyreAdventor", 25),
-                            borderwidth=10, command=lambda: self.Module_Setup("Module_5"))
+                            borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_5"))
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
@@ -559,10 +559,10 @@ class MainGUI(Frame):
                 background = "lime green"
             else:
                 button_color = "tomato"
-                background = "slate blue"
+                background = "tomato"
         except:
             button_color = "tomato"
-            background = "slate blue"
+            background = "tomato"
 
         if self.Module_6 == None:
             button_color = "lime green"
@@ -571,10 +571,10 @@ class MainGUI(Frame):
 
         try:
             button = Button(self, bg=button_color, text=self.Module_6.name, font=("TexGyreAdventor", 25),
-                            borderwidth=10, command=lambda: self.Module_Setup("Module_6"))
+                            borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_6"))
         except:
             button = Button(self, bg=button_color, text="None", font=("TexGyreAdventor", 25),
-                            borderwidth=10, command=lambda: self.Module_Setup("Module_6"))
+                            borderwidth=10, activebackground=background, command=lambda: self.Module_Setup("Module_6"))
         button.grid(row=x, column=y, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=span)
 
