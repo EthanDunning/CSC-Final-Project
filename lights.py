@@ -1,11 +1,10 @@
 import random
 import RPi.GPIO as GPIO
 from time import sleep
-from Game import *
 #from guiBase import *
 from tkinter import *
 
-class Module_Flashing_Lights(Game):
+class Module_Flashing_Lights():
     def __init__(self, leds, switches, other):
         super().__init__()
         self.other = other

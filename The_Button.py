@@ -1,13 +1,15 @@
-from Game import Game
+
 import RPi.GPIO as GPIO
 from tkinter import *
 from random import *
 from math import *
 from time import *
 GPIO.setwarnings(False)
-class Module_The_Button(Game):
-    def __init__(self,other,button_input):
-        super().__init__() 
+
+
+class Module_The_Button():
+    def __init__(self, other, button_input):
+        super().__init__()
         self.other = other
         self.name = "The Button"
         self.other.loc = "The Button"
@@ -19,13 +21,17 @@ class Module_The_Button(Game):
         self.end = None
         self.button_time = None
         self.button_pressed = None
-        
+        self.give_strike = False
         self.button_checker = None
         self.main(self.Module_Started)
         #self.button_test()
         
     def main(self, started):
-
+        try:
+            GPIO.cleanup()
+        except:
+            pass
+        
         self.other.clearFrame()
         self.other.rows = 3
         self.other.cols = 6
@@ -35,9 +41,7 @@ class Module_The_Button(Game):
         self.other.location(1, 2, 2)
         self.other.health(1, 4, 2)
         self.Modules_Completed = 0
-        for module in self.other.Modules_Done:
-            if module == True:
-                self.Modules_Completed += 1
+        
 
         #print(self.Modules_Completed)
 
@@ -81,6 +85,10 @@ class Module_The_Button(Game):
 
     def button_check(self):
         if self.Module_Started == True:
+            self.Modules_Completed = 0
+            for module in self.other.Modules_Done:
+                if module == True:
+                    self.Modules_Completed += 1
             self.button_pressed = None
             #GPIO.output(22, GPIO.input(self.button))
             if GPIO.input(self.button) == 1 and self.end==None and self.start==None:
@@ -96,6 +104,8 @@ class Module_The_Button(Game):
                 self.button_pressed = True
                 if self.button_time >= 1:
                     self.button_pressed = False
+                if self.button_time < 0.1:
+                    self.button_pressed = None
                         
                 self.start = None
                 self.end = None
@@ -105,14 +115,14 @@ class Module_The_Button(Game):
                     if self.button_pressed == True:
                         self.button_win()
                     else:
-                        self.other.strike()
+                        self.give_strike = True
 
                 elif self.button_label == "Detonate":
                     if len(self.button_color) > 4:
                         if self.button_pressed == True:
                             self.button_win()
                         else:
-                            self.other.strike()
+                            self.give_strike = True
 
                     elif len(self.button_color) <= 4:
                         self.held_button()
@@ -122,7 +132,7 @@ class Module_The_Button(Game):
                         if self.button_pressed == True:
                             self.button_win()
                         else:
-                            self.other.strike()
+                            self.give_strike = True
 
                     elif len(self.button_color) > 4:
                         self.held_button()
@@ -134,22 +144,26 @@ class Module_The_Button(Game):
                     if self.button_pressed==True:
                         self.button_win()
                     else:
-                        self.other.strike()
+                        self.give_strike = True
 
                 elif self.button_color == "red":
                     if self.button_pressed==True:
                             self.button_win()
                     else:
-                        self.other.strike()
+                        self.give_strike = True
 
-                if self.Modules_Completed == 5:
+                elif self.Modules_Completed == 5:
                     if self.button_pressed==True:
                             self.button_win()
                     else:
-                        self.other.strike()
+                        self.give_strike = True
                     
                 else:
                     self.held_button()
+
+            if self.give_strike == True:
+                self.other.strike()
+                self.give_strike = False
                     
 
     def held_button(self):
@@ -162,25 +176,25 @@ class Module_The_Button(Game):
                 # print("win")
                 self.button_win()
             else:
-                self.other.strike()
+                self.give_strike = True
 
         elif self.strip_color == "yellow":
             if "3" in time:
                 self.button_win()
             else:
-                self.other.strike()
+                self.give_strike = True
 
         elif self.strip_color == "blue":
             if "7" in time:
                 self.button_win()
             else:
-                self.other.strike()
+                self.give_strike = True
 
         elif self.strip_color == "white":
             if "9" in time:
                 self.button_win()
             else:
-                self.other.strike()
+                self.give_strike = True
 
     def button_win(self):
         self.Module_Done = True

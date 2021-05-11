@@ -1,23 +1,16 @@
 from tkinter import *
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 from random import *
 from math import *
 from Keypad import *
 from The_Button import *
+from Wires import *
+from targeting import *;
+from time import *
+from lights import *
+from targeting import *
+from morse import *
 
-# pins
-leds = [17, 16, 13, 12]
-switches = [18, 19, 20, 21, 22]
-wires = [23, 24, 25, 26, 27]
-
-# # setting up the GPIO
-# GPIO.setmode(GPIO.BCM)
-# # I/O
-# GPIO.setup(leds, GPIO.OUT)
-# # GPIO.setup(test_led, GPIO.OUT)
-# GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-# GPIO.setup(wires, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-# # GPIO.setup(wires, GPIO.IN)
 
 # the main GUI
 
@@ -25,13 +18,23 @@ class MainGUI(Frame):
     def __init__(self, parent):
         Frame.__init__(self, parent, bg="white")
         parent.attributes("-fullscreen", False)
+        self.config(cursor="none")
         self.rows=1
         self.cols=1
         self.pack(fill=BOTH, expand=True)
         self.reset()
 
+    # function for sending output to the pins 
+    # seems that output must be sent through the Frame object or it halts
+    def pinOutput (self, pin, signal):
+        GPIO.output(pin, signal);
+        return;
+
     def reset(self):
-        GPIO.cleanup()
+        try:
+            GPIO.cleanup()
+        except:
+            pass
         self.Alive = True
         self.maxstrikes = 4
         self.startmins = IntVar()
@@ -60,6 +63,7 @@ class MainGUI(Frame):
         self.hp = StringVar()
         self.hp.set("[{}{}]".format("X"*self.strikes, " "*(self.maxstrikes-self.strikes)))
         self.loc = "Home"
+        self.current_module = None
         self.counter = None
 
         self.Module_1_Started = False
@@ -153,17 +157,20 @@ class MainGUI(Frame):
         def cols(self, value):
             self._cols = value
 
-        self.Module_1 = Module_The_Button(self,25)
+        self.Module_1 = Module_The_Button(self, 22)
         self.Module_2 = Module_Keypad(self)
-        self.Module_3 = None
-        self.Module_4 = None
-        self.Module_5 = None
-        self.Module_6 = None
+        self.Module_3 = Module_Wires(self)
+        self.Module_4 = Module_Targeting(self)
+        self.Module_5 = Module_Flashing_Lights(self, leds, switches)
+        self.Module_6 = Module_Morse_Code(self)
 
         self.start_screen()
 
     def start_screen(self):
-        GPIO.cleanup()
+        try:
+            GPIO.cleanup()
+        except:
+            pass
         self.clearFrame()
         self.rows = 2
         self.cols = 1
@@ -184,9 +191,13 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def MainMenu(self):
-        GPIO.cleanup()
+        try:
+            GPIO.cleanup()
+        except:
+            pass
         self.clearFrame()
         self.loc="Home"
+        self.current_module = 0
         self.rows = 4
         self.cols = 3
         self.pause_button(0, 0, 3)
@@ -239,7 +250,10 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def clearFrame(self):
-        GPIO.cleanup()
+        try:
+            GPIO.cleanup()
+        except:
+            pass
         if self.counter is not None:
             self.after_cancel(self.counter)
             self.counter = None
@@ -278,15 +292,27 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def resume(self):
-        if self.loc == "Home":
+        if self.current_module == 0:
             self.MainMenu()
-        elif self.loc == "The Button":
-            self.Module_The_Button(self.Module_1_Started)
-        elif self.loc == "Keypad":
-            self.Module_Keypad(self.Module_4_Started)
-        elif self.loc == "Morse Code":
-            self.Module_Morse_Code(self.Module_3_Started)
-        
+
+        elif self.current_module == 1:
+            self.Module_1.main(self.Module_1_Started)
+
+        elif self.current_module == 2:
+            self.Module_2.main(self.Module_2_Started)
+
+        elif self.current_module == 3:
+            self.Module_3.main(self.Module_3_Started)
+
+        elif self.current_module == 4:
+            self.Module_4.main(self.Module_4_Started)
+
+        elif self.current_module == 5:
+            self.Module_5.main(self.Module_5_Started)
+
+        elif self.current_module == 6:
+            self.Module_6.main(self.Module_6_Started)
+
 
     def update_timer(self):
         tick = 500
@@ -310,34 +336,34 @@ class MainGUI(Frame):
                     self.mins = 0
                     self.Game_Over()
 
-        if self.mins < 10:
-            if ceil(self.secs) < 10:
-                self.time.set(f"0{self.mins}:0{ceil(self.secs)}")
+            if self.mins < 10:
+                if ceil(self.secs) < 10:
+                    self.time.set(f"0{self.mins}:0{ceil(self.secs)}")
+                else:
+                    self.time.set(f"0{self.mins}:{ceil(self.secs)}")
             else:
-                self.time.set(f"0{self.mins}:{ceil(self.secs)}")
-        else:
-            if self.secs < 10:
-                self.time.set(f"{self.mins}:0{ceil(self.secs)}")
-            else:
-                self.time.set(f"{self.mins}:{ceil(self.secs)}")
+                if self.secs < 10:
+                    self.time.set(f"{self.mins}:0{ceil(self.secs)}")
+                else:
+                    self.time.set(f"{self.mins}:{ceil(self.secs)}")
 
-        if (self.mins < 1) and (self.secs <= 30):
-            if float(self.secs).is_integer()==False:
-               self.timer.config(fg="white")
+            if (self.mins < 1) and (self.secs <= 30):
+                if float(self.secs).is_integer()==False:
+                    self.timer.config(fg="white")
+                else:
+                    self.timer.config(fg="red")
             else:
-                self.timer.config(fg="red")
-        else:
-            if self.Alive==True:
-                pass
-        
-        self.update()
+                if self.Alive==True:
+                    pass
+            
+            self.update()
 
     def countdown(self, x, y, span):
         self.timer = Label(self, textvariable=self.time,
                       bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         self.timer.grid(row=x, column=y, sticky=N+S+E+W,
                    padx=5, pady=5, columnspan=span)
-        if self.counter is None:
+        if self.counter is None and self.Alive == True:
             self.counter = self.after(1000, self.update_timer)
         
     def strike(self):
@@ -528,40 +554,57 @@ class MainGUI(Frame):
     def Module_Setup(self, Button):
         try:
             if Button == "Module_1":
+                self.Module_1.main(self.Module_1_Started)
                 if self.Module_1_Started == False:
                     self.Module_1_Started = True
-                self.Module_1.main(self.Module_1_Started)
+                
+                self.current_module = 1
 
             elif Button == "Module_2":
+                self.Module_2.main(self.Module_2_Started)
                 if self.Module_2_Started == False:
                     self.Module_2_Started = True
-                self.Module_2.main(self.Module_2_Started)
+                
+                self.current_module = 2
 
             elif Button == "Module_3":
+                self.Module_3.main(self.Module_3_Started)
                 if self.Module_3_Started == False:
                     self.Module_3_Started = True
-                self.Module_3.main(self.Module_3_Started)
+                
+                self.current_module = 3
 
             elif Button == "Module_4":
+                self.Module_4.main(self.Module_4_Started)
                 if self.Module_4_Started == False:
                     self.Module_4_Started = True
-                self.Module_4.main(self.Module_4_Started)
+                
+                self.current_module = 4
                     
             elif Button == "Module_5":
+                self.Module_5.main(self.Module_5_Started)
                 if self.Module_5_Started == False:
                     self.Module_5_Started = True
-                self.Module_5.main(self.Module_5_Started)
+                
+                self.current_module = 5
 
             elif Button == "Module_6":
+                self.Module_6.main(self.Module_6_Started)
                 if self.Module_6_Started == False:
                     self.Module_6_Started = True
-                self.Module_6.main(self.Module_6_Started)
+        
+                self.current_module = 6
         except:
             pass
 
     def Game_Over(self):
-        GPIO.cleanup()
+        try:
+            GPIO.cleanup()
+        except:
+            pass
+        self.timer_pause = True
         self.Alive = False
+        self.counter = None
         self.clearFrame()
         self.rows = 3
         self.cols = 3
@@ -603,7 +646,10 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def Game_Win(self):
-        GPIO.cleanup()
+        try:
+            GPIO.cleanup()
+        except:
+            pass
         self.clearFrame()
         self.rows = 4
         self.cols = 3
@@ -655,3 +701,4 @@ window.geometry("800x400")
 p = MainGUI(window)
 # display the GUI and wait for user interaction
 p.mainloop()
+GPIO.cleanup();
