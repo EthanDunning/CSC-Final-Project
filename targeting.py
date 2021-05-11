@@ -47,6 +47,7 @@ class Module_Targeting:
         self.currentMin = 0.0000;
         self.currentMax = 15.0000;
         self.currentRange = 0;
+        self.rangeGood = False;
 
     # calibrate the sensor by returning a correction factor for later measurements 
     def calibrate(self):
@@ -90,6 +91,8 @@ class Module_Targeting:
 
         if DEBUG:
             print(f"finish calibration got {correction_factor}");
+
+        self.rangeGood = True;
         
         self.correction_factor = correction_factor;
 
@@ -244,15 +247,17 @@ class Module_Targeting:
 
             # button functions if the 
             if stage > 0:
+                confirm(stage);
+
                 if (not rangeHasWord[stage - 1]):
                     makeRange(stage);
                     rangeHasWord[stage - 1] = True;
 
-                confirm(stage);
             else:
                 self.calibrate();
                 self.currentRange = 1;
                 makeRange(self.currentRange);
+                rangeHasWord[0] = True;
 
             minWord.configure(text=f"MIN: {self.minPhrase}");
             maxWord.configure(text=f"MAX: {self.maxPhrase}");
@@ -279,20 +284,35 @@ class Module_Targeting:
             # list that assigns each dictionary to its range
             rangeOfWords = [words1, words2, words3];
 
-            self.currentMin = round(self.currentMin + random.choice(list(rangeOfWords[stage - 1].values())), 4);
-            self.minPhrase = random.choice(list(rangeOfWords[stage - 1].keys()));
+            if self.rangeGood:
 
-            self.currentMax = round(self.currentMax - random.choice(list(rangeOfWords[stage - 1].values())), 4);
-            self.maxPhrase = random.choice(list(rangeOfWords[stage - 1].keys()));
+                self.currentMin = round(self.currentMin + random.choice(list(rangeOfWords[stage - 1].values())), 4);
+                self.minPhrase = random.choice(list(rangeOfWords[stage - 1].keys()));
+
+                self.currentMax = round(self.currentMax - random.choice(list(rangeOfWords[stage - 1].values())), 4);
+                self.maxPhrase = random.choice(list(rangeOfWords[stage - 1].keys()));
+
+                self.rangeGood = False;
 
 
         # function to confirm inputs
         def confirm(stage):
             
-            print(f"current range is {self.currentMin}cm to {self.currentMax}cm")
+            if DEBUG:
+                print("begin check");
+                print(f"current range is {self.currentMin}cm to {self.currentMax}cm");
 
+            distance = getDistance();
 
+            # if the distance is within the range, increase the current range 
+            if (distance >= self.currentMin and distance <= self.currentMax):
 
+                    self.currentRange += 1;
+
+            # finish the module if all ranges complete 
+            if self.currentRange == 4:
+
+                self.Module_Done = True;
 
             
 
