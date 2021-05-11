@@ -171,6 +171,8 @@ class MainGUI(Frame):
         self.start_screen()
 
     def start_screen(self):
+        pygame.mixer.music.load("music/wait.mp3")
+        pygame.mixer.music.play(loops=-1)
         try:
             GPIO.cleanup()
         except:
@@ -286,6 +288,9 @@ class MainGUI(Frame):
         self.pack_forget()
             
     def pause(self):
+        self.pause_main_music()
+        pygame.mixer.music.load("music/wait.mp3")
+        pygame.mixer.music.play(loops=-1)
         self.clearFrame()
         self.rows = 3
         self.cols = 1
@@ -621,6 +626,10 @@ class MainGUI(Frame):
             pass
 
     def Game_Over(self):
+        explode = pygame.mixer.Sound("music/death.wav")
+        explode.play()
+        pygame.mixer.music.load("music/defused.mp3")
+        pygame.mixer.music.play(loops=-1)
         try:
             GPIO.cleanup()
         except:
@@ -669,6 +678,8 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def Game_Win(self):
+        pygame.mixer.music.load("music/defused.mp3")
+        pygame.mixer.music.play(loops=-1)
         try:
             GPIO.cleanup()
         except:

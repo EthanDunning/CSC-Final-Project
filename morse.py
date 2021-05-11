@@ -166,7 +166,10 @@ class Module_Morse_Code():
         # print(g2)
         g3 = z1[2].split('3')
         # print(g3)
-        g4 = z1[3].split('3')
+        try:
+            g4 = z1[3].split('3')
+        except:
+            pass
         # print(g4)
         # x is the frequency, g1-4 are lists of each letter in morse
         return x, g1, g2, g3, g4
