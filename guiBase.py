@@ -26,6 +26,7 @@ class MainGUI(Frame):
     def __init__(self, parent):
         Frame.__init__(self, parent, bg="white")
         parent.attributes("-fullscreen", False)
+        self.config(cursor="none")
         self.rows=1
         self.cols=1
         self.pack(fill=BOTH, expand=True)
@@ -700,5 +701,6 @@ window.title("Continue Speaking And Everyone Lives")
 window.geometry("800x400")
 # generate the GUI
 p = MainGUI(window)
+
 # display the GUI and wait for user interaction
 p.mainloop()
