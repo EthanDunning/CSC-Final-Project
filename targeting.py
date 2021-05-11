@@ -330,9 +330,9 @@ class Module_Targeting:
             print("post necessary buttons")
 
         # init min and max labels 
-        minWord = Label(self.other, bg="white", text=f"MIN: {self.minPhrase}", font=("TexGyreAdventor", 20), relief="groove", borderwidth=5);
+        minWord = Label(self.other, bg="white", text=self.minPhrase, font=("TexGyreAdventor", 20), relief="groove", borderwidth=5);
         minWord.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5);
-        maxWord = Label(self.other, bg="white", text=f"MAX: {self.maxPhrase}", font=("TexGyreAdventor", 20), relief="groove", borderwidth=5);
+        maxWord = Label(self.other, bg="white", text=self.maxPhrase, font=("TexGyreAdventor", 20), relief="groove", borderwidth=5);
         maxWord.grid(row=2, column=1, sticky=N+S+E+W, padx=5, pady=5);
 
         if DEBUG:
