@@ -4,7 +4,7 @@ from time import sleep, time;
 import multiprocessing;
 import random;
 
-DEBUG = True
+DEBUG = False
 
 '''
 This module focuses on focusing on a target distance between the ultrasonic sensor
@@ -114,9 +114,6 @@ class Module_Targeting:
     # uses the sensor to calculate the distance to an object
     def getDistance (self):
 
-        if DEBUG:
-            print("begin getDistance")
-
         # GPIO setup
         GPIO.setmode(GPIO.BCM);
         GPIO.setup(self.TRIG, GPIO.OUT);
@@ -127,9 +124,6 @@ class Module_Targeting:
         sleep(self.TRIGGER_TIME);
         GPIO.output(self.TRIG, GPIO.LOW);
 
-        if DEBUG:
-            print("GPIO setup done")
-
         # wait for the ECHO pin to read high
         # once the ECHO pin is high, the start time is set
         # once the ECHO pin is low, the end time is set
@@ -137,9 +131,6 @@ class Module_Targeting:
             start = time();
         while (GPIO.input(self.ECHO) == GPIO.HIGH):
             end = time();
-
-        if DEBUG:
-            print("whiles done")
 
         # calculate the duration that the ECHO pin was high
         # this is how long the pulse took to get from the sensor to the object -- and back again

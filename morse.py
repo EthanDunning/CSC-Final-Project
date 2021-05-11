@@ -83,6 +83,8 @@ class Module_Morse_Code():
         start = Button(self.other, bg='purple', text = 'Start', font=('TexGyreAdventor', 45), borderwidth=10, relief='raised', command = lambda: self.Button_Press('start'))
         start.grid(row=3, column=0, sticky=N+S+E+W, padx=0, pady=0, columnspan=1)
         
+        for row in range(self.other.rows):
+            Grid.rowconfigure(self.other, row, weight=5)
         for col in range(self.other.cols):
             Grid.columnconfigure(self.other, col, weight=5)
         self.other.pack(fill=BOTH, expand=True)
@@ -110,7 +112,7 @@ class Module_Morse_Code():
             freq.grid(row=2, column=1, sticky=N+S+E+W, padx=0, pady=0, columnspan=1)
             return self.freq
         elif Button == 'check':
-            # print(self.freq, self.TrueFreq)
+            print(self.freq, self.TrueFreq)
             # print(self.Module_Started)
             if self.freq == self.TrueFreq:
                 self.Module_Done = True
@@ -201,6 +203,7 @@ class Module_Morse_Code():
         self.other.after(250)
         GPIO.output(self.leds[light], GPIO.LOW)
         self.other.after(250)
+        self.other.pack()
         return
     # dash function
     def dash(self, light):
@@ -208,6 +211,7 @@ class Module_Morse_Code():
         self.other.after(750)
         GPIO.output(self.leds[light], GPIO.LOW)
         self.other.after(1000)
+        self.other.pack()
         return
 
     def timer_update(self):

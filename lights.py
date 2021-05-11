@@ -14,7 +14,7 @@ class Module_Flashing_Lights():
         self.Module_Done = False
         self.name = 'Flashing Light'
         self.Modules_Completed = 0
-        self.light_1 = random.choice(self.leds)
+        self.light_1 = 17#random.choice(self.leds)
         for i in self.other.Modules_Done:
             if i == True:
                 self.Modules_Completed += 1
@@ -45,26 +45,29 @@ class Module_Flashing_Lights():
         GPIO.setup(self.light_1, GPIO.OUT)
         GPIO.output(self.light_1, GPIO.HIGH)
         # print('A')
-        self.switch_check()
+        #self.switch_check()
         # print('penis')
 
     def switch_check(self):
         # print('ddick too')
-        GPIO.setup(self.switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        # print('butt')
+        for i in range(len(self.switches)):
+            GPIO.setup(self.switches[i], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        print('butt')
         # Red light 1
         if self.light_1 == 17:
-            # print('k')
+            print('k')
             # if Modules Completed is even
             if self.Modules_Completed % 2 == 0:
                 # if strikes = 0
                 if self.other.strikes == 0:
+                    print('l')
                     # press buttons 1, 3
                     if (GPIO.input(self.switches[0]) == GPIO.HIGH) and (GPIO.input(self.switches[2]) == GPIO.HIGH):
                         self.Module_Done = True
+                        print('m')
                         self.other.MainMenu()
                     elif (GPIO.input(self.switches[1]) == GPIO.HIGH) or (GPIO.input(self.switches[3]) == GPIO.HIGH):
-                        self.other.Strike()
+                        self.other.strike()
                 # if strikes = 1
                 elif self.other.strikes == 1:
                     # press buttons 2, 3
@@ -78,7 +81,7 @@ class Module_Flashing_Lights():
                     # press button 1
                     if (GPIO.input(self.switches[0]) == GPIO.HIGH):
                         self.Module_Done = True
-                        self.MainMenu()
+                        self.other.MainMenu()
                     elif (GPIO.input(self.switches[1]) == GPIO.HIGH) or (GPIO.input(self.switches[2]) == GPIO.HIGH) or (GPIO.input(self.switches[3]) == GPIO.HIGH):
                         self.other.strike()
             # if Modules Completed is odd
