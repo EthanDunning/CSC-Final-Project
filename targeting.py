@@ -233,7 +233,7 @@ class Module_Targeting:
 
         # create a dictionary of tuples for button-specific information at each stage
         # ignore the tuple, it is not used anymore, just the first part of the tuple is used 
-        buttonFuncs = {"calibrate": ("CALIBRATE", "self.calibrate()"), "range 1": ("CONFIRM\nRANGE 1", "supervisor(1)"), 
+        buttonFuncs = {"range 0": ("CALIBRATE", "self.calibrate()"), "range 1": ("CONFIRM\nRANGE 1", "supervisor(1)"), 
                         "range 2": ("CONFIRM\nRANGE 2", "supervisor(2)"), "range 3": ("CONFIRM\nRANGE 3", "supervisor(3)")};
 
         if DEBUG:
