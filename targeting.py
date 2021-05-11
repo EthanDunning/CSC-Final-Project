@@ -243,21 +243,21 @@ class Module_Targeting:
 
         # function supervises the functions that are to be called upon button press 
         def supervisor(stage):
-            rangeHasWord = [False, False, False];
+            notRangeHasWord = [True, True, True, False];
 
             # button functions if the 
             if stage > 0:
-                confirm(stage);
+                confirm(self.currentRange);
 
-                if (not rangeHasWord[self.currentRange - 1]):
+                if (notRangeHasWord[self.currentRange - 1]):
                     makeRange(self.currentRange);
-                    rangeHasWord[self.currentRange - 1] = True;
+                    rangeHasWord[self.currentRange - 1] = False;
 
             else:
                 self.calibrate();
                 self.currentRange = 1;
                 makeRange(self.currentRange);
-                rangeHasWord[0] = True;
+                notRangeHasWord[0] = False;
 
             minWord.configure(text=f"MIN: {self.minPhrase}");
             maxWord.configure(text=f"MAX: {self.maxPhrase}");
