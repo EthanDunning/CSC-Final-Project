@@ -418,7 +418,7 @@ class Module_Targeting:
             Grid.columnconfigure(self.other, col, weight=1)
         self.other.pack(fill=BOTH, expand=True)
 
-        showDistance();
+        # showDistance();
 
         if DEBUG:
             print("post packing");
