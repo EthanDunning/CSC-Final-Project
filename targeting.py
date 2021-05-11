@@ -398,7 +398,7 @@ class Module_Targeting:
             print("post min/max labels");
 
         # label that shows the current distance
-        currentDistLabel = Label(self.other, bg="white", text=f"temp text", font=("TexGyreAdventor", 20), relief="sunken", borderwidth=5);
+        currentDistLabel = Button(self.other, bg="white", text=f"Press to see\ncurrent position", font=("TexGyreAdventor", 20), borderwidth=5, command=lambda: showDistance());
         currentDistLabel.grid(row=3, column=0, sticky=N+S+E+W, padx=5, pady=5);
 
         if DEBUG:
