@@ -363,8 +363,9 @@ class MainGUI(Frame):
                 if self.Alive==True:
                     pass
             if float(self.secs).is_integer()==False:
-                clock_tick = pygame.mixer.music("music/clock_tick.mp3")
+                clock_tick = pygame.mixer.Sound("music/clock_tick.wav")
                 clock_tick.play()
+                
             
             
             self.update()
