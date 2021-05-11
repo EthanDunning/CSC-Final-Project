@@ -1,4 +1,4 @@
-from Game import Game
+
 import RPi.GPIO as GPIO
 from tkinter import *
 from random import *
@@ -7,7 +7,7 @@ from time import *
 GPIO.setwarnings(False)
 
 
-class Module_The_Button(Game):
+class Module_The_Button():
     def __init__(self, other, button_input):
         super().__init__()
         self.other = other

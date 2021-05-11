@@ -20,10 +20,10 @@
 from time import sleep
 import RPi.GPIO as GPIO
 import random
-from Game import *
+
 from tkinter import *
 
-class Module_Morse_Code(Game):
+class Module_Morse_Code():
     def __init__(self, other):
         super().__init__()
         self.other = other

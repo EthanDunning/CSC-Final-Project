@@ -1,4 +1,4 @@
-from Game import Game
+
 from tkinter import *
 from collections import Counter
 import RPi.GPIO as GPIO
@@ -13,7 +13,7 @@ instructions relevant to the order.
 '''
 
 
-class Module_Wires(Game):
+class Module_Wires():
 
     def __init__(self, other):
         super().__init__()
@@ -24,6 +24,7 @@ class Module_Wires(Game):
         self.wires = []
         self.correct = 0
         self.inputPins = [18, 19, 20, 21, 22]
+        self.connections = self.inputPins
         # This may seem unintuitive, but I am saving the baseGUI as a property
         # so that it can be repeatedly accessed here without having to repeatedly
         # pass it in every time a function is called from elsewhere
@@ -55,64 +56,14 @@ class Module_Wires(Game):
 
         # other methods
 
-        #self.main()
+        
 
-    # setup the GPIO pins
-    def gpioSetup(self):
-        if (DEBUG):
-            print("gpioSetup()")
-        self.output = [False, False, False, False, False]
-        self.giveOutput()
+    def main(self, started = False):
 
-    # set the GUI for the main part of the puzzle
-    def setGUI(self):
-        if (DEBUG):
-            print("setGUI()")
-        # clear the frame and set the grid
-        self.other.clearFrame()
-        self.other.rows = 3
-        self.other.cols = 2
-        self.other.loc = "Wires"
-
-        # button that goes to the main menu
-        mainMenu = Button(self.other, bg="grey", text="Go Back.", font=("TexGyreAdventor", 25),
-                          borderwidth=10, activebackground="red", command=lambda: self.other.MainMenu())
-        mainMenu.grid(row=0, column=1, sticky=N+S+E+W, padx=5, pady=5)
-
-        # button that pauses the game
-        pause = Button(self.other, bg="grey", text="Pause", font=("TexGyreAdventor", 25),
-                       borderwidth=10, activebackground="red", command=lambda: self.other.pause())
-        pause.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5)
-
-        # label for the colors
-        colorsLabel = Label(self.other, bg="white", text=str(self.wires), font=(
-            "TexGyreAdventor", 28), relief="groove", borderwidth=10)
-        colorsLabel.grid(row=1, column=0, sticky=N+S+E +
-                         W, padx=5, pady=5, columnspan=2)
-
-        # label for timer
-        self.other.countdown(2, 0, 1)
-
-        # label for strikes
-        self.other.health(2, 1, 1)
-
-        # configure and pack the grid for display
-        for row in range(self.other.rows):
-            Grid.rowconfigure(self.other, row, weight=1)
-        for col in range(self.other.cols):
-            Grid.columnconfigure(self.other, col, weight=1)
-        self.other.pack(fill=BOTH, expand=True)
-
-        self.wirePull()
-
-    # pause the game so colors can be input
-
-    def main(self, started):
+        print(started)
         if (DEBUG):
             print("main()")
         # clear the frame and setup the right size of grid
-        if (DEBUG):
-            print(self.Module_Started)
         if started == False:
 
             self.other.clearFrame()
@@ -213,68 +164,117 @@ class Module_Wires(Game):
                 Grid.columnconfigure(self.other, col, weight=1)
             self.other.pack(fill=BOTH, expand=True)
 
+        
+
+            # function picks the correct wire to pull based on the order of the wires
+            def chooseCorrect():
+                if (DEBUG):
+                    print("chooseCorrect()")
+
+                # create lists from the list of wires to determine:
+                # 1. If that color is being used
+                # 2. How many of that color is being used
+                counts = {"Orange": 0, "Yellow": 0,
+                        "Green": 0, "Blue": 0, "Purple": 0}
+                for c in counts:
+                    if DEBUG:
+                        print(c)
+                    counts[c] = self.wires.count(c)
+                falses = 0
+                for i in counts:
+                    if (counts[i] == 0):
+                        falses += 1
+
+                # ladder of elifs for each possiblity
+                # why the FUCK does python not have switch cases??????
+
+                # If the last wire is purple and there are no yellow wires, pull the fourth wire
+                if (self.wires[-1] == "Purple" and counts["Yellow"] == 0):
+                    self.correct = 3
+
+                # If there is exactly one green wire, and there is more than one blue wire, pull the first wire.
+                elif (counts["Green"] == 1 and counts["Blue"] > 1):
+                    self.correct = 0
+
+                # If there are no orange wires, pull the second wire
+                elif (counts["Orange"] == 0):
+                    self.correct = 1
+
+                # If there are only two different colors in the set of wires, pull the last wire.
+                elif (falses == 3):
+                    self.correct = 4
+
+                # If there are all different colors of wires in the set, pull the third wire.
+                elif (falses == 0):
+                    self.correct = 2
+
+                # If the first and last wires are green and there are no purple wires, pull the second wire.
+                elif (self.wires[0] == "Green" and self.wires[4] == "Green" and counts["Purple"] == 0):
+                    self.correct = 1
+
+                # Otherwise, pull the first wire.
+                else:
+                    self.correct = 0
+
+                if DEBUG:
+                    print(counts)
+                    print("Wire to pull:")
+                    print(self.correct)
+
+                self.setGUI()
+
         else:
             if (DEBUG):
                 print("Pass")
             self.setGUI()
 
-        # function picks the correct wire to pull based on the order of the wires
-        def chooseCorrect():
-            if (DEBUG):
-                print("chooseCorrect()")
 
-            # create lists from the list of wires to determine:
-            # 1. If that color is being used
-            # 2. How many of that color is being used
-            counts = {"Orange": 0, "Yellow": 0,
-                      "Green": 0, "Blue": 0, "Purple": 0}
-            for c in counts:
-                if DEBUG:
-                    print(c)
-                counts[c] = self.wires.count(c)
-            falses = 0
-            for i in counts:
-                if (counts[i] == 0):
-                    falses += 1
 
-            # ladder of elifs for each possiblity
-            # why the FUCK does python not have switch cases??????
 
-            # If the last wire is purple and there are no yellow wires, pull the fourth wire
-            if (self.wires[-1] == "Purple" and counts["Yellow"] == 0):
-                self.correct = 3
+    # set the GUI for the main part of the puzzle
+    def setGUI(self):
+        if (DEBUG):
+            print("setGUI()")
+        # clear the frame and set the grid
+        self.other.clearFrame()
+        self.other.rows = 3
+        self.other.cols = 2
+        self.other.loc = "Wires"
 
-            # If there is exactly one green wire, and there is more than one blue wire, pull the first wire.
-            elif (counts["Green"] == 1 and counts["Blue"] > 1):
-                self.correct = 0
+        # button that goes to the main menu
+        mainMenu = Button(self.other, bg="grey", text="Go Back.", font=("TexGyreAdventor", 25),
+                          borderwidth=10, activebackground="red", command=lambda: self.other.MainMenu())
+        mainMenu.grid(row=0, column=1, sticky=N+S+E+W, padx=5, pady=5)
 
-            # If there are no orange wires, pull the second wire
-            elif (counts["Orange"] == 0):
-                self.correct = 1
+        # button that pauses the game
+        pause = Button(self.other, bg="grey", text="Pause", font=("TexGyreAdventor", 25),
+                       borderwidth=10, activebackground="red", command=lambda: self.other.pause())
+        pause.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
-            # If there are only two different colors in the set of wires, pull the last wire.
-            elif (falses == 3):
-                self.correct = 4
+        # label for the colors
+        colorsLabel = Label(self.other, bg="white", text=str(self.wires), font=(
+            "TexGyreAdventor", 28), relief="groove", borderwidth=10)
+        colorsLabel.grid(row=1, column=0, sticky=N+S+E +
+                         W, padx=5, pady=5, columnspan=2)
 
-            # If there are all different colors of wires in the set, pull the third wire.
-            elif (falses == 0):
-                self.correct = 2
+        # label for timer
+        self.other.countdown(2, 0, 1)
 
-            # If the first and last wires are green and there are no purple wires, pull the second wire.
-            elif (self.wires[0] == "Green" and self.wires[4] == "Green" and counts["Purple"] == 0):
-                self.correct = 1
+        # label for strikes
+        self.other.health(2, 1, 1)
 
-            # Otherwise, pull the first wire.
-            else:
-                self.correct = 0
+        # configure and pack the grid for display
+        for row in range(self.other.rows):
+            Grid.rowconfigure(self.other, row, weight=1)
+        for col in range(self.other.cols):
+            Grid.columnconfigure(self.other, col, weight=1)
+        self.other.pack(fill=BOTH, expand=True)
 
-            if DEBUG:
-                print(counts)
-                print("Wire to pull:")
-                print(self.correct)
+        self.wirePull()
 
-            self.setGUI()
+    # pause the game so colors can be input
 
+    
     # function waits for a wire to be pulled and checks that it was correct
 
     def wirePull(self):

@@ -64,6 +64,7 @@ class MainGUI(Frame):
         self.hp = StringVar()
         self.hp.set("[{}{}]".format("X"*self.strikes, " "*(self.maxstrikes-self.strikes)))
         self.loc = "Home"
+        self.current_module = None
         self.counter = None
 
         self.Module_1_Started = False
@@ -157,12 +158,12 @@ class MainGUI(Frame):
         def cols(self, value):
             self._cols = value
 
-        self.Module_1 = Module_Wires(self)
-        self.Module_2 = Module_Wires(self)
+        self.Module_1 = Module_The_Button(self, 22)
+        self.Module_2 = Module_Keypad(self)
         self.Module_3 = Module_Wires(self)
-        self.Module_4 = Module_Wires(self)
-        self.Module_5 = Module_Wires(self)
-        self.Module_6 = Module_Wires(self)
+        self.Module_4 = None
+        self.Module_5 = None
+        self.Module_6 = None
 
         self.start_screen()
 
@@ -197,6 +198,7 @@ class MainGUI(Frame):
             pass
         self.clearFrame()
         self.loc="Home"
+        self.current_module = 0
         self.rows = 4
         self.cols = 3
         self.pause_button(0, 0, 3)
@@ -291,14 +293,27 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def resume(self):
-        if self.loc == "Home":
+        if self.current_module == 0:
             self.MainMenu()
-        elif self.loc == "The Button":
-            self.Module_The_Button(True)
-        elif self.loc == "Keypad":
-            self.Module_Keypad(True)
-        elif self.loc == "Wires":
-            self.Module_Wires.setGUI(True)
+
+        elif self.current_module == 1:
+            self.Module_1.main(self.Module_1_Started)
+
+        elif self.current_module == 2:
+            self.Module_2.main(self.Module_2_Started)
+
+        elif self.current_module == 3:
+            self.Module_3.main(self.Module_3_Started)
+
+        elif self.current_module == 4:
+            self.Module_4.main(self.Module_4_Started)
+
+        elif self.current_module == 5:
+            self.Module_5.main(self.Module_5_Started)
+
+        elif self.current_module == 6:
+            self.Module_6.main(self.Module_6_Started)
+
 
     def update_timer(self):
         tick = 500
@@ -540,34 +555,46 @@ class MainGUI(Frame):
     def Module_Setup(self, Button):
         try:
             if Button == "Module_1":
+                self.Module_1.main(self.Module_1_Started)
                 if self.Module_1_Started == False:
                     self.Module_1_Started = True
-                self.Module_1.main(self.Module_1_Started)
+                
+                self.current_module = 1
 
             elif Button == "Module_2":
+                self.Module_2.main(self.Module_2_Started)
                 if self.Module_2_Started == False:
                     self.Module_2_Started = True
-                self.Module_2.main(self.Module_2_Started)
+                
+                self.current_module = 2
 
             elif Button == "Module_3":
+                self.Module_3.main(self.Module_3_Started)
                 if self.Module_3_Started == False:
                     self.Module_3_Started = True
-                self.Module_3.pauseForColor()
+                
+                self.current_module = 3
 
             elif Button == "Module_4":
+                self.Module_4.main(self.Module_4_Started)
                 if self.Module_4_Started == False:
                     self.Module_4_Started = True
-                self.Module_4.main(self.Module_4_Started)
+                
+                self.current_module = 4
                     
             elif Button == "Module_5":
+                self.Module_5.main(self.Module_5_Started)
                 if self.Module_5_Started == False:
                     self.Module_5_Started = True
-                self.Module_5.main(self.Module_5_Started)
+                
+                self.current_module = 5
 
             elif Button == "Module_6":
+                self.Module_6.main(self.Module_6_Started)
                 if self.Module_6_Started == False:
                     self.Module_6_Started = True
-                self.Module_6.main(self.Module_6_Started)
+        
+                self.current_module = 6
         except:
             pass
 
@@ -576,6 +603,7 @@ class MainGUI(Frame):
             GPIO.cleanup()
         except:
             pass
+        self.timer_pause = True
         self.Alive = False
         self.counter = None
         self.clearFrame()

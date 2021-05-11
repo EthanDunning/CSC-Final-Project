@@ -1,8 +1,8 @@
-from Game import Game
+
 from tkinter import *
 from random import *
 
-class Module_Keypad(Game):
+class Module_Keypad():
     def __init__(self,other):
         super().__init__()
         self.other = other
