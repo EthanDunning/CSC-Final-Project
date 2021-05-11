@@ -182,7 +182,7 @@ class MainGUI(Frame):
         self.cols = 1
         self.loc = "Home"
         button = Button(self, bg="red", text="Push to Start", font=(
-            "TexGyreAdventor", 25), borderwidth=10, activebackground="red", command=lambda: self.MainMenu())
+            "TexGyreAdventor", 25), borderwidth=10, activebackground="tomato", command=lambda: self.MainMenu())
         button.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5)
 
         quit = Button(self, bg="dim gray", text="Quit", font=("TexGyreAdventor", 25),
