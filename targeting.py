@@ -279,10 +279,10 @@ class Module_Targeting:
             # list that assigns each dictionary to its range
             rangeOfWords = [words1, words2, words3];
 
-            self.currentMin = self.currentMin + random.choice(list(rangeOfWords[stage - 1].values()));
+            self.currentMin = round(self.currentMin + random.choice(list(rangeOfWords[stage - 1].values())), 4);
             self.minPhrase = random.choice(list(rangeOfWords[stage - 1].keys()));
 
-            self.currentMax = self.currentMax - random.choice(list(rangeOfWords[stage - 1].values()));
+            self.currentMax = round(self.currentMax - random.choice(list(rangeOfWords[stage - 1].values())), 4);
             self.maxPhrase = random.choice(list(rangeOfWords[stage - 1].keys()));
 
 
