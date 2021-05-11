@@ -27,18 +27,21 @@ class Module_Flashing_Lights():
         # print('drifter', self.Modules_Completed)
         self.other.clearFrame()
         self.other.rows = 3
-        self.other.cols = 1
-        self.other.pause_button(0, 0, 1)
-        self.other.back_button(0,2,1)
-        self.other.countdown(1,1,1)
-        self.other.location(1,1,1)
-        self.other.health(1,2,1)
+        self.other.cols = 6
+        self.other.pause_button(0, 0, 3)
+        self.other.back_button(0,3,3)
+        self.other.countdown(1,0,2)
+        self.other.location(1,2,2)
+        self.other.health(1,4,2)
         alert = Button(self.other, bg='blue', text='Look at the GPIO', font=('TexGyreAdventor',45), borderwidth=10, relief='raised', command = lambda:self.switch_check())
-        alert.grid(row=2, column=0, sticky=N+E+S+W, padx=0, pady=0, columnspan=4)
+        alert.grid(row=2, column=0, sticky=N+E+S+W, padx=0, pady=0, columnspan=6)
        
         # print('lmao')
         for col in range(self.other.cols):
-            Grid.columnconfigure(self.other, col, weight=5)
+            Grid.columnconfigure(self.other, col, weight=1)
+        for row in range(self.other.rows):
+            Grid.rowconfigure(self.other, row, weight=1)
+        Grid.rowconfigure(self.other, 2, weight=5)
         self.other.pack(fill=BOTH, expand=True)
         # print('0')
         GPIO.setmode(GPIO.BCM)
