@@ -145,7 +145,7 @@ class Module_Targeting:
         if DEBUG:
             print(f"Done with getDistance() got {distance}cm");
 
-        return distance;
+        return round(distance, 4);
 
 
     # # uses the sensor to calculate the distance to an object
