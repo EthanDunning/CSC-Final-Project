@@ -66,7 +66,7 @@ class Module_Targeting:
         #print("-Getting calibration measurements...");
         distance_avg = 0;
 
-        for i in range(5):
+        for i in range(self.CALIBRATIONS):
             distance = self.getDistance();
             if (DEBUG):
                 print("--Got {}cm".format(distance));
@@ -256,7 +256,7 @@ class Module_Targeting:
 
             minWord.configure(text=f"MIN: {self.minPhrase}");
             maxWord.configure(text=f"MAX: {self.maxPhrase}");
-            confirmButton.configure(text=buttonFuncs["calibrate"][0], command=supervisor(self.currentRange));
+            confirmButton.configure(text=buttonFuncs[f"range {stage}"][0], command=lambda: supervisor(self.currentRange));
 
         # calculate the current range 
         def makeRange(stage):
