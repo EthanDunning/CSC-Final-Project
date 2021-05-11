@@ -38,6 +38,7 @@ class MainGUI(Frame):
             GPIO.cleanup()
         except:
             pass
+        self.music_playing = False
         self.Alive = True
         self.maxstrikes = 2
         self.startmins = IntVar()
@@ -194,8 +195,7 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def MainMenu(self):
-        pygame.mixer.music.load("music/bomb_music.mp3")
-        pygame.mixer.music.play(loops=-1)
+        self.play_main_music()
         try:
             GPIO.cleanup()
         except:
@@ -253,6 +253,17 @@ class MainGUI(Frame):
             self.Game_Win()
 
         self.pack(fill=BOTH, expand=True)
+
+    def play_main_music(self):
+        if self.music_playing == False:
+            self.music_playing = True
+            pygame.mixer.music.load("music/bomb_music.mp3")
+            pygame.mixer.music.play(loops=-1)
+
+    def pause_main_music(self):
+        if self.music_playing == True:
+            self.music_playing = False
+            pygame.mixer.music.pause
 
     def clearFrame(self):
         try:
