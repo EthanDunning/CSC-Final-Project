@@ -107,13 +107,13 @@ class Module_Morse_Code():
             self.freq += 1
             # print(self.freq)
             freq = Label(self.other, bg='blue', text=self.freq, font=('TexGyreAdventor', 45), borderwidth=10, relief='raised')
-            freq.grid(row=2, column=1, sticky=N+S+E+W, padx=0, pady=0, columnspan=1)
+            freq.grid(row=2, column=2, sticky=N+S+E+W, padx=5, pady=5, columnspan=2)
             return self.freq
         elif Button == 'down':
             self.freq -= 1
             # print(self.freq)
             freq = Label(self.other, bg='blue', text=self.freq, font=('TexGyreAdventor', 45), borderwidth=10, relief='raised')
-            freq.grid(row=2, column=1, sticky=N+S+E+W, padx=0, pady=0, columnspan=1)
+            freq.grid(row=2, column=4, sticky=N+S+E+W, padx=5, pady=5, columnspan=2)
             return self.freq
         elif Button == 'check':
             print(self.freq, self.TrueFreq)
