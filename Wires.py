@@ -60,7 +60,7 @@ class Module_Wires():
 
     def main(self, started = False):
 
-        print(started)
+        #print(started)
         if (DEBUG):
             print("main()")
         # clear the frame and setup the right size of grid

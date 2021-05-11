@@ -48,13 +48,13 @@ class Module_Morse_Code():
         # print('started')
         self.other.clearFrame()
         self.other.rows = 4
-        self.other.cols = 1
-        # print('check 1')
-        self.other.pause_button(0, 0, 2)
-        self.other.back_button(0, 2, 2)
-        self.other.countdown(1, 0, 1)
-        self.other.location(1, 1, 1)
-        self.other.health(1, 2, 1)
+        self.other.cols = 6
+        self.other.pause_button(0, 0, 3)
+        self.other.back_button(0,3,3)
+        self.other.countdown(1,0,2)
+        self.other.location(1,2,2)
+        self.other.health(1,4,2)
+
         self.other.Modules_completed = 0
         for module in self.other.Modules_Done:
             self.other.Modules_completed += 1
@@ -68,28 +68,30 @@ class Module_Morse_Code():
         
         # up button
         up = Button(self.other, bg='green', text='Up', font=('TexGyreAdventor', 45), borderwidth=10, relief='raised', command = lambda: self.Button_Press('up'))
-        up.grid(row=2, column=0, sticky=N+S+E+W, padx=0, pady=0, columnspan=1)
+        up.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=2)
 
         # down button
         down = Button(self.other, bg='red', text='Down', font=('TexGyreAdventor', 45), borderwidth=10, relief='raised', command = lambda: self.Button_Press('down'))
-        down.grid(row=2, column=2, sticky=N+S+E+W, padx=0, pady=0, columnspan=1)
+        down.grid(row=2, column=4, sticky=N+S+E+W, padx=5, pady=5, columnspan=2)
 
         # frequency counter
         freq = Label(self.other, bg='blue', text=self.freq, font=('TexGyreAdventor', 45), borderwidth=10, relief='raised')
-        freq.grid(row=2, column=1, sticky=N+S+E+W, padx=0, pady=0, columnspan=1)
+        freq.grid(row=2, column=2, sticky=N+S+E+W, padx=5, pady=5, columnspan=2)
 
         # Check Button
         check = Button(self.other, bg='orange', text='Check', font=('TexGyreAdventor', 45), borderwidth=10, relief='raised', command = lambda: self.Button_Press('check'))
-        check.grid(row=3, column=1, sticky=N+S+E+W, padx=0, pady=0, columnspan=1)
+        check.grid(row=3, column=3, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
 
         # start button
         start = Button(self.other, bg='purple', text = 'Start', font=('TexGyreAdventor', 45), borderwidth=10, relief='raised', command = lambda: self.Button_Press('start'))
-        start.grid(row=3, column=0, sticky=N+S+E+W, padx=0, pady=0, columnspan=1)
+        start.grid(row=3, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
         
         for row in range(self.other.rows):
-            Grid.rowconfigure(self.other, row, weight=5)
+            Grid.rowconfigure(self.other, row, weight=1)
+        Grid.rowconfigure(self.other, 2, weight=3)
+        Grid.rowconfigure(self.other, 3, weight=3)
         for col in range(self.other.cols):
-            Grid.columnconfigure(self.other, col, weight=5)
+            Grid.columnconfigure(self.other, col, weight=1)
         self.other.pack(fill=BOTH, expand=True)
         self.gpio_setup()
         #self.game_start(self.Module_Started)
