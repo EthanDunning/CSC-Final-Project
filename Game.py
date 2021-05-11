@@ -1,4 +1,4 @@
-#import RPi.GPIO as GPIO;
+import RPi.GPIO as GPIO;
 from time import *
 #import guiBase as GUI;
 
@@ -23,6 +23,14 @@ class Game:
         # I/O lists
         self.input = [False, False, False, False, False];
         self.output = [False, False, False, False, False];
+
+        #set gpio mode
+        GPIO.setmode(GPIO.BCM);
+        #set gpio defaults 
+        self.inputPins = [18, 19, 20, 21, 22];
+        self.outputPins = [17, 16, 13, 12, 6];
+        GPIO.setup(self.inputPins, GPIO.IN, pull_up_down=GPIO.PUD_DOWN);
+        GPIO.setup(self.outputPins, GPIO.OUT);
 
     # getters and setters
     @property
@@ -65,38 +73,52 @@ class Game:
 
     # I/O methods that interface with the gpio
 
-    # # input from the gpio pins
-    # def takeInput ():
-    #     for i in range(len(inputPins)):
-    #         # set high pins to true
-    #         if (GPIO.input(inputPins[i]) == True):
-    #             self.input[i] = True;
+    # input from the gpio pins
+    def takeInput(self):
+        #set gpio mode
+        GPIO.setmode(GPIO.BCM);
+        #set gpio defaults 
+        self.inputPins = [18, 19, 20, 21, 22];
+        self.outputPins = [17, 16, 13, 12, 6];
+        GPIO.setup(self.inputPins, GPIO.IN, pull_up_down=GPIO.PUD_DOWN);
+        GPIO.setup(self.outputPins, GPIO.OUT);
+        for i in range(len(self.inputPins)):
+            # set high pins to true
+            if (GPIO.input(self.inputPins[i]) == True):
+                self.input[i] = True;
 
-    #         # set low pins to false
-    #         else:
-    #             self.input[i] = False;
+            # set low pins to false
+            else:
+                self.input[i] = False;
 
-    #     return;
+        return;
 
-    # # output to the gpio pins
-    # def giveOutput(self):
-    #     for i in range(len(outputPins)):
-    #         GPIO.output(outputPins[i], self.output[i]);
-    #     return;
+    # output to the gpio pins
+    def giveOutput(self):
+        #set gpio mode
+        GPIO.setmode(GPIO.BCM);
+        #set gpio defaults 
+        self.inputPins = [18, 19, 20, 21, 22];
+        self.outputPins = [17, 16, 13, 12, 6];
+        GPIO.setup(self.inputPins, GPIO.IN, pull_up_down=GPIO.PUD_DOWN);
+        GPIO.setup(self.outputPins, GPIO.OUT);
+        for i in range(len(self.outputPins)):
+            GPIO.output(self.outputPins[i], self.output[i]);
+        return;
 
     # clear I/O
-    def clear ():
+    def clear()self:
         self.input = [False, False, False, False, False];
         self.output = [False, False, False, False, False];
 
     # end states 
 
     # failure 
-    def boom ():
+    def boom (self):
         pass;
 
     # success
-    def defuse ():
+    def defuse (self):
         pass; 
 
 
