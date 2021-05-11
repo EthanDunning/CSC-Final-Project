@@ -1,7 +1,7 @@
 from tkinter import *
 import RPi.GPIO as GPIO;
 from time import sleep, time;
-import threading;
+import multiprocessing;
 import random;
 
 DEBUG = True
@@ -96,7 +96,15 @@ class Module_Targeting:
         
         self.correction_factor = correction_factor;
 
-        return correction_factor;
+        #return correction_factor;
+        return;
+
+
+    # wrapper to call getDistance through another process so it doesn't lag the timer
+    def calibrationWrapper(self):
+        d = multiprocessing.Process(target=getDistance, args=(self,));
+        d.start();
+        d.join();
 
 
     # uses the sensor to calculate the distance to an object
@@ -135,9 +143,6 @@ class Module_Targeting:
 
         return distance;
 
-    # wrapper to call getDistance through another thread 
-    def getDistanceWrapper(self):
-        d = threading.Thread(target=getDistance);
 
     # # uses the sensor to calculate the distance to an object
     # def getDistance (self):
