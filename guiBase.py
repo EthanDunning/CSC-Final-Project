@@ -10,6 +10,7 @@ from time import *
 from lights import *
 from targeting import *
 from morse import *
+import pygame
 
 
 # the main GUI
@@ -19,6 +20,8 @@ class MainGUI(Frame):
         Frame.__init__(self, parent, bg="white")
         parent.attributes("-fullscreen", True)
         self.config(cursor="none")
+        pygame.mixer.init()
+        pygame.mixer.set_num_channels(10)
         self.rows=1
         self.cols=1
         self.pack(fill=BOTH, expand=True)
@@ -191,6 +194,8 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def MainMenu(self):
+        pygame.mixer.music.load("music/bomb_music.mp3")
+        pygame.mixer.music.play(loops=-1)
         try:
             GPIO.cleanup()
         except:
@@ -315,6 +320,7 @@ class MainGUI(Frame):
 
 
     def update_timer(self):
+        
         tick = 500
         if self.timer_pause==False:
             
@@ -352,9 +358,14 @@ class MainGUI(Frame):
                     self.timer.config(fg="white")
                 else:
                     self.timer.config(fg="red")
+                    
             else:
                 if self.Alive==True:
                     pass
+            if float(self.secs).is_integer()==False:
+                clock_tick = pygame.mixer.music("music/clock_tick.mp3")
+                clock_tick.play()
+            
             
             self.update()
 
@@ -701,4 +712,5 @@ window.geometry("800x400")
 p = MainGUI(window)
 # display the GUI and wait for user interaction
 p.mainloop()
-GPIO.cleanup();
+pygame.mixer.music.stop()
+GPIO.cleanup()
