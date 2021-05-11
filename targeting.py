@@ -289,7 +289,8 @@ class Module_Targeting:
 
         # function to confirm inputs
         def confirm(stage):
-            pass;
+            
+            print("current range is {self.minPhrase}cm to {self.maxPhrase}cm")
 
 
 
