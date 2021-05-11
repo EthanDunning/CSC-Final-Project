@@ -233,11 +233,10 @@ class Module_Targeting:
 
         # create a dictionary of tuples for button-specific information at each stage
         # ignore the tuple, it is not used anymore, just the first part of the tuple is used 
-        buttonFuncs = {"range 0": ("CALIBRATE", "self.calibrate()"), "range 1": ("CONFIRM\nRANGE 1", "supervisor(1)"), 
-                        "range 2": ("CONFIRM\nRANGE 2", "supervisor(2)"), "range 3": ("CONFIRM\nRANGE 3", "supervisor(3)")};
+        buttonTitles = ["CALIBRATE", "CONFIRM\nRANGE 1", "CONFIRM\nRANGE 2", "CONFIRM\nRANGE 3"];
 
         if DEBUG:
-            print(buttonFuncs["calibrate"]);
+            print(buttonTitles["calibrate"]);
 
         # function supervises the functions that are to be called upon button press 
         def supervisor(stage):
@@ -257,7 +256,7 @@ class Module_Targeting:
 
             minWord.configure(text=f"MIN: {self.minPhrase}");
             maxWord.configure(text=f"MAX: {self.maxPhrase}");
-            confirmButton.configure(text=buttonFuncs[f"range {stage}"][0], command=lambda: supervisor(self.currentRange));
+            confirmButton.configure(text=buttonTitles[self.currentRange], command=lambda: supervisor(self.currentRange));
 
         # calculate the current range 
         def makeRange(stage):
@@ -347,7 +346,7 @@ class Module_Targeting:
             print("post current distance label");
 
         # button that confirms the distance 
-        confirmButton = Button(self.other, bg="chartreuse3", text=buttonFuncs["calibrate"][0], font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1", command=lambda: supervisor(0));
+        confirmButton = Button(self.other, bg="chartreuse3", text=buttonTitles["calibrate"][0], font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1", command=lambda: supervisor(0));
         confirmButton.grid(row=3, column=1, sticky=N+S+E+W, padx=5, pady=5);        
 
         if DEBUG:
