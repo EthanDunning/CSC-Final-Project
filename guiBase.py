@@ -4,21 +4,10 @@ from random import *
 from math import *
 from Keypad import *
 from The_Button import *
-from Wires import *
+from wires import *
+from targeting import *;
+from time import sleep, time;
 
-# pins
-leds = [17, 16, 13, 12]
-switches = [18, 19, 20, 21, 22]
-wires = [23, 24, 25, 26, 27]
-
-# # setting up the GPIO
-# GPIO.setmode(GPIO.BCM)
-# # I/O
-# GPIO.setup(leds, GPIO.OUT)
-# # GPIO.setup(test_led, GPIO.OUT)
-# GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-# GPIO.setup(wires, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-# # GPIO.setup(wires, GPIO.IN)
 
 # the main GUI
 
@@ -31,6 +20,12 @@ class MainGUI(Frame):
         self.cols=1
         self.pack(fill=BOTH, expand=True)
         self.reset()
+
+    # function for sending output to the pins 
+    # seems that output must be sent through the Frame object or it halts
+    def pinOutput (self, pin, signal):
+        GPIO.output(pin, signal);
+        return;
 
     def reset(self):
         try:
@@ -164,7 +159,7 @@ class MainGUI(Frame):
         self.Module_3 = Module_Wires(self)
         self.Module_4 = None
         self.Module_5 = None
-        self.Module_6 = None
+        self.Module_6 = Module_Targeting(self);
 
         self.start_screen()
 
@@ -701,6 +696,6 @@ window.title("Continue Speaking And Everyone Lives")
 window.geometry("800x400")
 # generate the GUI
 p = MainGUI(window)
-
 # display the GUI and wait for user interaction
 p.mainloop()
+GPIO.cleanup();
