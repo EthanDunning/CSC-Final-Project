@@ -320,6 +320,9 @@ class Module_Targeting:
 
                 self.Module_Done = True;
 
+                if DEBUG:
+                    print(f"module done at range {self.currentRange}");
+
             
 
 
