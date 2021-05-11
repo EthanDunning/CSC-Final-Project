@@ -261,7 +261,10 @@ class Module_Targeting:
 
             minWord.configure(text=f"MIN: {self.minPhrase}");
             maxWord.configure(text=f"MAX: {self.maxPhrase}");
-            confirmButton.configure(text=buttonTitles[self.currentRange], command=lambda: supervisor(self.currentRange));
+            try:
+                confirmButton.configure(text=buttonTitles[self.currentRange], command=lambda: supervisor(self.currentRange));
+            except:
+                return False;
 
         # calculate the current range 
         def makeRange(stage):
