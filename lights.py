@@ -5,7 +5,7 @@ from time import sleep
 from tkinter import *
 
 class Module_Flashing_Lights():
-    def __init__(self, leds, switches, other):
+    def __init__(self, other):
         super().__init__()
         self.other = other
         self.leds = [17, 16, 13, 12]
