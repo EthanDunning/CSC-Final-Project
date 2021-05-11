@@ -244,7 +244,7 @@ class Module_Targeting:
             rangeHasWord = [False, False, False];
 
             # button functions if the 
-            if self.currentRange > 0:
+            if stage > 0:
                 if (not rangeHasWord[stage - 1]):
                     makeRange(stage);
                     rangeHasWord[stage - 1] = True;
@@ -347,8 +347,6 @@ class Module_Targeting:
 
         # button that confirms the distance 
         confirmButton = Button(self.other, bg="chartreuse3", text=buttonFuncs["calibrate"][0], font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1", command=lambda: supervisor(0));
-        if DEBUG:
-            print("post confirm button creation");
         confirmButton.grid(row=3, column=1, sticky=N+S+E+W, padx=5, pady=5);        
 
         if DEBUG:
