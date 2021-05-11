@@ -36,7 +36,7 @@ class MainGUI(Frame):
         except:
             pass
         self.Alive = True
-        self.maxstrikes = 4
+        self.maxstrikes = 2
         self.startmins = IntVar()
         self.startsecs = IntVar()
         self.startmins = 10
