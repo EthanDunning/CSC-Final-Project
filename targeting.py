@@ -243,15 +243,15 @@ class Module_Targeting:
 
         # function supervises the functions that are to be called upon button press 
         def supervisor(stage):
-            notRangeHasWord = [True, True, True, False];
+            notRangeHasWord = [True, True, True, True];
 
             # button functions if the 
             if stage > 0:
                 confirm(self.currentRange);
 
-                if (notRangeHasWord[self.currentRange - 1]):
+                if (notRangeHasWord[self.currentRange]):
                     makeRange(self.currentRange);
-                    notRangeHasWord[self.currentRange - 1] = False;
+                    notRangeHasWord[self.currentRange] = False;
 
             else:
                 self.calibrate();
@@ -314,6 +314,8 @@ class Module_Targeting:
                 if DEBUG:
                     print("placement was correct");
 
+                self.rangeGood = True;
+
 
             # wrong distance
             else:
@@ -321,8 +323,10 @@ class Module_Targeting:
                     print("fail");
                 self.other.strike();
 
+                self.rangeGood = False;
+
             # finish the module if all ranges complete 
-            if self.currentRange == 4:
+            if self.currentRange >= 4:
 
                 self.Module_Done = True;
 
