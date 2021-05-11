@@ -674,3 +674,4 @@ p = MainGUI(window)
 #print(p)
 # display the GUI and wait for user interaction
 p.mainloop()
+GPIO.cleanup();

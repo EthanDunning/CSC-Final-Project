@@ -1,7 +1,7 @@
 from tkinter import *
 import RPi.GPIO as GPIO;
 from time import sleep, time;
-import multiprocessing;
+import threading;
 import random;
 
 DEBUG = True
@@ -98,6 +98,12 @@ class Module_Targeting:
 
     # uses the sensor to calculate the distance to an object
     def getDistance (self):
+
+        # GPIO setup
+        GPIO.setmode(GPIO.BCM);
+        GPIO.setup(self.TRIG, GPIO.OUT);
+        GPIO.setup(self.ECHO, GPIO.IN);
+
         # trigger the sensor by setting it high for a short time and then shutting it low
         GPIO.output(self.TRIG, GPIO.HIGH);
         sleep(self.TRIGGER_TIME);
@@ -121,7 +127,14 @@ class Module_Targeting:
         # convert from meters to centimeters
         distance *= 100;
 
+        if DEBUG:
+            print(f"Done with getDistance() got {distance}cm");
+
         return distance;
+
+    # wrapper to call getDistance through another thread 
+    def getDistanceWrapper(self):
+        d = threading.Thread(target=getDistance);
 
     # # uses the sensor to calculate the distance to an object
     # def getDistance (self):
@@ -133,10 +146,10 @@ class Module_Targeting:
 
 
 
-    #     # GPIO setup
-    #     GPIO.setmode(GPIO.BCM);
-    #     GPIO.setup(self.TRIG, GPIO.OUT);
-    #     GPIO.setup(self.ECHO, GPIO.IN);
+        # # GPIO setup
+        # GPIO.setmode(GPIO.BCM);
+        # GPIO.setup(self.TRIG, GPIO.OUT);
+        # GPIO.setup(self.ECHO, GPIO.IN);
 
     #     # sensor init 
     #     # first, allow the sensor to settle for a bit 
@@ -350,7 +363,7 @@ class Module_Targeting:
         if DEBUG:
             print("post packing");
 
-
+        GPIO.cleanup();
 
 
 
