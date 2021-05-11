@@ -17,7 +17,7 @@ from morse import *
 class MainGUI(Frame):
     def __init__(self, parent):
         Frame.__init__(self, parent, bg="white")
-        parent.attributes("-fullscreen", True)
+        parent.attributes("-fullscreen", False)
         self.config(cursor="none")
         self.rows=1
         self.cols=1
