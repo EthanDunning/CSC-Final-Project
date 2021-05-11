@@ -34,10 +34,9 @@ class Module_Morse_Code():
         self.name = 'Morse Code'
         self.other.loc = 'Morse Code'
         self.Word_Freq, self.Word_Morse = self.dictionary_Setup()
-        try:
-            self.TrueFreq, self.g1, self.g2, self.g3, self.g4 = self.Word_Select_Split()
-        except:
-            self.TrueFreq, self.g1, self.g2, self.g3 = self.Word_Select_Split()
+    
+        self.Word_Select_Split()
+        
         self.leds = [17,16,13,12]
         self.freq = 0
         # self.word, self.TrueFreq = self.word_select()
@@ -165,22 +164,19 @@ class Module_Morse_Code():
         z1 = y2.split('2')
         # print(z1)
         # z1.split('3'), lists of each letter split into dots and dashes
-        g1 = z1[0].split('3')
+        self.g1 = z1[0].split('3')
         # print(g1)
-        g2 = z1[1].split('3')
+        self.g2 = z1[1].split('3')
         # print(g2)
-        g3 = z1[2].split('3')
+        self.g3 = z1[2].split('3')
         # print(g3)
         try:
-            g4 = z1[3].split('3')
+            self.g4 = z1[3].split('3')
         except:
             pass
         # print(g4)
         # x is the frequency, g1-4 are lists of each letter in morse
-        try:
-            return x, g1, g2, g3, g4
-        except:
-            return x, g1, g2, g3
+        self.TrueFreq = x
 
                 
 
