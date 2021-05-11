@@ -161,7 +161,7 @@ class MainGUI(Frame):
         self.Module_2 = Module_Keypad(self)
         self.Module_3 = Module_Wires(self)
         self.Module_4 = Module_Targeting(self)
-        self.Module_5 = Module_Flashing_Lights(self, leds, switches)
+        self.Module_5 = Module_Flashing_Lights(self)
         self.Module_6 = Module_Morse_Code(self)
 
         self.start_screen()

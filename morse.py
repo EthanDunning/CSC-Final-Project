@@ -42,11 +42,11 @@ class Module_Morse_Code():
 
     # gui build
     def main(self, started):
-        print('started')
+        # print('started')
         self.other.clearFrame()
         self.other.rows = 4
         self.other.cols = 1
-        print('check 1')
+        # print('check 1')
         self.other.pause_button(0, 0, 2)
         self.other.back_button(0, 2, 2)
         self.other.countdown(1, 0, 1)
@@ -56,7 +56,7 @@ class Module_Morse_Code():
         for module in self.other.Modules_Done:
             self.other.Modules_completed += 1
 
-        print(self.other.Modules_completed)
+        # print(self.other.Modules_completed)
 
         if started == False:
             self.Module_Started = True
@@ -99,19 +99,19 @@ class Module_Morse_Code():
     def Button_Press(self, Button):
         if Button == 'up':
             self.freq += 1
-            print(self.freq)
+            # print(self.freq)
             freq = Label(self.other, bg='blue', text=self.freq, font=('TexGyreAdventor', 45), borderwidth=10, relief='raised')
             freq.grid(row=2, column=1, sticky=N+S+E+W, padx=0, pady=0, columnspan=1)
             return self.freq
         elif Button == 'down':
             self.freq -= 1
-            print(self.freq)
+            # print(self.freq)
             freq = Label(self.other, bg='blue', text=self.freq, font=('TexGyreAdventor', 45), borderwidth=10, relief='raised')
             freq.grid(row=2, column=1, sticky=N+S+E+W, padx=0, pady=0, columnspan=1)
             return self.freq
         elif Button == 'check':
-            print(self.freq, self.TrueFreq)
-            print(self.Module_Started)
+            # print(self.freq, self.TrueFreq)
+            # print(self.Module_Started)
             if self.freq == self.TrueFreq:
                 self.Module_Done = True
                 self.other.MainMenu()
@@ -147,25 +147,25 @@ class Module_Morse_Code():
     def Word_Select_Split(self):
         # x, the frequency
         x = random.randint(0, 14)
-        print(x)
+        # print(x)
         # L1[x], The word
         y1 = self.Word_Freq[x]
-        print(y1)
+        # print(y1)
         # L2[y1], the morse code in a string
         y2 = self.Word_Morse[y1]
-        print(y2)
+        # print(y2)
         # y2.split('2'), a list of the letters in morse
         z1 = y2.split('2')
-        print(z1)
+        # print(z1)
         # z1.split('3'), lists of each letter split into dots and dashes
         g1 = z1[0].split('3')
-        print(g1)
+        # print(g1)
         g2 = z1[1].split('3')
-        print(g2)
+        # print(g2)
         g3 = z1[2].split('3')
-        print(g3)
+        # print(g3)
         g4 = z1[3].split('3')
-        print(g4)
+        # print(g4)
         # x is the frequency, g1-4 are lists of each letter in morse
         return x, g1, g2, g3, g4
 
@@ -220,7 +220,7 @@ class Module_Morse_Code():
 
     def game_start(self, started):
         if self.Module_Done == False:
-            print('start test')
+            # print('start test')
             # self.Word_Freq, self.Word_Morse = self.dictionary_Setup()
             # self.x, self.g1, self.g2, self.g3, self.g4 = self.Word_Select_Split()
             for i in self.g1:
@@ -245,7 +245,7 @@ class Module_Morse_Code():
                     self.dot(3)
             return
             # if self.word == 'fall':
-            #     print('fall')
+            #     # print('fall')
             #     # F
             #     self.dot(0)
             #     self.dot(0)
@@ -268,10 +268,10 @@ class Module_Morse_Code():
             #     self.dot(3)
             #     self.dot(3)
             #     self.other.after(1000)
-            #     print('after fall')
+            #     # print('after fall')
             
             # if self.word == 'your':
-            #     print('your')
+            #     # print('your')
             #     # Y
             #     self.dash(0)
             #     self.dot(0)
@@ -293,10 +293,10 @@ class Module_Morse_Code():
             #     self.dash(3)
             #     self.dot(3)
             #     self.other.after(1000)
-            #     print('after your')
+            #     # print('after your')
 
             # if self.word == 'slid':
-            #     print('slid')
+            #     # print('slid')
             #     # S
             #     self.dot(0)
             #     self.dot(0)
@@ -317,10 +317,10 @@ class Module_Morse_Code():
             #     self.dot(3)
             #     self.dot(3)
             #     self.other.after(1000)
-            #     print('after slid')
+            #     # print('after slid')
             
             # if self.word == 'bomb':
-            #     print('bomb')
+            #     # print('bomb')
             #     # B
             #     self.dash(0)
             #     self.dot(0)
@@ -342,10 +342,10 @@ class Module_Morse_Code():
             #     self.dot(3)
             #     self.dot(3)
             #     self.other.after(1000)
-            #     print('after bomb')
+            #     # print('after bomb')
 
             # if self.word == 'left':
-            #     print('left')
+            #     # print('left')
             #     # L
             #     self.dot(0)
             #     self.dash(0)
@@ -364,7 +364,7 @@ class Module_Morse_Code():
             #     # T
             #     self.dash(3)
             #     self.other.after(1000)
-            #    print('after left')
+            #    # print('after left')
 
                 
 

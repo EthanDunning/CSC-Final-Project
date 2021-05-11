@@ -5,7 +5,7 @@ from time import sleep
 from tkinter import *
 
 class Module_Flashing_Lights():
-    def __init__(self, leds, switches, other):
+    def __init__(self, other):
         super().__init__()
         self.other = other
         self.leds = [17, 16, 13, 12]
@@ -18,13 +18,13 @@ class Module_Flashing_Lights():
         for i in self.other.Modules_Done:
             if i == True:
                 self.Modules_Completed += 1
-        print('drifter', self.Modules_Completed)
+        # print('drifter', self.Modules_Completed)
 
 
 
         
     def main(self, started):
-        print('drifter', self.Modules_Completed)
+        # print('drifter', self.Modules_Completed)
         self.other.clearFrame()
         self.other.rows = 3
         self.other.cols = 1
@@ -36,25 +36,25 @@ class Module_Flashing_Lights():
         alert = Button(self.other, bg='blue', text='Look at the GPIO', font=('TexGyreAdventor',45), borderwidth=10, relief='raised', command = lambda:self.switch_check())
         alert.grid(row=2, column=0, sticky=N+E+S+W, padx=0, pady=0, columnspan=4)
        
-        print('lmao')
+        # print('lmao')
         for col in range(self.other.cols):
             Grid.columnconfigure(self.other, col, weight=5)
         self.other.pack(fill=BOTH, expand=True)
-        print('0')
+        # print('0')
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.light_1, GPIO.OUT)
         GPIO.output(self.light_1, GPIO.HIGH)
-        print('A')
+        # print('A')
         self.switch_check()
-        print('penis')
+        # print('penis')
 
     def switch_check(self):
-        print('ddick too')
+        # print('ddick too')
         GPIO.setup(self.switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        print('butt')
+        # print('butt')
         # Red light 1
         if self.light_1 == 17:
-            print('k')
+            # print('k')
             # if Modules Completed is even
             if self.Modules_Completed % 2 == 0:
                 # if strikes = 0
@@ -222,5 +222,5 @@ class Module_Flashing_Lights():
                         self.other.MainMenu()
                     elif (GPIO.input(self.switches[1]) == GPIO.HIGH) and (GPIO.input(self.switches[3]) == GPIO.HIGH):
                         self.other.strike()
-        print('balls as well')
+        # print('balls as well')
 
