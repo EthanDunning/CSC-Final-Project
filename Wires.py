@@ -23,7 +23,7 @@ class Module_Wires():
         self._wires = []
         self.wires = []
         self.correct = 0
-        self.inputPins = [18, 19, 20, 21, 22]
+        self.inputPins = [23, 24, 25, 26, 27]
         self.connections = self.inputPins
         # This may seem unintuitive, but I am saving the baseGUI as a property
         # so that it can be repeatedly accessed here without having to repeatedly
