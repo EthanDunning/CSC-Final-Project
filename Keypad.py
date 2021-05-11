@@ -130,4 +130,4 @@ class Module_Keypad(Game):
         if self.keypad_correct >= 4:
             self.keypad_correct = 4
             self.Module_Done = True
-            self.other.MainMenu() 
+            self.other.MainMenu()

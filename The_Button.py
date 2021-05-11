@@ -5,9 +5,11 @@ from random import *
 from math import *
 from time import *
 GPIO.setwarnings(False)
+
+
 class Module_The_Button(Game):
-    def __init__(self,other,button_input):
-        super().__init__() 
+    def __init__(self, other, button_input):
+        super().__init__()
         self.other = other
         self.name = "The Button"
         self.other.loc = "The Button"
