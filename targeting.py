@@ -106,6 +106,8 @@ class Module_Targeting:
             d = multiprocessing.Process(target=calibrate, args=(self,));
             d.start();
             d.join();
+            if DEBUG:
+                print("wow it worked?");
 
 
     # uses the sensor to calculate the distance to an object
