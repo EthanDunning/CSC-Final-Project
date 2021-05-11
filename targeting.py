@@ -286,11 +286,11 @@ class Module_Targeting:
 
             if self.rangeGood:
 
-                self.currentMin = round(self.currentMin + random.choice(list(rangeOfWords[stage - 1].values())), 4);
-                self.minPhrase = random.choice(list(rangeOfWords[stage - 1].keys()));
+                self.currentMin = round(self.currentMin + random.choice(list(rangeOfWords[self.currentRange - 1].values())), 4);
+                self.minPhrase = random.choice(list(rangeOfWords[self.currentRange - 1].keys()));
 
-                self.currentMax = round(self.currentMax - random.choice(list(rangeOfWords[stage - 1].values())), 4);
-                self.maxPhrase = random.choice(list(rangeOfWords[stage - 1].keys()));
+                self.currentMax = round(self.currentMax - random.choice(list(rangeOfWords[self.currentRange - 1].values())), 4);
+                self.maxPhrase = random.choice(list(rangeOfWords[self.currentRange - 1].keys()));
 
                 self.rangeGood = False;
 
@@ -307,7 +307,9 @@ class Module_Targeting:
             # if the distance is within the range, increase the current range 
             if (distance >= self.currentMin and distance <= self.currentMax):
 
-                    self.currentRange += 1;
+                self.currentRange += 1;
+                if DEBUG:
+                    print("placement was correct");
 
 
             # wrong distance
