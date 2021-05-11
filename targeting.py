@@ -251,7 +251,7 @@ class Module_Targeting:
 
                 if (notRangeHasWord[self.currentRange - 1]):
                     makeRange(self.currentRange);
-                    rangeHasWord[self.currentRange - 1] = False;
+                    notRangeHasWord[self.currentRange - 1] = False;
 
             else:
                 self.calibrate();
