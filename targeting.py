@@ -102,9 +102,10 @@ class Module_Targeting:
 
     # wrapper to call getDistance through another process so it doesn't lag the timer
     def calibrationWrapper(self):
-        d = multiprocessing.Process(target=calibrate, args=(self,));
-        d.start();
-        d.join();
+        if __name__ == "__main__":
+            d = multiprocessing.Process(target=calibrate, args=(self,));
+            d.start();
+            d.join();
 
 
     # uses the sensor to calculate the distance to an object
