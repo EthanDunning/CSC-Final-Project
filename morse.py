@@ -125,7 +125,7 @@ class Module_Morse_Code():
                 self.other.strike()
         elif Button == 'start':
             self.game_start(self.Module_Started)
-            self.timer_update()
+            # self.timer_update()
         
     def dictionary_Setup(self):
         # L1{~~~~~}
@@ -207,19 +207,14 @@ class Module_Morse_Code():
     # dot function
     def dot(self, light):
         GPIO.output(self.leds[light], GPIO.HIGH)
-        self.other.after(250)
-        GPIO.output(self.leds[light], GPIO.LOW)
-        self.other.after(250)
-        self.other.pack()
-        return
+        self.other.after(250, lambda: GPIO.output, self.leds[light], GPIO.LOW)
+        self.other.after(250, lambda: self.other.pack)
+        
     # dash function
     def dash(self, light):
         GPIO.output(self.leds[light], GPIO.HIGH)
-        self.other.after(750)
-        GPIO.output(self.leds[light], GPIO.LOW)
-        self.other.after(1000)
-        self.other.pack()
-        return
+        self.other.after(750, lambda: GPIO.output, self.leds[light], GPIO.LOW)
+        self.other.after(250, lambda: self.other.pack)
 
     def timer_update(self):
         if self.other.secs <= 10:
@@ -249,12 +244,14 @@ class Module_Morse_Code():
                     self.dash(2)
                 if i == '0':
                     self.dot(2)
-            for i in self.g4:
-                if i == '1':
-                    self.dash(3)
-                if i == '0':
-                    self.dot(3)
-            return
+            try:
+                for i in self.g4:
+                    if i == '1':
+                        self.dash(3)
+                    if i == '0':
+                        self.dot(3)
+            except:
+                pass
             # if self.word == 'fall':
             #     # print('fall')
             #     # F
