@@ -29,13 +29,15 @@ class Module_Morse_Code(Game):
         self.other = other
         self.Module_Started = False
         self.Module_Done = False
-        self.word = False
-        self.TrueFreq = False
+        # self.word = False
+        # self.TrueFreq = False
         self.name = 'Morse Code'
         self.other.loc = 'Morse Code'
-        self.freq = 0
+        self.Word_Freq, self.Word_Morse = self.dictionary_Setup()
+        self.TrueFreq, self.g1, self.g2, self.g3, self.g4 = self.Word_Select_Split()
         self.leds = [17,16,13,12]
-        self.word, self.TrueFreq = self.word_select()
+        self.freq = 0
+        # self.word, self.TrueFreq = self.word_select()
         self.main(self.Module_Started)
 
     # gui build
@@ -118,16 +120,65 @@ class Module_Morse_Code(Game):
         elif Button == 'start':
             self.game_start(self.Module_Started)
             self.timer_update()
-    
+        
+    def dictionary_Setup(self):
+        # L1{~~~~~}
+        Word_Freq = {
+            0:'Slid', 1:'Pens', 2:'That',
+            3:'Left', 4:'Fall', 5:'Flip',
+            6:'Bomb', 7:'Skip', 8:'Into',
+            9:'Lean', 10:'Blew', 11:'Have',
+            12:'Four', 13:'Your', 14:'Yeah'
+        }
+        # 0 = Dot, 1 = Dash, 2,3 = Break
+        # L2{~~~~~}
+        Word_Morse = {
+            'Slid':'03030323031303032303032313030', 'Pens':'0313130323032313032303030',
+            'That':'132303030303230313231', 'Left':'0313030323032303031303231',
+            'Fall':'030313032303132303130303230313030', 'Flip':'0303130323031303032303030313130',
+            'Bomb':'1303030323131313231313231303030', 'Skip':'03030323130313230303230313130',
+            'Into':'030323130323132313131', 'Lean':'03130303230323031323130',
+            'Blew':'13030303230313030323032303131', 'Have':'030303032303132303030313230',
+            'Four':'0303130323131313230303132303130', 'Your':'1303131323131313230303132303130',
+            'Yeah':'130313132303230313230303030'
+        }
+        return Word_Freq, Word_Morse
+
+    def Word_Select_Split(self):
+        # x, the frequency
+        x = random.randint(0, 14)
+        print(x)
+        # L1[x], The word
+        y1 = self.Word_Freq[x]
+        print(y1)
+        # L2[y1], the morse code in a string
+        y2 = self.Word_Morse[y1]
+        print(y2)
+        # y2.split('2'), a list of the letters in morse
+        z1 = y2.split('2')
+        print(z1)
+        # z1.split('3'), lists of each letter split into dots and dashes
+        g1 = z1[0].split('3')
+        print(g1)
+        g2 = z1[1].split('3')
+        print(g2)
+        g3 = z1[2].split('3')
+        print(g3)
+        g4 = z1[3].split('3')
+        print(g4)
+        # x is the frequency, g1-4 are lists of each letter in morse
+        return x, g1, g2, g3, g4
+
+                
 
     # picks a random word from the list
-    def word_select(self):
-        words = ['fall', 'your', 'slid', 'bomb', 'left']
-        freqs = [4, 13, 0, 6, 3]
-        x = random.randint(0, 4)
-        word = words[x]
-        freq = freqs[x]
-        return word, freq
+    # def word_select(self):
+    #     words = ['fall', 'your', 'slid', 'bomb', 'left']
+    #     freqs = [4, 13, 0, 6, 3]
+    #     x = random.randint(0, 4)
+    #     word = words[x]
+    #     freq = freqs[x]
+    #     return word, freq
 
     @property
     def word(self):
@@ -170,127 +221,150 @@ class Module_Morse_Code(Game):
     def game_start(self, started):
         if self.Module_Done == False:
             print('start test')
-            if self.word == 'fall':
-                print('fall')
-                # F
-                self.dot(0)
-                self.dot(0)
-                self.dash(0)
-                self.dot(0)
-                self.other.after(1000)
-                # A
-                self.dot(1)
-                self.dash(1)
-                self.other.after(1000)
-                # L
-                self.dot(2)
-                self.dash(2)
-                self.dot(2)
-                self.dot(2)
-                self.other.after(1000)
-                # L
-                self.dot(3)
-                self.dash(3)
-                self.dot(3)
-                self.dot(3)
-                self.other.after(1000)
-                print('after fall')
+            # self.Word_Freq, self.Word_Morse = self.dictionary_Setup()
+            # self.x, self.g1, self.g2, self.g3, self.g4 = self.Word_Select_Split()
+            for i in self.g1:
+                if i == '1':
+                    self.dash(0)
+                if i == '0':
+                    self.dot(0)
+            for i in self.g2:
+                if i == '1':
+                    self.dash(1)
+                if i == '0':
+                    self.dot(1)
+            for i in self.g3:
+                if i == '1':
+                    self.dash(2)
+                if i == '0':
+                    self.dot(2)
+            for i in self.g4:
+                if i == '1':
+                    self.dash(3)
+                if i == '0':
+                    self.dot(3)
+            return
+            # if self.word == 'fall':
+            #     print('fall')
+            #     # F
+            #     self.dot(0)
+            #     self.dot(0)
+            #     self.dash(0)
+            #     self.dot(0)
+            #     self.other.after(1000)
+            #     # A
+            #     self.dot(1)
+            #     self.dash(1)
+            #     self.other.after(1000)
+            #     # L
+            #     self.dot(2)
+            #     self.dash(2)
+            #     self.dot(2)
+            #     self.dot(2)
+            #     self.other.after(1000)
+            #     # L
+            #     self.dot(3)
+            #     self.dash(3)
+            #     self.dot(3)
+            #     self.dot(3)
+            #     self.other.after(1000)
+            #     print('after fall')
             
-            if self.word == 'your':
-                print('your')
-                # Y
-                self.dash(0)
-                self.dot(0)
-                self.dash(0)
-                self.dash(0)
-                self.other.after(1000)
-                # O
-                self.dash(1)
-                self.dash(1)
-                self.dash(1)
-                self.other.after(1000)
-                # U
-                self.dot(2)
-                self.dot(2)
-                self.dash(2)
-                self.other.after(1000)
-                # R
-                self.dot(3)
-                self.dash(3)
-                self.dot(3)
-                self.other.after(1000)
-                print('after your')
+            # if self.word == 'your':
+            #     print('your')
+            #     # Y
+            #     self.dash(0)
+            #     self.dot(0)
+            #     self.dash(0)
+            #     self.dash(0)
+            #     self.other.after(1000)
+            #     # O
+            #     self.dash(1)
+            #     self.dash(1)
+            #     self.dash(1)
+            #     self.other.after(1000)
+            #     # U
+            #     self.dot(2)
+            #     self.dot(2)
+            #     self.dash(2)
+            #     self.other.after(1000)
+            #     # R
+            #     self.dot(3)
+            #     self.dash(3)
+            #     self.dot(3)
+            #     self.other.after(1000)
+            #     print('after your')
 
-            if self.word == 'slid':
-                print('slid')
-                # S
-                self.dot(0)
-                self.dot(0)
-                self.dot(0)
-                self.other.after(1000)
-                # L
-                self.dot(1)
-                self.dash(1)
-                self.dot(1)
-                self.dot(1)
-                self.other.after(1000)
-                # I
-                self.dot(2)
-                self.dot(2)
-                self.other.after(1000)
-                # D
-                self.dash(3)
-                self.dot(3)
-                self.dot(3)
-                self.other.after(1000)
-                print('after slid')
+            # if self.word == 'slid':
+            #     print('slid')
+            #     # S
+            #     self.dot(0)
+            #     self.dot(0)
+            #     self.dot(0)
+            #     self.other.after(1000)
+            #     # L
+            #     self.dot(1)
+            #     self.dash(1)
+            #     self.dot(1)
+            #     self.dot(1)
+            #     self.other.after(1000)
+            #     # I
+            #     self.dot(2)
+            #     self.dot(2)
+            #     self.other.after(1000)
+            #     # D
+            #     self.dash(3)
+            #     self.dot(3)
+            #     self.dot(3)
+            #     self.other.after(1000)
+            #     print('after slid')
             
-            if self.word == 'bomb':
-                print('bomb')
-                # B
-                self.dash(0)
-                self.dot(0)
-                self.dot(0)
-                self.dot(0)
-                self.other.after(1000)
-                # O
-                self.dash(1)
-                self.dash(1)
-                self.dash(1)
-                self.other.after(1000)
-                # M
-                self.dash(2)
-                self.dash(2)
-                self.other.after(1000)
-                # B
-                self.dash(3)
-                self.dot(3)
-                self.dot(3)
-                self.dot(3)
-                self.other.after(1000)
-                print('after bomb')
+            # if self.word == 'bomb':
+            #     print('bomb')
+            #     # B
+            #     self.dash(0)
+            #     self.dot(0)
+            #     self.dot(0)
+            #     self.dot(0)
+            #     self.other.after(1000)
+            #     # O
+            #     self.dash(1)
+            #     self.dash(1)
+            #     self.dash(1)
+            #     self.other.after(1000)
+            #     # M
+            #     self.dash(2)
+            #     self.dash(2)
+            #     self.other.after(1000)
+            #     # B
+            #     self.dash(3)
+            #     self.dot(3)
+            #     self.dot(3)
+            #     self.dot(3)
+            #     self.other.after(1000)
+            #     print('after bomb')
 
-            if self.word == 'left':
-                print('left')
-                # L
-                self.dot(0)
-                self.dash(0)
-                self.dot(0)
-                self.dot(0)
-                self.other.after(1000)
-                # E
-                self.dot(1)
-                self.other.after(1000)
-                # F
-                self.dot(2)
-                self.dot(2)
-                self.dash(2)
-                self.dot(2)
-                self.other.after(1000)
-                # T
-                self.dash(3)
-                self.other.after(1000)
-                print('after left')
+            # if self.word == 'left':
+            #     print('left')
+            #     # L
+            #     self.dot(0)
+            #     self.dash(0)
+            #     self.dot(0)
+            #     self.dot(0)
+            #     self.other.after(1000)
+            #     # E
+            #     self.dot(1)
+            #     self.other.after(1000)
+            #     # F
+            #     self.dot(2)
+            #     self.dot(2)
+            #     self.dash(2)
+            #     self.dot(2)
+            #     self.other.after(1000)
+            #     # T
+            #     self.dash(3)
+            #     self.other.after(1000)
+            #    print('after left')
 
                 
 
