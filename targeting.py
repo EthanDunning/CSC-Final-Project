@@ -236,7 +236,7 @@ class Module_Targeting:
         buttonTitles = ["CALIBRATE", "CONFIRM\nRANGE 1", "CONFIRM\nRANGE 2", "CONFIRM\nRANGE 3"];
 
         if DEBUG:
-            print(buttonTitles["calibrate"]);
+            print(buttonTitles[0]);
 
         # function supervises the functions that are to be called upon button press 
         def supervisor(stage):
