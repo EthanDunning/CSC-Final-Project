@@ -4,7 +4,7 @@ from time import sleep, time;
 import multiprocessing;
 import random;
 
-DEBUG = False
+DEBUG = True
 
 '''
 This module focuses on focusing on a target distance between the ultrasonic sensor
