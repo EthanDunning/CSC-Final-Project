@@ -172,7 +172,10 @@ class Module_Morse_Code():
             pass
         # print(g4)
         # x is the frequency, g1-4 are lists of each letter in morse
-        return x, g1, g2, g3, g4
+        try:
+            return x, g1, g2, g3, g4
+        except:
+            return x, g1, g2, g3
 
                 
 
