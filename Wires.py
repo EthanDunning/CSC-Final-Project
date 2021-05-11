@@ -3,7 +3,7 @@ from tkinter import *
 from collections import Counter
 import RPi.GPIO as GPIO
 
-DEBUG = True
+DEBUG = False
 '''
 This is the module mimicking the wires game from KTANE.
 The game will pause and allow the player to input the order of colored wires on the board,

@@ -4,9 +4,12 @@ from random import *
 from math import *
 from Keypad import *
 from The_Button import *
-from wires import *
+from Wires import *
 from targeting import *;
-from time import sleep, time;
+from time import *
+from lights import *
+from targeting import *
+from morse import *
 
 
 # the main GUI
@@ -157,9 +160,9 @@ class MainGUI(Frame):
         self.Module_1 = Module_The_Button(self, 22)
         self.Module_2 = Module_Keypad(self)
         self.Module_3 = Module_Wires(self)
-        self.Module_4 = None
-        self.Module_5 = None
-        self.Module_6 = Module_Targeting(self);
+        self.Module_4 = Module_Targeting(self)
+        self.Module_5 = Module_Flashing_Lights(self, leds, switches)
+        self.Module_6 = Module_Morse_Code(self)
 
         self.start_screen()
 
