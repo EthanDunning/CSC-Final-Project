@@ -346,7 +346,7 @@ class Module_Targeting:
             print("post current distance label");
 
         # button that confirms the distance 
-        confirmButton = Button(self.other, bg="chartreuse3", text=buttonTitles["calibrate"][0], font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1", command=lambda: supervisor(0));
+        confirmButton = Button(self.other, bg="chartreuse3", text=buttonTitles[0], font=("TexGyreAdventor", 20), borderwidth=5, activebackground="DarkOrchid1", command=lambda: supervisor(0));
         confirmButton.grid(row=3, column=1, sticky=N+S+E+W, padx=5, pady=5);        
 
         if DEBUG:
