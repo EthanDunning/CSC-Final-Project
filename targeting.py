@@ -249,9 +249,9 @@ class Module_Targeting:
             if stage > 0:
                 confirm(stage);
 
-                if (not rangeHasWord[stage - 1]):
-                    makeRange(stage);
-                    rangeHasWord[stage - 1] = True;
+                if (not rangeHasWord[self.currentRange - 1]):
+                    makeRange(self.currentRange);
+                    rangeHasWord[self.currentRange - 1] = True;
 
             else:
                 self.calibrate();
@@ -308,6 +308,7 @@ class Module_Targeting:
             if (distance >= self.currentMin and distance <= self.currentMax):
 
                     self.currentRange += 1;
+
 
             # wrong distance
             else:
