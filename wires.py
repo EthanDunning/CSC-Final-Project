@@ -3,7 +3,7 @@ from tkinter import *
 from collections import Counter
 import RPi.GPIO as GPIO
 
-DEBUG = False
+DEBUG = True
 '''
 This is the module mimicking the wires game from KTANE.
 The game will pause and allow the player to input the order of colored wires on the board,
@@ -29,12 +29,11 @@ class Module_Wires(Game):
         # pass it in every time a function is called from elsewhere
         self.other = other
 
-        self.pauseForColor()
-        
-
         # getters/setters
+
         @property
-        def wires(self):                                                        # order of wire colors
+        # order of wire colors
+        def wires(self):
             return self._wires
 
         @wires.setter
@@ -46,7 +45,8 @@ class Module_Wires(Game):
             self._wires = value
 
         @property
-        def correct(self):                                                      # the index of correct wire to cut
+        # the index of correct wire to cut
+        def correct(self):
             return self._correct
 
         @correct.setter
@@ -55,13 +55,19 @@ class Module_Wires(Game):
 
         # other methods
 
+        #self.main()
+
     # setup the GPIO pins
     def gpioSetup(self):
+        if (DEBUG):
+            print("gpioSetup()")
         self.output = [False, False, False, False, False]
         self.giveOutput()
 
     # set the GUI for the main part of the puzzle
     def setGUI(self):
+        if (DEBUG):
+            print("setGUI()")
         # clear the frame and set the grid
         self.other.clearFrame()
         self.other.rows = 3
@@ -86,7 +92,6 @@ class Module_Wires(Game):
 
         # label for timer
         self.other.countdown(2, 0, 1)
-        
 
         # label for strikes
         self.other.health(2, 1, 1)
@@ -102,11 +107,14 @@ class Module_Wires(Game):
 
     # pause the game so colors can be input
 
-    def pauseForColor(self):
+    def main(self, started):
+        if (DEBUG):
+            print("main()")
         # clear the frame and setup the right size of grid
-        print(self.Module_Started)
-        if self.Module_Started == False:
-            
+        if (DEBUG):
+            print(self.Module_Started)
+        if started == False:
+
             self.other.clearFrame()
             self.other.rows = 4
             self.other.cols = 3
@@ -117,14 +125,18 @@ class Module_Wires(Game):
             # internal functions
             # this function will append the color to the list, then update the display label
             def appendColor(color):
+                if (DEBUG):
+                    print("appendColor()")
 
                 # remove initial text
                 try:
                     if (colors[0] == "Please input wire color order." or colors[0] == "There must be 5 wires."):
                         colors.pop()
                 except:
-                    print("Initial message already deleted.")
-
+                    if (DEBUG):
+                        print("Initial message already deleted.")
+                    else:
+                        pass
                 # delete or append the color
                 if (color == "red" and len(colors) > 0):
                     colors.pop()
@@ -134,34 +146,42 @@ class Module_Wires(Game):
 
             # function maps the player input colors into the object properties;
             def recordColors(c):
+                if (DEBUG):
+                    print("recordColors()")
 
                 # check that there are 5 wires in the list
                 if (len(c) == 5):
                     self.wires = c
-                    self.chooseCorrect()
+                    chooseCorrect()
                 else:
                     colors = ["There must be 5 wires."]
                     colorsLabel.configure(text=str(colors))
+
                 if (DEBUG):
                     print(c)
                     print(self.wires)
+                    print(f"Correct wire to pull: {self.correct}")
+
                 return
 
+            if (DEBUG):
+                print("after record")
             # button that finishes the wire sequence
             done = Button(self.other, bg="green", text="Done.", font=("TexGyreAdventor", 25),
-                        borderwidth=10, activebackground="blue", command=lambda: recordColors(colors))
-            done.grid(row=0, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=2)
+                          borderwidth=10, activebackground="blue", command=lambda: recordColors(colors))
+            done.grid(row=0, column=0, sticky=N+S+E +
+                      W, padx=5, pady=5, columnspan=2)
 
             # button that goes to the main menu
             mainMenu = Button(self.other, bg="grey", text="Go Back.", font=("TexGyreAdventor", 25),
-                            borderwidth=10, activebackground="red", command=lambda: self.other.MainMenu())
+                              borderwidth=10, activebackground="red", command=lambda: self.other.MainMenu())
             mainMenu.grid(row=0, column=2, sticky=N+S+E+W, padx=5, pady=5)
 
             # label that shows the wire sequence
             colorsLabel = Label(self.other, bg="white", text=f"{colors}", font=(
                 "TexGyreAdventor", 28), relief="groove", borderwidth=10)
             colorsLabel.grid(row=1, column=0, sticky=N+S+E +
-                            W, padx=5, pady=5, columnspan=3)
+                             W, padx=5, pady=5, columnspan=3)
 
             # list of tuples. each one contains the color name and function that adds it to the list (or removes in the case of the backspace)
             colorButtons = [("Orange", lambda: appendColor("Orange")), ("Yellow", lambda: appendColor("Yellow")), ("Green", lambda: appendColor(
@@ -179,7 +199,8 @@ class Module_Wires(Game):
                     else:
                         key = Button(self.other, bg=colorButtons[count][0], text=colorButtons[count][0], font=(
                             "TexGyreAdventor", 25), relief="groove", borderwidth=10, activebackground="grey", command=colorButtons[count][1])
-                    key.grid(row=row, column=col, sticky=N+S+E+W, padx=1, pady=1)
+                    key.grid(row=row, column=col,
+                             sticky=N+S+E+W, padx=1, pady=1)
 
                     count += 1
 
@@ -193,16 +214,20 @@ class Module_Wires(Game):
             self.other.pack(fill=BOTH, expand=True)
 
         else:
-            print("Pass")
+            if (DEBUG):
+                print("Pass")
             self.setGUI()
 
         # function picks the correct wire to pull based on the order of the wires
-        def chooseCorrect(self):
+        def chooseCorrect():
+            if (DEBUG):
+                print("chooseCorrect()")
 
             # create lists from the list of wires to determine:
             # 1. If that color is being used
             # 2. How many of that color is being used
-            counts = {"Orange": 0, "Yellow": 0, "Green": 0, "Blue": 0, "Purple": 0}
+            counts = {"Orange": 0, "Yellow": 0,
+                      "Green": 0, "Blue": 0, "Purple": 0}
             for c in counts:
                 if DEBUG:
                     print(c)
@@ -216,7 +241,7 @@ class Module_Wires(Game):
             # why the FUCK does python not have switch cases??????
 
             # If the last wire is purple and there are no yellow wires, pull the fourth wire
-            if (self.wires[4] == "Purple" and counts["Yellow"] == 0):
+            if (self.wires[-1] == "Purple" and counts["Yellow"] == 0):
                 self.correct = 3
 
             # If there is exactly one green wire, and there is more than one blue wire, pull the first wire.
@@ -245,56 +270,84 @@ class Module_Wires(Game):
 
             if DEBUG:
                 print(counts)
+                print("Wire to pull:")
                 print(self.correct)
 
             self.setGUI()
-        
-        
+
     # function waits for a wire to be pulled and checks that it was correct
+
     def wirePull(self):
-
-                
-
-        # g = Game()
-
-
-        # # get the GPIO input
-        # g.takeInput()
+        if (DEBUG):
+            print("wirePull()")
         self.connections = self.inputPins
 
-        
-                                        
         # detect a pulled line
         GPIO.setmode(GPIO.BCM)
-        for i in range(len(self.inputPins)):
-            print(f"in loop at {i}")
-            # dont want to double-call a previously incorrectly pulled wire
-            GPIO.setup(self.inputPins[i], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-            GPIO.add_event_detect(self.inputPins[i], GPIO.FALLING, callback=lambda *a: self.check(i));
+        # for i in range(len(self.inputPins)):
+        #     print(i)
+        #     if (DEBUG):
+        #         print(f"{self.connections[i]} set as {i}")
+        #     # dont want to double-call a previously incorrectly pulled wire
+        #     GPIO.setup(self.connections[i], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        #     GPIO.add_event_detect( self.connections[i], GPIO.FALLING, callback=lambda *a: self.check(i), bouncetime=1000)
 
-       
+        try:
+            GPIO.setup(self.connections[0], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+            GPIO.add_event_detect( self.connections[0], GPIO.FALLING, callback=lambda *a: self.check(0), bouncetime=1000)
+        except:
+            pass
+
+        try:
+            GPIO.setup(self.connections[1], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+            GPIO.add_event_detect( self.connections[1], GPIO.FALLING, callback=lambda *a: self.check(1), bouncetime=1000)
+        except:
+            pass
+
+        try:
+            GPIO.setup(self.connections[2], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+            GPIO.add_event_detect( self.connections[2], GPIO.FALLING, callback=lambda *a: self.check(2), bouncetime=1000)
+        except:
+            pass
+
+        try:
+            GPIO.setup(self.connections[3], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+            GPIO.add_event_detect( self.connections[3], GPIO.FALLING, callback=lambda *a: self.check(3), bouncetime=1000)
+        except:
+            pass
+
+        try:
+            GPIO.setup(self.connections[4], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+            GPIO.add_event_detect( self.connections[4], GPIO.FALLING, callback=lambda *a: self.check(4), bouncetime=1000)
+        except:
+            pass
 
     # check if the correct pin was pulled
+
     def check(self, index):
-        GPIO.remove_event_detect(int(self.inputPins[index]))
-        print("called check")
+        # print(GPIO.input(20))
+        # print("check()")
 
         # check that the pin is not previously incorrectly pulled
-        print(self.connections[index])
+        if (DEBUG):
+            print(index)
+            print(self.connections[index])
         if (self.connections[index] != "checked"):
-            print("processing")
-            print("index :", str(self.correct))
+            GPIO.remove_event_detect(self.connections[index])
+            if (DEBUG):
+                print("processing")
+                print("index :", str(self.correct))
             # check that the pull is correct
             if (index == self.correct):
-                
-                print(index);
-                self.Module_Done = True;
-                self.other.MainMenu();
+                if (DEBUG):
+                    print(index)
+                self.Module_Done = True
+                self.other.MainMenu()
             else:
-                print(index);
-                self.other.strike();
-                self.connections[index] = "checked";     
-                print("Wrong!")
-        print("done")
-        
-        
+                if (DEBUG):
+                    print(index)
+                    print("Wrong!")
+                self.other.strike()
+                self.connections[index] = "checked"
+
+        # print("done")

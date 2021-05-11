@@ -144,13 +144,12 @@ class MainGUI(Frame):
         def cols(self, value):
             self._cols = value
 
-        self.Module_1 = None
-        # self.Module_1 = Module_The_Button(self,25)
-        self.Module_2 = Module_Keypad(self)
+        self.Module_1 = Module_Wires(self)
+        self.Module_2 = Module_Wires(self)
         self.Module_3 = Module_Wires(self)
-        self.Module_4 = None
-        self.Module_5 = None
-        self.Module_6 = None
+        self.Module_4 = Module_Wires(self)
+        self.Module_5 = Module_Wires(self)
+        self.Module_6 = Module_Wires(self)
 
         self.start_screen()
 
@@ -282,11 +281,11 @@ class MainGUI(Frame):
         if self.loc == "Home":
             self.MainMenu()
         elif self.loc == "The Button":
-            self.Module_The_Button(self.Module_1_Started)
+            self.Module_The_Button(True)
         elif self.loc == "Keypad":
-            self.Module_Keypad(self.Module_4_Started)
+            self.Module_Keypad(True)
         elif self.loc == "Wires":
-            self.Module_3.setGUI();
+            self.Module_Wires.setGUI(True)
 
     def update_timer(self):
         tick = 500
