@@ -34,7 +34,10 @@ class Module_Morse_Code():
         self.name = 'Morse Code'
         self.other.loc = 'Morse Code'
         self.Word_Freq, self.Word_Morse = self.dictionary_Setup()
-        self.TrueFreq, self.g1, self.g2, self.g3, self.g4 = self.Word_Select_Split()
+        try:
+            self.TrueFreq, self.g1, self.g2, self.g3, self.g4 = self.Word_Select_Split()
+        except:
+            self.TrueFreq, self.g1, self.g2, self.g3 = self.Word_Select_Split()
         self.leds = [17,16,13,12]
         self.freq = 0
         # self.word, self.TrueFreq = self.word_select()
