@@ -302,7 +302,7 @@ class Module_Targeting:
                 print("begin check");
                 print(f"current range is {self.currentMin}cm to {self.currentMax}cm");
 
-            distance = getDistance();
+            distance = self.getDistance();
 
             # if the distance is within the range, increase the current range 
             if (distance >= self.currentMin and distance <= self.currentMax):
