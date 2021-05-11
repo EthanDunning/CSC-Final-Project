@@ -101,8 +101,9 @@ class Module_Targeting:
 
 
     # wrapper to call getDistance through another process so it doesn't lag the timer
+    # this was a failure and we are out of time. Leaving it with lag.
     def calibrationWrapper(self):
-        if __name__ == "__Module_Targeting__":
+        if __name__ == "__main__":
             d = multiprocessing.Process(target=calibrate, args=(self,));
             d.start();
             d.join();
@@ -262,7 +263,7 @@ class Module_Targeting:
                     notRangeHasWord[self.currentRange] = False;
 
             else:
-                self.calibrationWrapper();
+                self.calibrate();
                 self.currentRange = 1;
                 makeRange(self.currentRange);
                 notRangeHasWord[0] = False;
