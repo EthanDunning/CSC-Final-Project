@@ -8,8 +8,8 @@ class Module_Flashing_Lights():
     def __init__(self, leds, switches, other):
         super().__init__()
         self.other = other
-        self.leds = leds
-        self.switches = switches
+        self.leds = [17, 16, 13, 12]
+        self.switches = [18, 19, 20, 21]
         self.module_Started = False
         self.Module_Done = False
         self.name = 'Flashing Light'
