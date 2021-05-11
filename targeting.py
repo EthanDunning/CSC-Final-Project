@@ -310,7 +310,8 @@ class Module_Targeting:
             # if the distance is within the range, increase the current range 
             if (distance >= self.currentMin and distance <= self.currentMax):
 
-                self.currentRange += 1;
+                if (self.currentRange < 4):
+                    self.currentRange += 1;
                 if DEBUG:
                     print("placement was correct");
 
@@ -332,6 +333,8 @@ class Module_Targeting:
 
                 if DEBUG:
                     print(f"module done at range {self.currentRange}");
+
+                self.other.MainMenu();
 
             
 
