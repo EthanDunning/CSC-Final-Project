@@ -309,6 +309,12 @@ class Module_Targeting:
 
                     self.currentRange += 1;
 
+            # wrong distance
+            else:
+                if DEBUG:
+                    print("fail");
+                self.other.strike();
+
             # finish the module if all ranges complete 
             if self.currentRange == 4:
 
