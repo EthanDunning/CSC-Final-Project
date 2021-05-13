@@ -387,7 +387,7 @@ class MainGUI(Frame):
         
         tick = 500
         if self.timer_pause==False:
-            
+            # Here we have the updater call it self and the pace of the updates depends on the number of strikes 
             if self.strikes == 0:
                 self.counter = self.after(tick, self.update_timer)
             elif self.strikes == 1:
@@ -396,7 +396,8 @@ class MainGUI(Frame):
                 self.counter = self.after(int(tick/2), self.update_timer)
             else:
                 self.counter = self.after(int(tick/2), self.update_timer)
-
+            
+            # Here we lower the timer by one second and if tick it over if needed
             self.secs -= (tick/1000)
             if self.secs < 0:
                 self.secs = 59
@@ -406,6 +407,7 @@ class MainGUI(Frame):
                     self.mins = 0
                     self.Game_Over()
 
+            # We format the label for the timer widget
             if self.mins < 10:
                 if ceil(self.secs) < 10:
                     self.time.set(f"0{self.mins}:0{ceil(self.secs)}")
@@ -417,6 +419,7 @@ class MainGUI(Frame):
                 else:
                     self.time.set(f"{self.mins}:{ceil(self.secs)}")
 
+            # If the timer is below 30 seconds if flashes red and white to add suspense
             if (self.mins < 1) and (self.secs <= 30):
                 if float(self.secs).is_integer()==False:
                     self.timer.config(fg="white")
@@ -426,6 +429,8 @@ class MainGUI(Frame):
             else:
                 if self.Alive==True:
                     pass
+            
+            # Here we make a ticking noise every time the timer ticks down
             if float(self.secs).is_integer()==False:
                 clock_tick = pygame.mixer.Sound("music/clock_tick.wav")
                 clock_tick.play()
@@ -435,6 +440,8 @@ class MainGUI(Frame):
             self.update()
 
     def countdown(self, x, y, span):
+
+        # Here we set up the count down widget and call the counter
         self.timer = Label(self, textvariable=self.time,
                       bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         self.timer.grid(row=x, column=y, sticky=N+S+E+W,
@@ -443,6 +450,7 @@ class MainGUI(Frame):
             self.counter = self.after(1000, self.update_timer)
         
     def strike(self):
+        # Here we give the user a strike and check if the game needs to end
         self.strikes += 1
         self.hp.set("[{}{}]".format("X"*self.strikes, " "*(self.maxstrikes-self.strikes)))
         if self.strikes > self.maxstrikes:
@@ -450,28 +458,34 @@ class MainGUI(Frame):
         self.update()
 
     def health(self, x, y, span):
+        # Here we to set up the health widget
         self.healthlabel = Label(self, textvariable=self.hp, bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         self.healthlabel.grid(row=x, column=y, sticky=N+S+E+W, padx=5,
                     pady=5, columnspan=span)
 
     def pause_button(self, x, y, span):
+        # Here we set up the pause widget
         button = Button(self, bg="gray", text="Pause", font=("TexGyreAdventor", 25),
                         borderwidth=10, activebackground="light grey", command=lambda: self.pause())
         button.grid(row=x, column=y, sticky=N+S+E+W, pady=5, columnspan=span)
 
     def back_button(self, x, y, span):
+        # Here we set up the back button widget
         back_button = Button(self, bg="gray", text="Back", font=("TexGyreAdventor", 25),
                              borderwidth=10, activebackground="light grey", command=lambda: self.MainMenu())
         back_button.grid(row=x, column=y, sticky=N+S+E+W, pady=5, columnspan=span)
 
     def location(self, x, y, span):
+        # Here we set up the location widget
         location = Label(self, text=f"{self.loc}",
                          bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         location.grid(row=x, column=y, sticky=N+S+E+W,
                       padx=5, pady=5, columnspan=span)
 
     def Button1(self, x, y, span):
+        # Here we set up the module
         try:
+            # If the module is done we turn it green
             if self.Module_1.Module_Done == True:
                 button_color = "lime green"
                 background = "lime green"
@@ -483,6 +497,7 @@ class MainGUI(Frame):
             background = "tomato"
 
         if self.Module_1 == None:
+            # If there is no module then we mark it done
             button_color = "lime green"
             background = "lime green"
             self.Module_1_Done = True
@@ -497,7 +512,9 @@ class MainGUI(Frame):
                     padx=5, pady=5, columnspan=span)
 
     def Button2(self, x, y, span):
+        # Here we set up the module
         try:
+            # If the module is done we turn it green
             if self.Module_2.Module_Done == True:
                 button_color = "lime green"
                 background = "lime green"
@@ -509,6 +526,7 @@ class MainGUI(Frame):
             background = "tomato"
 
         if self.Module_2 == None:
+            # If there is no module then we mark it done
             button_color = "lime green"
             background = "lime green"
             self.Module_2_Done = True
@@ -523,7 +541,9 @@ class MainGUI(Frame):
                     padx=5, pady=5, columnspan=span)
 
     def Button3(self, x, y, span):
+        # Here we set up the module
         try:
+            # If the module is done we turn it green
             if self.Module_3.Module_Done == True:
                 button_color = "lime green"
                 background = "lime green"
@@ -535,6 +555,7 @@ class MainGUI(Frame):
             background = "tomato"
 
         if self.Module_3 == None:
+            # If there is no module then we mark it done
             button_color = "lime green"
             background = "lime green"
             self.Module_3_Done = True
@@ -549,7 +570,9 @@ class MainGUI(Frame):
                     padx=5, pady=5, columnspan=span)
 
     def Button4(self, x, y, span):
+        # Here we set up the module
         try:
+            # If the module is done we turn it green
             if self.Module_4.Module_Done == True:
                 button_color = "lime green"
                 background = "lime green"
@@ -561,6 +584,7 @@ class MainGUI(Frame):
             background = "tomato"
 
         if self.Module_4 == None:
+            # If there is no module then we mark it done
             button_color = "lime green"
             background = "lime green"
             self.Module_4_Done = True
@@ -575,7 +599,9 @@ class MainGUI(Frame):
                     padx=5, pady=5, columnspan=span)
 
     def Button5(self, x, y, span):
+        # Here we set up the module
         try:
+            # If the module is done we turn it green
             if self.Module_5.Module_Done == True:
                 button_color = "lime green"
                 background = "lime green"
@@ -587,6 +613,7 @@ class MainGUI(Frame):
             background = "tomato"
 
         if self.Module_5 == None:
+            # If there is no module then we mark it done
             button_color = "lime green"
             background = "lime green"
             self.Module_5_Done = True
@@ -601,7 +628,9 @@ class MainGUI(Frame):
                     padx=5, pady=5, columnspan=span)
 
     def Button6(self, x, y, span):
+        # Here we set up the module
         try:
+            # If the module is done we turn it green
             if self.Module_6.Module_Done == True:
                 button_color = "lime green"
                 background = "lime green"
@@ -613,6 +642,7 @@ class MainGUI(Frame):
             background = "tomato"
 
         if self.Module_6 == None:
+            # If there is no module then we mark it done
             button_color = "lime green"
             background = "lime green"
             self.Module_6_Done = True
@@ -635,35 +665,51 @@ class MainGUI(Frame):
                     self.Module_1_Started = True
                 
                 self.current_module = 1
+        except:
+            pass
 
+        try:
             elif Button == "Module_2":
                 self.Module_2.main(self.Module_2_Started)
                 if self.Module_2_Started == False:
                     self.Module_2_Started = True
                 
                 self.current_module = 2
+        except:
+            pass
 
+        try:
             elif Button == "Module_3":
                 self.Module_3.main(self.Module_3_Started)
                 if self.Module_3_Started == False:
                     self.Module_3_Started = True
                 
                 self.current_module = 3
+        except:
+            pass
 
+        try:
             elif Button == "Module_4":
                 self.Module_4.main(self.Module_4_Started)
                 if self.Module_4_Started == False:
                     self.Module_4_Started = True
                 
                 self.current_module = 4
-                    
+        except:
+            pass
+
+        try:
+                
             elif Button == "Module_5":
                 self.Module_5.main(self.Module_5_Started)
                 if self.Module_5_Started == False:
                     self.Module_5_Started = True
                 
                 self.current_module = 5
+        except:
+            pass
 
+        try:
             elif Button == "Module_6":
                 self.Module_6.main(self.Module_6_Started)
                 if self.Module_6_Started == False:
@@ -673,11 +719,14 @@ class MainGUI(Frame):
         except:
             pass
 
+
     def Game_Over(self):
+        # Here we play the explosion sound and end music
         explode = pygame.mixer.Sound("music/death.wav")
         explode.play()
         pygame.mixer.music.load("music/defused.mp3")
         pygame.mixer.music.play(loops=-1)
+        # Set up
         try:
             GPIO.cleanup()
         except:
@@ -689,6 +738,7 @@ class MainGUI(Frame):
         self.rows = 3
         self.cols = 3
 
+        # GUI widget set up
         Time_Left = Label(self, text=f"Time Left:",
                          bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         Time_Left.grid(row=0, column=0, sticky=N+S+E+W,
@@ -715,6 +765,7 @@ class MainGUI(Frame):
                       borderwidth=10, activebackground="light grey", command=lambda: self.quit())
         quit.grid(row=3, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
 
+        # Configure grid
         for row in range(self.rows):
             Grid.rowconfigure(self, row, weight=1)
 
@@ -726,6 +777,7 @@ class MainGUI(Frame):
         self.pack(fill=BOTH, expand=True)
 
     def Game_Win(self):
+        # Here we play end music
         pygame.mixer.music.load("music/defused.mp3")
         pygame.mixer.music.play(loops=-1)
         try:
@@ -737,6 +789,7 @@ class MainGUI(Frame):
         self.cols = 3
         self.timer_pause = True
 
+        # GUI widget set up
         Time_Left = Label(self, text=f"Time Left:",
                          bg="white", font=("TexGyreAdventor", 35), relief="groove", borderwidth=10)
         Time_Left.grid(row=0, column=0, sticky=N+S+E+W,
@@ -763,6 +816,7 @@ class MainGUI(Frame):
                       borderwidth=10, activebackground="light grey", command=lambda: self.quit())
         quit.grid(row=3, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3, rowspan=1)
 
+        # Grid configure
         for row in range(self.rows):
             Grid.rowconfigure(self, row, weight=1)
 
