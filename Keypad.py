@@ -5,6 +5,7 @@ from random import *
 class Module_Keypad():
     def __init__(self,other):
         super().__init__()
+        # Here we set the init for the module
         self.other = other
         self.name = "Keypad"
         self.other.loc = "Keypad"
@@ -13,7 +14,7 @@ class Module_Keypad():
         self.main(self.Module_Started)
 
     def main(self, started):
-
+        # Here we set up the gui
         self.other.clearFrame()
         self.other.rows = 6
         self.other.cols = 6
@@ -23,6 +24,7 @@ class Module_Keypad():
         self.other.location(1, 2, 2)
         self.other.health(1, 4, 2)
 
+        # Here we set up the possible symbol combinataions
         symbols = {1:"a", 2:"n", 3:"R", 4:"D", 5:".", 6:"C", 7:"b", 8:"e", 9:"c", 10:"d", 11:"S", 12:"l", 13:"N", 14:"f", 15:"-", 16:"A", 17:"o", 18:"J", 19:"M", 20:"E", 21:",", 22:"F", 23:"g", 24:"m", 25:"T", 26:"L", 27:"/"}
         column1 = [1,2,3,13,5,6,7]
         column2 = [8,1,7,22,10,6,11]
@@ -32,10 +34,9 @@ class Module_Keypad():
         column6 = [16,8,24,25,20,26,27]
 
         column = choice([column1, column2, column3, column4, column5, column6])
-        #print(column1,column2,column3,column4,column5,column6)
-        #print(column)
+    
         if started == False:
-            
+            # if here we set up the symbols so the bomb expert can held the defuser defuse the module
             self.keypad_correct = 0
             self.keys = sample(column,4)
             self.symbol_1 = symbols[self.keys[0]]
@@ -56,6 +57,8 @@ class Module_Keypad():
             #print(column)
             self.Module_Started = True
 
+
+        # Here we set up the keys that the user presses
         keypad_1 = Button(self.other, bg="lemon chiffon", text=self.symbol_1, font=("Wingdings", 45),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_1))
         keypad_1.grid(row=3, column=0, sticky=N+S+E+W,
@@ -76,6 +79,7 @@ class Module_Keypad():
         keypad_4.grid(row=5, column=3, sticky=N+S+E+W,
                     padx=5, pady=5, columnspan=3)
 
+        # Here are the labels to show that the user pressed the right key
         label_1 = Label(self.other, text="", bg=self.label_1_color,
                       borderwidth=10, relief="ridge")
         label_1.grid(row=2, column=0, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
@@ -92,6 +96,7 @@ class Module_Keypad():
                       borderwidth=10, relief="ridge")
         label_4.grid(row=4, column=3, sticky=N+S+E+W, padx=5, pady=5, columnspan=3)
 
+        # Here we configure the grid
         for col in range(self.other.cols):
             Grid.columnconfigure(self.other, col, weight=3)
         
@@ -104,7 +109,9 @@ class Module_Keypad():
 
         self.other.pack(fill=BOTH, expand=True)
 
+        # Here we see get the input from the user and check to see if its right
         def keypad_check(input):
+            # if the input is correct we turn the label above it green
             if self.keypad_correct <= 3:
                 if input == self.key_order[self.keypad_correct]:
                     self.keypad_correct += 1
@@ -118,6 +125,7 @@ class Module_Keypad():
                         self.label_4_color = "lime green"
                     self.main(self.Module_Started)
                 else:
+                    # if not we give a strike
                     self.keypad_correct = 0
                     
                     self.label_1_color = "dim gray"
@@ -127,6 +135,7 @@ class Module_Keypad():
                     self.main(self.Module_Started)
                     self.other.strike()
 
+        # If all the keypads are corect we mark the module done and go back to the main menu
         if self.keypad_correct >= 4:
             self.keypad_correct = 4
             self.Module_Done = True
