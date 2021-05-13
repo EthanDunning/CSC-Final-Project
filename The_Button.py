@@ -1,3 +1,7 @@
+###########################################################
+# This whole module was created by Ethan Dunning
+###########################################################
+
 # Here we import all our modules
 import RPi.GPIO as GPIO
 from tkinter import *

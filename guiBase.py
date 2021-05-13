@@ -1,5 +1,7 @@
+##############################################################################################################
 # This is the GUI Base, this is the center of all of the code. Everything else that happens stems from this
-# Almost Everything here was coded by Ethan Dunning with minor modifications by Matthew and Zach
+# Almost Everything here was coded Ethan with minor modifications by Matthew and Zach
+##############################################################################################################
 
 # Here is where we import all the modules for the program
 from tkinter import *

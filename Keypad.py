@@ -1,4 +1,8 @@
+###########################################################
+# This whole module was created by Ethan Dunning
+###########################################################
 
+# here we import the libraries for the modules
 from tkinter import *
 from random import *
 
@@ -58,7 +62,7 @@ class Module_Keypad():
             self.Module_Started = True
 
 
-        # Here we set up the keys that the user presses
+        # Here we set up the keys that the user presses.
         keypad_1 = Button(self.other, bg="lemon chiffon", text=self.symbol_1, font=("Wingdings", 45),
                         borderwidth=10, command=lambda: keypad_check(self.symbol_1))
         keypad_1.grid(row=3, column=0, sticky=N+S+E+W,
