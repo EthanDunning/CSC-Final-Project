@@ -336,7 +336,6 @@ class MainGUI(Frame):
 
 
     def update_timer(self):
-        
         tick = 500
         if self.timer_pause==False:
             

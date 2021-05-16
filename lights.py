@@ -33,7 +33,7 @@ class Module_Flashing_Lights():
         self.other.countdown(1,0,2)
         self.other.location(1,2,2)
         self.other.health(1,4,2)
-        alert = Button(self.other, bg='blue', text='Look at the GPIO', font=('TexGyreAdventor',45), borderwidth=10, relief='raised', command = lambda:self.switch_check())
+        alert = Button(self.other, bg='blue', text='Press GPIO button and Here at the Same Time', font=('TexGyreAdventor',25), borderwidth=10, relief='raised', command = lambda:self.switch_check())
         alert.grid(row=2, column=0, sticky=N+E+S+W, padx=0, pady=0, columnspan=6)
        
         # print('lmao')

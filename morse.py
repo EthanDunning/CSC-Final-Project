@@ -20,7 +20,7 @@
 from time import sleep
 import RPi.GPIO as GPIO
 import random
-
+import threading
 from tkinter import *
 
 class Module_Morse_Code():
@@ -95,6 +95,7 @@ class Module_Morse_Code():
         self.gpio_setup()
         #self.game_start(self.Module_Started)
 
+
     def gpio_setup(self):
          # setting up the GPIO
         GPIO.setmode(GPIO.BCM)
@@ -113,7 +114,7 @@ class Module_Morse_Code():
             self.freq -= 1
             # print(self.freq)
             freq = Label(self.other, bg='blue', text=self.freq, font=('TexGyreAdventor', 45), borderwidth=10, relief='raised')
-            freq.grid(row=2, column=4, sticky=N+S+E+W, padx=5, pady=5, columnspan=2)
+            freq.grid(row=2, column=2, sticky=N+S+E+W, padx=5, pady=5, columnspan=2)
             return self.freq
         elif Button == 'check':
             print(self.freq, self.TrueFreq)
@@ -207,14 +208,18 @@ class Module_Morse_Code():
     # dot function
     def dot(self, light):
         GPIO.output(self.leds[light], GPIO.HIGH)
-        self.other.after(250, lambda: GPIO.output, self.leds[light], GPIO.LOW)
-        self.other.after(250, lambda: self.other.pack)
+        self.other.after(250)
+        GPIO.output(self.leds[light], GPIO.LOW)
+        self.other.after(250)
+        # self.other.update()
         
     # dash function
     def dash(self, light):
         GPIO.output(self.leds[light], GPIO.HIGH)
-        self.other.after(750, lambda: GPIO.output, self.leds[light], GPIO.LOW)
-        self.other.after(250, lambda: self.other.pack)
+        self.other.after(1000)
+        GPIO.output(self.leds[light], GPIO.LOW)
+        self.other.after(250)
+        # self.other.update()
 
     def timer_update(self):
         if self.other.secs <= 10:
@@ -234,22 +239,26 @@ class Module_Morse_Code():
                     self.dash(0)
                 if i == '0':
                     self.dot(0)
+            self.other.after(1000)
             for i in self.g2:
                 if i == '1':
                     self.dash(1)
                 if i == '0':
                     self.dot(1)
+            self.other.after(1000)
             for i in self.g3:
                 if i == '1':
                     self.dash(2)
                 if i == '0':
                     self.dot(2)
+            self.other.after(1000)
             try:
                 for i in self.g4:
                     if i == '1':
                         self.dash(3)
                     if i == '0':
                         self.dot(3)
+                    self.other.after(1000)
             except:
                 pass
             # if self.word == 'fall':
