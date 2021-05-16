@@ -4,3 +4,11 @@ This is our final project. There are many like it but this one is ours.
 Using the GPIO board and a GUI on the raspberry pi, we are going to make "Continue Speaking and Everybody Lives", a sppof on the game 
 "Keep Talking and Nobody Explodes"
 
+Work by module:
+guiBase: Ethan
+The Button: Ethan
+Keypad: Ethan
+Targeting: Matthew
+Wires: Matthew
+Flashing Lights: Zachary
+Morse Code: Zachary
